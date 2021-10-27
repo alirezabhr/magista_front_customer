@@ -58,10 +58,25 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    rtl: true,
+    treeShake: true,
+    defaultAssets: {
+      font: {
+        family: 'Samim'
+      }
+    },
+    customVariables: ['~/assets/styles/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
+        light: {
+          primary: colors.deepPurple.accent4, // #6200EA
+          primaryVariant1: colors.deepPurple.darken4, // #311B92
+          primaryVariant2: colors.purple.lighten4, // #CE93D8
+          accent: colors.indigo.base, // #3F51B5
+          background: colors.grey.lighten2,
+          surface: colors.shades.white
+        },
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
