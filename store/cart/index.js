@@ -1,12 +1,12 @@
 const state = () => ({
   orderList: [],
-  lastOrderItem: null,
+  lastAppendedProduct: null,
   showAddToCart: false
 })
 
 const mutations = {
   appendItemToOrderList (state, productPrice) {
-    state.lastOrderItem = productPrice
+    state.lastAppendedProduct = productPrice
     state.orderList.push(productPrice)
   },
   setShowAddToCart (state, boolValue) {
@@ -24,6 +24,9 @@ const actions = {
 const getters = {
   getShowAddToCartStatus: (state) => {
     return state.showAddToCart
+  },
+  getLastAppendedProduct: (state) => {
+    return state.lastAppendedProduct
   }
 }
 
