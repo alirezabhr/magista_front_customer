@@ -1,6 +1,5 @@
 <template>
   <v-dialog
-    v-if="getShowAddToCartStatus"
     v-model="show"
     max-width="290"
   >
@@ -35,7 +34,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'AddToCartDialog',
@@ -43,9 +42,6 @@ export default {
     return {
       show: true
     }
-  },
-  computed: {
-    ...mapGetters('cart', ['getShowAddToCartStatus'])
   },
   watch: {
     show (newValue) {
