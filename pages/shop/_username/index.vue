@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
-      <AddToCartDialog />
+      <AddToCartDialog v-if="getShowAddToCartStatus" />
       <v-card min-height="620">
         <v-row class="py-6 px-2" no-gutters>
           <v-col cols="8" sm="9" class="ma-0 py-1 px-4">
@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     ...mapGetters('shop', ['getShopInfoData', 'getShopProductsPrice']),
-    ...mapGetters('cart', ['getshowAddToCartStatus'])
+    ...mapGetters('cart', ['getShowAddToCartStatus'])
   },
   methods: {
     ...mapActions('cart', ['addItemToCart']),
