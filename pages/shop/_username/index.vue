@@ -3,19 +3,24 @@
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <v-card min-height="620">
         <v-row class="py-6 px-2" no-gutters>
-          <v-col cols="9" sm="10" class="ma-0">
-            <v-row no-gutters>
-              adf
+          <v-col cols="8" sm="9" class="ma-0 py-1 px-4">
+            <v-row class="text-subtitle-1 text-sm-h6 font-weight-bold" no-gutters>
+              فروشگاه {{ getShopInfoData.instagram_username }}
+            </v-row>
+            <v-row class="text-body-2 text-sm-subtitle-2" no-gutters>
+              {{ getShopInfoData.province }} - {{ getShopInfoData.city }}
             </v-row>
           </v-col>
-          <v-col cols="3" sm="2" class="ma-0">
-            <v-avatar
-              color="primary"
-              size="70"
-              style="border-style: solid;"
-            >
-              <v-img :src="getImageUrl(getShopProfileImage)" />
-            </v-avatar>
+          <v-col cols="4" sm="3" class="ma-0">
+            <v-row justify="center" no-gutters>
+              <v-avatar
+                color="primary"
+                size="75"
+                style="border-style: solid;"
+              >
+                <v-img :src="getImageUrl(getShopInfoData.profile_pic)" />
+              </v-avatar>
+            </v-row>
           </v-col>
         </v-row>
         <v-divider class="pb-3 mx-2" />
@@ -61,7 +66,7 @@ export default {
     await store.dispatch('shop/shopProducts', params.username)
   },
   computed: {
-    ...mapGetters('shop', ['getShopProfileImage', 'getShopProductsPrice'])
+    ...mapGetters('shop', ['getShopInfoData', 'getShopProductsPrice'])
   },
   methods: {
     getImageUrl (src) {
