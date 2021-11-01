@@ -1,16 +1,18 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12">
+      <AddToCartDialog v-if="getShowAddToCartStatus" />
       <v-row class="pa-2">
         <v-layout style="overflow-x: scroll;" class="pa-4">
           <ProductPreviewCard
-            v-for="product in bestSellerProducts"
-            :key="product.id"
-            :shop-name="product.shop_name"
-            :image-url="product.display_image"
-            :title="product.title"
-            :rate="product.rate"
-            :price="product.price"
+            v-for="productPrice in bestSellerProducts"
+            :key="productPrice.id"
+            :shop-name="productPrice.shop_name"
+            :image-url="productPrice.product.display_image"
+            :title="productPrice.product.title"
+            :rate="productPrice.product.rate"
+            :price="productPrice.price"
+            @addToCart="addItemToCart(productPrice)"
           />
         </v-layout>
       </v-row>
@@ -19,6 +21,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
 
 export default {
@@ -30,6 +34,12 @@ export default {
     return {
       bestSellerProducts: []
     }
+  },
+  computed: {
+    ...mapGetters('cart', ['getShowAddToCartStatus'])
+  },
+  methods: {
+    ...mapActions('cart', ['addItemToCart'])
   }
 }
 </script>
