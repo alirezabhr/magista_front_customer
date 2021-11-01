@@ -19,7 +19,7 @@
                 size="75"
                 style="border-style: solid;"
               >
-                <v-img :src="getImageUrl(getShopInfoData.profile_pic)" />
+                <v-img :src="profileImageUrl" />
               </v-avatar>
             </v-row>
           </v-col>
@@ -32,7 +32,7 @@
             cols="4"
           >
             <ShopProductItem
-              :display-image-url="getImageUrl(productPrice.product.display_image)"
+              :display-image-url="productPrice.product.display_image"
               :price="productPrice.price"
               @addToCart="addItemToCart(productPrice)"
             />
@@ -71,14 +71,14 @@ export default {
   },
   computed: {
     ...mapGetters('shop', ['getShopInfoData', 'getShopProductsPrice']),
-    ...mapGetters('cart', ['getShowAddToCartStatus'])
+    ...mapGetters('cart', ['getShowAddToCartStatus']),
+
+    profileImageUrl () {
+      return process.env.baseURL + this.getShopInfoData.profile_pic
+    }
   },
   methods: {
-    ...mapActions('cart', ['addItemToCart']),
-
-    getImageUrl (src) {
-      return process.env.baseURL + src
-    }
+    ...mapActions('cart', ['addItemToCart'])
   }
 }
 </script>

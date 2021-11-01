@@ -2,7 +2,7 @@
   <v-card rounded="0">
     <v-img
       :aspect-ratio="1"
-      :src="displayImageUrl"
+      :src="imageUrl"
       style="border-style: solid; border-width: 0.5px; border-color: grey;"
       gradient="to bottom, rgba(0,0,0,0) 80%, rgba(0,0,0,.5) 100%"
       class="align-end"
@@ -69,6 +69,11 @@ export default {
     price: {
       type: Number,
       required: true
+    }
+  },
+  computed: {
+    imageUrl () {
+      return process.env.baseURL + this.displayImageUrl
     }
   }
 }

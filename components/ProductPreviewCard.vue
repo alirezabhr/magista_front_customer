@@ -6,7 +6,7 @@
   >
     <v-img
       :aspect-ratio="1"
-      :src="getImageFullUrl(imageUrl)"
+      :src="productImageUrl"
       class="ma-1 rounded-xl"
     />
 
@@ -72,9 +72,9 @@ export default {
       required: true
     }
   },
-  methods: {
-    getImageFullUrl (url) {
-      return `${process.env.baseURL}${url}`
+  computed: {
+    productImageUrl () {
+      return process.env.baseURL + this.imageUrl
     }
   }
 }
