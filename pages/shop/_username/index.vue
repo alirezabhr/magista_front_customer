@@ -1,6 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
+      <AddToCartDialog />
       <v-card min-height="620">
         <v-row class="py-6 px-2" no-gutters>
           <v-col cols="8" sm="9" class="ma-0 py-1 px-4">
@@ -33,6 +34,7 @@
             <ShopProductItem
               :display-image-url="getImageUrl(productPrice.product.display_image)"
               :price="productPrice.price"
+              @addToCart="addItemToCart(productPrice)"
             />
           </v-col>
         </v-row>
@@ -42,13 +44,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
+import AddToCartDialog from '@/components/AddToCartDialog.vue'
 import ShopProductItem from '@/components/ShopProductItem.vue'
 
 export default {
   name: 'ShopUsernamePage',
   components: {
+    AddToCartDialog,
     ShopProductItem
   },
   validate ({ params }) {
@@ -66,9 +70,12 @@ export default {
     await store.dispatch('shop/shopProducts', params.username)
   },
   computed: {
-    ...mapGetters('shop', ['getShopInfoData', 'getShopProductsPrice'])
+    ...mapGetters('shop', ['getShopInfoData', 'getShopProductsPrice']),
+    ...mapGetters('cart', ['getshowAddToCartStatus'])
   },
   methods: {
+    ...mapActions('cart', ['addItemToCart']),
+
     getImageUrl (src) {
       return process.env.baseURL + src
     }
