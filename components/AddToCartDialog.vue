@@ -1,6 +1,7 @@
 <template>
   <v-dialog
-    v-model="dialog"
+    v-if="getShowAddToCartStatus"
+    v-model="show"
     max-width="290"
   >
     <v-card>
@@ -18,7 +19,6 @@
         <v-btn
           color="green darken-1"
           text
-          @click="dialog = false"
         >
           Disagree
         </v-btn>
@@ -26,7 +26,6 @@
         <v-btn
           color="green darken-1"
           text
-          @click="dialog = false"
         >
           Agree
         </v-btn>
@@ -36,7 +35,28 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
-  name: 'AddToCartDialog'
+  name: 'AddToCartDialog',
+  data () {
+    return {
+      show: true
+    }
+  },
+  computed: {
+    ...mapGetters('cart', ['getShowAddToCartStatus'])
+  },
+  watch: {
+    show (newValue) {
+      if (!newValue) { // dialog closed by clicking somewhere else
+        this.setShowAddToCart(newValue)
+        this.show = true // always should set show property true, dialog shows when getShowAddToCartStatus getter returns true
+      }
+    }
+  },
+  methods: {
+    ...mapMutations('cart', ['setShowAddToCart'])
+  }
 }
 </script>
