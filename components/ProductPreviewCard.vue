@@ -32,16 +32,14 @@
         <v-row align="end" class="mb-1 ml-2 pa-0" no-gutters>
           <v-spacer />
           <v-col cols="6" class="pa-0">
-            <v-row v-if="rate" class="ma-0 grey--text text-caption text-decoration-line-through" justify="center">
+            <v-row v-if="rate" class="ma-0 grey--text text-caption text-decoration-line-through" justify="center" no-gutters>
               {{ price }}
             </v-row>
-            <v-row class="ma-0 text-body-2 font-weight-bold" justify="center">
+            <v-row class="ma-0 text-body-2 font-weight-bold" justify="center" no-gutters>
               {{ price }}
             </v-row>
           </v-col>
-          <v-col cols="3" class="pa-0 ml-1" align-self="end">
-            <v-icon>mdi-currency-rial</v-icon>
-          </v-col>
+          <div class="currency mx-auto pl-2">تومان</div>
         </v-row>
       </v-row>
     </v-card-actions>
@@ -84,3 +82,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.currency {
+  -webkit-text-size-adjust: 100%;
+    direction: rtl;
+    list-style: none;
+    text-align: center;
+    -webkit-box-direction: normal;
+    color: #232933;
+    box-sizing: inherit;
+    outline: none!important;
+    font-size: .714rem;
+    line-height: 21px;
+    font-weight: 600;
+}
+</style>

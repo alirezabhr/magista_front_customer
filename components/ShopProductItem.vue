@@ -33,9 +33,7 @@
             </v-row>
           </v-col>
 
-          <v-col cols="2" class="pa-0" align-self="end">
-            <v-icon color="white">mdi-currency-rial</v-icon>
-          </v-col>
+          <div class="currency mx-auto pl-2 white--text">تومان</div>
         </v-row>
       </v-card-title>
     </v-img>
@@ -75,3 +73,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.currency {
+  -webkit-text-size-adjust: 100%;
+    direction: rtl;
+    list-style: none;
+    text-align: center;
+    -webkit-box-direction: normal;
+    box-sizing: inherit;
+    outline: none!important;
+    font-size: .714rem;
+    line-height: 21px;
+    font-weight: 600;
+}
+</style>
