@@ -23,7 +23,7 @@
         <v-col>
           <v-btn
             icon
-            @click="addToCart()"
+            @click="$emit('addToCart')"
           >
             <v-icon large color="primary">mdi-plus-circle</v-icon>
           </v-btn>
@@ -75,9 +75,6 @@ export default {
   methods: {
     getImageFullUrl (url) {
       return `${process.env.baseURL}${url}`
-    },
-    addToCart () {
-      console.log(this.title + 'added to cart')
     }
   }
 }

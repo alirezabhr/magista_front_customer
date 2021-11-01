@@ -49,7 +49,7 @@
           absolute
           color="green"
           style="right: 4px; top: 4px;"
-          @click.prevent="removeItem(post)"
+          @click.prevent="$emit('addToCart')"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
