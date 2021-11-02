@@ -1,9 +1,10 @@
 import axios from 'axios'
+import Product from '@/models/product'
 
 const state = () => ({
   shop: {
     info: null,
-    productsPrice: []
+    products: []
   }
 })
 
@@ -11,8 +12,12 @@ const mutations = {
   setShopInfoData (state, shopInfoData) {
     state.shop.info = shopInfoData
   },
-  setShopProductsPrice (state, productsPriceList) {
-    state.shop.productsPrice = productsPriceList
+  setShopProducts (state, productsPriceList) {
+    productsPriceList.forEach((el) => {
+      const product = new Product(el.price, el.product.shortcode, el.product.title,
+        el.product.description, el.product.display_image, el.product.rate)
+      state.shop.products.push(product)
+    })
   }
 }
 
@@ -28,7 +33,7 @@ const actions = {
     const url = process.env.baseURL + `p/shop/${username}/products/`
 
     return axios.get(url).then((response) => {
-      vuexContext.commit('setShopProductsPrice', response.data)
+      vuexContext.commit('setShopProducts', response.data)
     })
   }
 }
@@ -40,8 +45,8 @@ const getters = {
   getShopProfileImage: (state) => {
     return state.shop.info.profile_pic
   },
-  getShopProductsPrice: (state) => {
-    return state.shop.productsPrice
+  getShopProducts: (state) => {
+    return state.shop.products
   }
 }
 

@@ -50,7 +50,7 @@
             <v-col cols="7">
               <v-row no-gutters>
                 <div class="text-truncate">
-                  {{ getLastAppendedProduct.product.title }}
+                  {{ getLastAppendedProduct.title }}
                 </div>
               </v-row>
               <v-row class="font-weight-bold" no-gutters>
@@ -89,7 +89,7 @@ export default {
     ...mapGetters('cart', ['getLastAppendedProduct']),
 
     getImageUrl () {
-      return process.env.baseURL + this.getLastAppendedProduct.product.display_image
+      return process.env.baseURL + this.getLastAppendedProduct.displayImage
     }
   },
   watch: {

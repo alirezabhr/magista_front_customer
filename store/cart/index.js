@@ -8,10 +8,9 @@ const mutations = {
   setLocalStorageOrderList (state) {
     localStorage.setItem('cart', JSON.stringify(state.orderList))
   },
-  appendItemToOrderList (state, productPrice) {
-    state.lastAppendedProduct = productPrice
-    state.orderList.push(productPrice)
-    this.setLocalStorageOrderList()
+  appendItemToOrderList (state, product) {
+    state.lastAppendedProduct = product
+    state.orderList.push(product)
   },
   removeItemFromOrderList (state, productShortcode) {
     state.orderList.forEach((element) => {
@@ -27,8 +26,9 @@ const mutations = {
 }
 
 const actions = {
-  addItemToCart (vuexContext, productPrice) {
-    vuexContext.commit('appendItemToOrderList', productPrice)
+  addItemToCart (vuexContext, product) {
+    vuexContext.commit('appendItemToOrderList', product)
+    vuexContext.commit('setLocalStorageOrderList')
     vuexContext.commit('setShowAddToCart', true)
   }
 }

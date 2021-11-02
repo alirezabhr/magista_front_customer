@@ -27,14 +27,14 @@
         <v-divider class="pb-3 mx-2" />
         <v-row class="pa-sm-1 pa-md-2" no-gutters>
           <v-col
-            v-for="productPrice in getShopProductsPrice"
-            :key="productPrice.product.shortcode"
+            v-for="product in getShopProducts"
+            :key="product.shortcode"
             cols="4"
           >
             <ShopProductItem
-              :display-image-url="productPrice.product.display_image"
-              :price="productPrice.price"
-              @addToCart="addItemToCart(productPrice)"
+              :display-image-url="product.displayImage"
+              :price="product.price"
+              @addToCart="addItemToCart(product)"
             />
           </v-col>
         </v-row>
@@ -70,7 +70,7 @@ export default {
     await store.dispatch('shop/shopProducts', params.username)
   },
   computed: {
-    ...mapGetters('shop', ['getShopInfoData', 'getShopProductsPrice']),
+    ...mapGetters('shop', ['getShopInfoData', 'getShopProducts']),
     ...mapGetters('cart', ['getShowAddToCartStatus']),
 
     profileImageUrl () {

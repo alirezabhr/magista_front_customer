@@ -5,14 +5,14 @@
       <v-row class="pa-2">
         <v-layout style="overflow-x: scroll;" class="pa-4">
           <ProductPreviewCard
-            v-for="productPrice in bestSellerProducts"
-            :key="productPrice.id"
-            :shop-name="productPrice.shop_name"
-            :image-url="productPrice.product.display_image"
-            :title="productPrice.product.title"
-            :rate="productPrice.product.rate"
-            :price="productPrice.price"
-            @addToCart="addItemToCart(productPrice)"
+            v-for="product in bestSellerProducts"
+            :key="product.shortcode"
+            shop-name="test online shop"
+            :image-url="product.displayImage"
+            :title="product.title"
+            :rate="product.rate"
+            :price="product.price"
+            @addToCart="addItemToCart(product)"
           />
         </v-layout>
       </v-row>
@@ -24,6 +24,7 @@
 import { mapActions, mapGetters } from 'vuex'
 
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
+import bestSellerMock from '@/mock/best_sellers'
 
 export default {
   name: 'HomePage',
@@ -32,7 +33,7 @@ export default {
   },
   data () {
     return {
-      bestSellerProducts: []
+      bestSellerProducts: bestSellerMock
     }
   },
   computed: {
