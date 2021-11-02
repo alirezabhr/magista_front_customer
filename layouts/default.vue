@@ -6,7 +6,7 @@
       class="white"
       elevation="3"
     >
-      <v-toolbar-title class="primary--text font-weight-medium mx-3">
+      <v-toolbar-title class="primary--text font-weight-bold mx-3">
         مگیستا
       </v-toolbar-title>
 
@@ -16,11 +16,18 @@
         ورود / ثبت‌نام
       </v-btn>
       <v-divider vertical class="mx-3" />
-      <v-btn text>
-        <v-icon>
-          mdi-cart-variant mdi-flip-h
-        </v-icon>
-        سبد
+      <v-btn text to="/cart">
+        <v-badge
+          :content="cartItemCounts"
+          :value="cartItemCounts"
+          color="green"
+          overlap
+        >
+          سبد
+          <v-icon>
+            mdi-cart-variant mdi-flip-h
+          </v-icon>
+        </v-badge>
       </v-btn>
       <v-divider vertical class="mx-3" />
       <v-btn rounded outlined class="primary--text" href="https://vendor.magista.ir" target="_blank">
@@ -37,7 +44,18 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
-  name: 'DefaultLayout'
+  name: 'DefaultLayout',
+  computed: {
+    ...mapGetters('cart', ['cartItemCounts'])
+  },
+  mounted () {
+    this.initialStore()
+  },
+  methods: {
+    ...mapMutations('cart', ['initialStore'])
+  }
 }
 </script>
