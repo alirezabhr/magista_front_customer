@@ -1,10 +1,36 @@
 const state = () => ({
   orderList: [],
   lastAppendedProduct: null,
-  showAddToCart: false
+  showAddToCart: false,
+  cartItemsCount: 0
 })
 
 const mutations = {
+  initialStore (state) {
+    if (!process.client) { // localStorage is only available on client side
+      return
+    }
+
+    // initial cartItemsCount
+    const strCount = localStorage.getItem('cartItemsCount')
+    if (strCount) {
+      state.cartItemsCount = Number.parseInt(strCount)
+    }
+
+    // initial cart
+    const strCart = localStorage.getItem('cart')
+    if (strCart) {
+      state.orderList = JSON.parse(strCart)
+    }
+  },
+  increaseItemCounts (state) {
+    state.cartItemsCount += 1
+    localStorage.setItem('cartItemsCount', state.cartItemsCount)
+  },
+  decreaseItemCounts (state) {
+    state.cartItemsCount -= 1
+    localStorage.setItem('cartItemsCount', state.cartItemsCount)
+  },
   setLocalStorageOrderList (state) {
     localStorage.setItem('cart', JSON.stringify(state.orderList))
   },
@@ -29,13 +55,13 @@ const actions = {
   addItemToCart (vuexContext, product) {
     vuexContext.commit('appendItemToOrderList', product)
     vuexContext.commit('setLocalStorageOrderList')
+    vuexContext.commit('increaseItemCounts')
     vuexContext.commit('setShowAddToCart', true)
   }
 }
 
 const getters = {
   getLocalStorageOrderList: (state) => {
-    state.orderList = JSON.parse(localStorage.getItem('cart'))
     return state.orderList
   },
   getShowAddToCartStatus: (state) => {
@@ -43,6 +69,9 @@ const getters = {
   },
   getLastAppendedProduct: (state) => {
     return state.lastAppendedProduct
+  },
+  cartItemCounts: (state) => {
+    return state.cartItemsCount
   }
 }
 
