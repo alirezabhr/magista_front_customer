@@ -33,6 +33,11 @@ export default {
     return {
       title
     }
+  },
+  mounted () {
+    console.log('====ERROR====')
+    console.log(this.error)
+    console.log('=============')
   }
 }
 </script>
