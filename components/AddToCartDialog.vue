@@ -66,8 +66,7 @@
           class="darken-1 white--text px-4 mx-auto"
           color="green"
           rounded
-          to="/cart"
-          @click="setShowAddToCart(false)"
+          @click.prevent="routeToCart()"
         >
           <v-icon>mdi-cart mdi-flip-h</v-icon>
           رفتن به سبد
@@ -103,7 +102,12 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('cart', ['setShowAddToCart'])
+    ...mapMutations('cart', ['setShowAddToCart']),
+
+    routeToCart () {
+      this.setShowAddToCart(false)
+      this.$router.push('/cart')
+    }
   }
 }
 </script>
