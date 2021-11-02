@@ -66,6 +66,8 @@
           class="darken-1 white--text px-4 mx-auto"
           color="green"
           rounded
+          to="/cart"
+          @click="setShowAddToCart(false)"
         >
           <v-icon>mdi-cart mdi-flip-h</v-icon>
           رفتن به سبد
