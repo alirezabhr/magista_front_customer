@@ -7,6 +7,10 @@ class Product {
     this.displayImage = displayImage
     this.rate = rate
   }
+
+  toJSON () {
+    return { ...this }
+  }
 }
 
 export default Product
