@@ -13,6 +13,7 @@ const mutations = {
     state.shop.info = shopInfoData
   },
   setShopProducts (state, productsPriceList) {
+    state.shop.products = []
     productsPriceList.forEach((el) => {
       const product = new Product(el.price, el.product.shortcode, el.product.title,
         el.product.description, el.product.display_image, el.product.rate)
