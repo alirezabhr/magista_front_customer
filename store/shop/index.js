@@ -15,8 +15,8 @@ const mutations = {
   setShopProducts (state, productsPriceList) {
     state.shop.products = []
     productsPriceList.forEach((el) => {
-      const product = new Product(el.price, el.product.shortcode, el.product.title,
-        el.product.description, el.product.display_image, el.product.rate)
+      const product = new Product(el.price, el.shortcode, el.title,
+        el.description, el.display_image, el.rate)
       state.shop.products.push(product)
     })
   }
@@ -24,14 +24,14 @@ const mutations = {
 
 const actions = {
   shopInfoData (vuexContext, username) {
-    const url = process.env.baseURL + `shops/preview/${username}/`
+    const url = process.env.baseURL + `shop/${username}/preview/`
 
     return axios.get(url).then((response) => {
       vuexContext.commit('setShopInfoData', response.data)
     })
   },
   shopProducts (vuexContext, username) {
-    const url = process.env.baseURL + `p/shop/${username}/products/`
+    const url = process.env.baseURL + `shop/${username}/products/`
 
     return axios.get(url).then((response) => {
       vuexContext.commit('setShopProducts', response.data)
