@@ -12,12 +12,13 @@ const mutations = {
   setShopInfoData (state, shopInfoData) {
     state.shop.info = shopInfoData
   },
-  setShopProducts (state, productsPriceList) {
+  setShopProducts (state, productsList) {
     state.shop.products = []
-    productsPriceList.forEach((el) => {
-      const product = new Product(el.price, el.shortcode, el.title,
+    productsList.forEach((el) => {
+      const product = new Product(el.original_price, el.shortcode, el.title,
         el.description, el.display_image, el.rate)
       state.shop.products.push(product)
+      console.log(product.price)
     })
   }
 }
