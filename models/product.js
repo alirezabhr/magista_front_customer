@@ -1,5 +1,6 @@
 class Product {
-  constructor (price, shortcode, title, description, displayImage, rate) {
+  constructor (shop, price, shortcode, title, description, displayImage, rate) {
+    this.shop = shop
     this.price = price
     this.shortcode = shortcode
     this.title = title
