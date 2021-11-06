@@ -2,6 +2,7 @@ import Product from '@/models/product'
 
 const bestSellersMock = [
   new Product(
+    1,
     125000,
     'CUScNSkgCUB',
     'آنلاین شاپ gandom_granola1، محصول 7',
@@ -22,6 +23,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    1,
     1234132,
     'CT98oQbMrI0',
     'آنلاین شاپ gandom_granola1، محصول 9',
@@ -42,6 +44,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    2,
     230985,
     'CThkDjBMbN2',
     'آنلاین شاپ gandom_granola1، محصول 15',
@@ -60,6 +63,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    2,
     65000,
     'CTUqBrlMGSA',
     'آنلاین شاپ gandom_granola1، محصول 17',
@@ -98,6 +102,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    3,
     123451,
     'CTSPiLOsRDu',
     'آنلاین شاپ gandom_granola1، محصول 18',
