@@ -2,7 +2,8 @@
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <v-card min-height="620">
-        <v-card v-for="seller in getSellersList" :key="seller.instagram_username">
+          sadfsd
+        <!-- <v-card v-for="seller in getSellersList" :key="seller.instagram_username">
           <v-card-title>
             خرید از {{ seller.instagram_username }}
           </v-card-title>
@@ -44,7 +45,7 @@
               </v-col>
             </v-row>
           </v-card>
-        </v-card>
+        </v-card> -->
       </v-card>
     </v-col>
   </v-row>
