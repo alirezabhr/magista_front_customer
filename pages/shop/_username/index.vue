@@ -25,7 +25,7 @@
           </v-col>
         </v-row>
         <v-divider class="pb-3 mx-2" />
-        <v-row class="pa-sm-1 pa-md-2" no-gutters>
+        <v-row class="pa-sm-1 pa-md-2" no-gutters dir="ltr">
           <v-col
             v-for="product in getShopProducts"
             :key="product.shortcode"
@@ -34,6 +34,7 @@
             <ShopProductItem
               :display-image-url="product.displayImage"
               :price="product.price"
+              dir="rtl"
               @addToCart="addItemToCart(product)"
             />
           </v-col>
