@@ -1,5 +1,10 @@
+import Product from "./product"
+
 class OrderItem {
-  constructor (product, count = 0) {
+  product: Product
+  count: number
+
+  constructor (product: Product, count = 0) {
     this.product = product
     this.count = count
   }
