@@ -18,8 +18,8 @@
       <v-divider vertical class="mx-3" />
       <v-btn text to="/cart">
         <v-badge
-          :content="cartItemCounts"
-          :value="cartItemCounts"
+          :content="getCartItemCounts"
+          :value="getCartItemCounts"
           color="green"
           overlap
         >
@@ -49,7 +49,7 @@ import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'DefaultLayout',
   computed: {
-    ...mapGetters('cart', ['cartItemCounts'])
+    ...mapGetters('cart', ['getCartItemCounts'])
   },
   mounted () {
     this.initialStore()
