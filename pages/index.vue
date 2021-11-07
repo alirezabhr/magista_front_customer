@@ -8,7 +8,7 @@
             v-for="product in bestSellerProducts"
             :key="product.shortcode"
             shop-name="test online shop"
-            :image-url="product.displayImage"
+            :image-url="product.displayImageUrl"
             :title="product.title"
             :rate="product.rate"
             :price="product.price"
@@ -24,7 +24,7 @@
 import { mapActions, mapGetters } from 'vuex'
 
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
-import bestSellerMock from '@/mock/best_sellers'
+import bestSellerMock from '~/mock/best_sellers'
 
 export default {
   name: 'HomePage',
