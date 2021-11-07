@@ -6,7 +6,7 @@
         <v-row class="py-6 px-2" no-gutters>
           <v-col cols="8" sm="9" class="ma-0 py-1 px-4">
             <v-row class="text-subtitle-1 text-sm-h6 font-weight-bold" no-gutters>
-              فروشگاه {{ getShopInfoData.instagram_username }}
+              فروشگاه {{ getShopInfoData.instagramUsername }}
             </v-row>
             <v-row class="text-body-2 text-sm-subtitle-2" no-gutters>
               {{ getShopInfoData.province }} - {{ getShopInfoData.city }}
@@ -19,7 +19,7 @@
                 size="75"
                 style="border-style: solid;"
               >
-                <v-img :src="profileImageUrl" />
+                <v-img :src="profileImageFullUrl" />
               </v-avatar>
             </v-row>
           </v-col>
@@ -32,7 +32,7 @@
             cols="4"
           >
             <ShopProductItem
-              :display-image-url="product.displayImage"
+              :display-image-url="product.displayImageUrl"
               :price="product.price"
               dir="rtl"
               @addToCart="addItemToCart(product)"
@@ -65,8 +65,12 @@ export default {
     return true
   },
   async asyncData ({ params, store, error }) {
-    await store.dispatch('shop/shopInfoData', params.username).catch(() => {
-      error({ statusCode: 404, message: 'shop not found' })
+    await store.dispatch('shop/shopInfoData', params.username).catch((response) => {
+      if (response.statusCode === 404) {
+        error({ statusCode: 404, message: 'shop not found' })
+      } else {
+        error({ statusCode: 500, message: 'Oops! An error occured.' })
+      }
     })
     await store.dispatch('shop/shopProducts', params.username)
   },
@@ -74,8 +78,8 @@ export default {
     ...mapGetters('shop', ['getShopInfoData', 'getShopProducts']),
     ...mapGetters('cart', ['getShowAddToCartStatus']),
 
-    profileImageUrl () {
-      return process.env.baseURL + this.getShopInfoData.profile_pic
+    profileImageFullUrl () {
+      return process.env.baseURL + this.getShopInfoData.profileImageUrl
     }
   },
   methods: {
