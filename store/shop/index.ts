@@ -25,7 +25,7 @@ const mutations = <MutationTree<ShopState>>{
   setShopProducts(state, productsList) {
     state.shopProducts = []
     productsList.forEach((el: any) => {
-      const product = new Product(5, el.original_price, el.shortcode, el.title,
+      const product = new Product(el.shop, el.original_price, el.shortcode, el.title,
         el.description, el.display_image, el.rate)
       state.shopProducts.push(product)
     })
