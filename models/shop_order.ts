@@ -1,6 +1,6 @@
 import OrderItem from "./order_item"
 
-class ShopOrders {
+class ShopOrder {
   shop: number
   ordersList: OrderItem[]
 
@@ -14,4 +14,4 @@ class ShopOrders {
   }
 }
 
-export default ShopOrders
+export default ShopOrder
