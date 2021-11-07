@@ -19,7 +19,7 @@ const state = () : CartState => ({
 })
 
 const mutations = <MutationTree<CartState>>{
-  initialStore (state) {
+  initialCartStore (state) {
     if (!process.client) { // localStorage is only available on client side
       return
     }
