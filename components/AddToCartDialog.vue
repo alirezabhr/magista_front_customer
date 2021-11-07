@@ -90,7 +90,7 @@ export default {
     ...mapGetters('cart', ['getLastAppendedProduct']),
 
     getImageUrl () {
-      return process.env.baseURL + this.getLastAppendedProduct.displayImage
+      return process.env.baseURL + this.getLastAppendedProduct.displayImageUrl
     }
   },
   watch: {
