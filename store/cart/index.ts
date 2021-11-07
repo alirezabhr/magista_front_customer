@@ -85,7 +85,10 @@ const getters = <GetterTree<CartState, RootState>>{
       count += shopOrder.ordersList.length
     })
     return count
-  }
+  },
+  getOrderList: (state) : ShopOrder[] => {
+    return state.orderList
+  },
 }
 
 export default {
