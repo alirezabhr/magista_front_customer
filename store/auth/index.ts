@@ -7,16 +7,30 @@ const namespace = 'auth'
 interface AuthState {
   userPhone: string
   userToken: string | null
-  userId: number | string
+  userId: number
 }
 
 const state = () : AuthState => ({
   userPhone: '',
-  userToken: localStorage.getItem('MagistaToken') || '',
-  userId: localStorage.getItem('MagistaId') || 0
+  userToken: null,
+  userId: 0
 })
 
 const mutations = <MutationTree<AuthState>>{
+  initialAuthStore (state) {
+    if (!process.client) { // localStorage is only available on client side
+      return
+    }
+
+    // initial user token
+    state.userToken = localStorage.getItem('MagistaToken')
+
+    // initial user id
+    const userIdStr = localStorage.getItem('MagistaId')
+    if (userIdStr) {
+      state.userId = JSON.parse(userIdStr)
+    }
+  },
   setUserPhone (state, phone) {
     state.userPhone = phone
   },
@@ -148,7 +162,7 @@ const getters = <GetterTree<AuthState, RootState>>{
 }
 
 export default {
-  namespaced: true,
+  namespace,
   state,
   mutations,
   getters,
