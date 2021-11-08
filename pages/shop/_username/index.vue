@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
-      <AddToCartDialog v-if="getShowAddToCartStatus" />
+      <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
       <v-card min-height="620">
         <v-row class="py-6 px-2" no-gutters>
           <v-col cols="8" sm="9" class="ma-0 py-1 px-4">
@@ -35,7 +35,7 @@
               :display-image-url="product.displayImageUrl"
               :price="product.price"
               dir="rtl"
-              @addToCart="addItemToCart(product)"
+              @addToCart="addToCart(product)"
             />
           </v-col>
         </v-row>
@@ -74,16 +74,25 @@ export default {
     })
     await store.dispatch('shop/shopProducts', params.username)
   },
+  data () {
+    return {
+      showDialog: false
+    }
+  },
   computed: {
     ...mapGetters('shop', ['getShopInfoData', 'getShopProducts']),
-    ...mapGetters('cart', ['getShowAddToCartStatus']),
 
     profileImageFullUrl () {
       return process.env.baseURL + this.getShopInfoData.profileImageUrl
     }
   },
   methods: {
-    ...mapActions('cart', ['addItemToCart'])
+    ...mapActions('cart', ['addItemToCart']),
+
+    addToCart (product) {
+      this.addItemToCart(product)
+      this.showDialog = true
+    }
   }
 }
 </script>

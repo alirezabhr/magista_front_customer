@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12">
-      <AddToCartDialog v-if="getShowAddToCartStatus" />
+      <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
       <v-row class="pa-2">
         <v-layout style="overflow-x: scroll;" class="pa-4">
           <ProductPreviewCard
@@ -12,7 +12,7 @@
             :title="product.title"
             :rate="product.rate"
             :price="product.price"
-            @addToCart="addItemToCart(product)"
+            @addToCart="addToCart(product)"
           />
         </v-layout>
       </v-row>
@@ -21,26 +21,31 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
+import AddToCartDialog from '@/components/AddToCartDialog.vue'
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
 import bestSellerMock from '~/mock/best_sellers'
 
 export default {
   name: 'HomePage',
   components: {
+    AddToCartDialog,
     ProductPreviewCard
   },
   data () {
     return {
-      bestSellerProducts: bestSellerMock
+      bestSellerProducts: bestSellerMock,
+      showDialog: false
     }
   },
-  computed: {
-    ...mapGetters('cart', ['getShowAddToCartStatus'])
-  },
   methods: {
-    ...mapActions('cart', ['addItemToCart'])
+    ...mapActions('cart', ['addItemToCart']),
+
+    addToCart (product) {
+      this.addItemToCart(product)
+      this.showDialog = true
+    }
   }
 }
 </script>

@@ -96,16 +96,14 @@ export default {
   watch: {
     show (newValue) {
       if (!newValue) { // dialog closed by clicking somewhere else
-        this.setShowAddToCart(newValue)
+        this.$emit('closeDialog')
         this.show = true // always should set show property true, dialog shows when getShowAddToCartStatus getter returns true
       }
     }
   },
   methods: {
-    ...mapMutations('cart', ['setShowAddToCart']),
-
     routeToCart () {
-      this.setShowAddToCart(false)
+      this.$emit('closeDialog')
       this.$router.push('/cart')
     }
   }
