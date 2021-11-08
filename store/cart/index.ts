@@ -48,13 +48,22 @@ const mutations = <MutationTree<CartState>>{
       }
     }
   },
-  removeItemFromOrderList (state, productShortcode) {
-    // state.orderList.forEach((element) => {
-    //   if (element.product.shortcode === productShortcode) {
-    //     // remove element from array
-    //     this.setLocalStorageOrderList()
-    //   }
-    // })
+  removeItemFromOrderList (state, product: Product) {
+    const shopOrderIndex = state.orderList.findIndex((el: ShopOrder) => el.shop === product.shop)
+    if (shopOrderIndex === -1) { // there is not any items from this shop
+      return    // it will throw an error
+    } else {
+      const orderItemIndex = state.orderList[shopOrderIndex].ordersList.findIndex((el: OrderItem) => el.product === product)
+      if (orderItemIndex === -1) { // this product doesn't exist in this orderList
+        return    // it will throw an error
+      } else {
+        if (state.orderList[shopOrderIndex].ordersList[orderItemIndex].count === 1) {
+          state.orderList[shopOrderIndex].ordersList.splice(orderItemIndex)
+        } else {
+          state.orderList[shopOrderIndex].ordersList[orderItemIndex].count += 1
+        }
+      }
+    }
   },
   setShowAddToCart (state, boolValue) {
     state.showAddToCart = boolValue
@@ -66,7 +75,11 @@ const actions = <ActionTree<CartState, RootState>>{
     vuexContext.commit('appendItemToOrderList', product)
     vuexContext.commit('setLocalStorageOrderList')
     vuexContext.commit('setShowAddToCart', true)
-  }
+  },
+  removeItemFromCart (vuexContext, product) {
+    vuexContext.commit('removeItemFromOrderList', product)
+    vuexContext.commit('setLocalStorageOrderList')
+  },
 }
 
 const getters = <GetterTree<CartState, RootState>>{
