@@ -52,10 +52,12 @@ export default {
     ...mapGetters('cart', ['getCartItemCounts'])
   },
   mounted () {
-    this.initialStore()
+    this.initialCartStore()
+    this.initialAuthStore()
   },
   methods: {
-    ...mapMutations('cart', ['initialStore'])
+    ...mapMutations('auth', ['initialAuthStore']),
+    ...mapMutations('cart', ['initialCartStore'])
   }
 }
 </script>
