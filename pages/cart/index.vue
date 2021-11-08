@@ -1,7 +1,8 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
-      <v-card min-height="620" class="pa-2">
+      <AuthDialog v-if="showDialog" @closeDialog="showDialog=false" />
+      <v-card v-if="getOrderList.length > 0" min-height="620" class="pa-2">
         <v-card v-for="shopOrder in getOrderList" :key="shopOrder.shop" class="pa-2">
           <v-card-title>
             خرید از {{ shopOrder.shop }}
@@ -32,9 +33,15 @@
                   </v-img>
                 </v-card>
               </v-col>
-              <v-col cols="1">
-                <v-row class="font-weight-bold" no-gutters>
-                  {{ order.count }}X
+              <v-col cols="1" class="" align-self="center">
+                <v-row justify="center">
+                  <v-btn icon @click.prevent="addItemToCart"><v-icon>mdi-plus</v-icon></v-btn>
+                </v-row>
+                <v-row class="font-weight-bold" justify="center">
+                  {{ order.count }}
+                </v-row>
+                <v-row justify="center">
+                  <v-btn icon @click.prevent="removeItemFromCart"><v-icon>mdi-minus</v-icon></v-btn>
                 </v-row>
               </v-col>
               <v-col cols="7">
@@ -65,22 +72,43 @@
             class="darken-1 white--text px-4 mx-auto"
             color="green"
             rounded
-            @click.prevent=""
+            @click.prevent="pay"
           >
             تکمیل خرید
           </v-btn>
         </v-card-actions>
+      </v-card>
+      <v-card v-else min-height="620" class="pa-2">
+        <v-card-title>
+          <v-row justify="center">
+            سبد شما خالی است!
+          </v-row>
+        </v-card-title>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'CartPage',
+  data () {
+    return {
+      showDialog: false
+    }
+  },
   methods: {
+    ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
+
+    pay () {
+      if (!this.isAuthenticated) {
+        this.showDialog = true
+      } else {
+        console.log('PAY')
+      }
+    },
     getFullImageUrl (src) {
       return process.env.baseURL + src
     },
@@ -101,7 +129,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('cart', ['getOrderList'])
+    ...mapGetters('cart', ['getOrderList']),
+    ...mapGetters('auth', ['isAuthenticated'])
   }
 }
 </script>
