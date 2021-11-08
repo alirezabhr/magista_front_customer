@@ -2,72 +2,72 @@
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <AuthDialog v-if="showDialog" @closeDialog="showDialog=false" />
-      <v-card v-if="getOrderList.length > 0" min-height="620" class="pa-2">
-        <v-card v-for="shopOrder in getOrderList" :key="shopOrder.shop" class="pa-2">
+      <v-card v-if="getOrdersList.length > 0" min-height="620" class="pa-2">
+        <v-card v-for="shop in getOrdersShopList" :key="shop.id" class="pa-2 my-2">
           <v-card-title>
-            خرید از {{ shopOrder.shop }}
+            خرید از {{ shop.instagram_username }}
           </v-card-title>
 
-          <v-card v-for="order in shopOrder.ordersList" :key="order.product.shortcode" outlined class="mb-2">
-            <v-row class="pa-2">
-              <v-col cols="3">
-                <v-card
-                  outlined
-                >
-                  <v-img
-                    :aspect-ratio="1"
-                    :src="getFullImageUrl(order.product.displayImageUrl)"
+          <div v-for="orderItem in getOrdersList" :key="orderItem.product.shortcode">
+            <v-card v-if="orderItem.product.shop.id === shop.id" outlined class="mb-2">
+              <v-row class="pa-2">
+                <v-col cols="3">
+                  <v-card
+                    outlined
                   >
-                    <template #placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-2"
-                        />
-                      </v-row>
-                    </template>
-                  </v-img>
-                </v-card>
-              </v-col>
-              <v-col cols="1" class="" align-self="center">
-                <v-row justify="center">
-                  <v-btn icon @click.prevent="addItemToCart"><v-icon>mdi-plus</v-icon></v-btn>
-                </v-row>
-                <v-row class="font-weight-bold" justify="center">
-                  {{ order.count }}
-                </v-row>
-                <v-row justify="center">
-                  <v-btn icon @click.prevent="removeItemFromCart"><v-icon>mdi-minus</v-icon></v-btn>
-                </v-row>
-              </v-col>
-              <v-col cols="7">
-                <v-row no-gutters>
-                  <div class="text-truncate">
-                    {{ order.product.title }}
-                  </div>
-                </v-row>
-                <v-row class="font-weight-bold" no-gutters>
-                  {{ order.product.price }} تومان
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card>
-          <v-card-actions>
-            <v-col>
-              <div>
-                 تعداد کل: {{ totalCount(shopOrder.ordersList) }}
-              </div>
-              <div>
-                قیمت کل: {{ totalPrice(shopOrder.ordersList) }} تومان
-              </div>
-            </v-col>
-          </v-card-actions>
+                    <v-img
+                      :aspect-ratio="1"
+                      :src="getFullImageUrl(orderItem.product.displayImageUrl)"
+                    >
+                      <template #placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-2"
+                          />
+                        </v-row>
+                      </template>
+                    </v-img>
+                  </v-card>
+                </v-col>
+                <v-col cols="1" class="" align-self="center">
+                  <v-row justify="center">
+                    <v-btn icon @click.prevent="addItemToCart(orderItem.product)"><v-icon>mdi-plus</v-icon></v-btn>
+                  </v-row>
+                  <v-row class="font-weight-bold" justify="center">
+                    {{ orderItem.count }}
+                  </v-row>
+                  <v-row justify="center">
+                    <v-btn icon @click.prevent="removeItemFromCart(orderItem.product)"><v-icon>mdi-minus</v-icon></v-btn>
+                  </v-row>
+                </v-col>
+                <v-col cols="7">
+                  <v-row no-gutters>
+                    <div class="text-truncate">
+                      {{ orderItem.product.title }}
+                    </div>
+                  </v-row>
+                  <v-row class="font-weight-bold" no-gutters>
+                    {{ orderItem.product.price }} تومان
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-card>
+          </div>
         </v-card>
         <v-card-actions>
+          <v-col>
+            <div>
+                تعداد کل: {{ getCartItemCounts }}
+            </div>
+            <div>
+              قیمت کل: {{ getCartTotalPrice }} تومان
+            </div>
+          </v-col>
           <v-btn
             class="darken-1 white--text px-4 mx-auto"
             color="green"
@@ -106,30 +106,35 @@ export default {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
+        if (this.)
         console.log('PAY')
       }
     },
     getFullImageUrl (src) {
       return process.env.baseURL + src
     },
-    totalPrice (ordersList) {
+    shopTotalPrice (shopId) {
       let total = 0
-      ordersList.forEach((order) => {
-        const orderPrice = order.count * order.product.price
-        total += orderPrice
+      this.getOrdersList.forEach((orderItem) => {
+        if (orderItem.product.shop.id === shopId) {
+          const orderPrice = orderItem.count * orderItem.product.price
+          total += orderPrice
+        }
       });
       return total
     },
-    totalCount (orderList) {
+    shopTotalCount (shopId) {
       let total = 0
-      orderList.forEach((order) => {
-        total += order.count
+      this.getOrdersList.forEach((orderItem) => {
+        if (orderItem.product.shop.id === shopId){
+          total += orderItem.count
+        }
       })
       return total
     }
   },
   computed: {
-    ...mapGetters('cart', ['getOrderList']),
+    ...mapGetters('cart', ['getOrdersList', 'getOrdersShopList', 'getCartItemCounts', 'getCartTotalPrice']),
     ...mapGetters('auth', ['isAuthenticated'])
   }
 }
