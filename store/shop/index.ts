@@ -2,24 +2,24 @@ import axios from 'axios'
 import { GetterTree, MutationTree, ActionTree } from "vuex"
 import { RootState } from '../index'
 import Product from '@/models/product'
-import ShopInfo from '~/models/shop_info'
+import Shop from '~/models/shop'
 
 
 const namespace = 'shop'
 
 interface ShopState {
-  shopInfo: ShopInfo | null
+  shop: Shop | null
   shopProducts: Product[]
 }
 
 const state = (): ShopState => ({
-  shopInfo: null,
+  shop: null,
   shopProducts: []
 })
 
 const mutations = <MutationTree<ShopState>>{
   setShopInfoData(state, shopInfoData) {
-    state.shopInfo = new ShopInfo(shopInfoData.instagram_username, shopInfoData.province,
+    state.shop = new Shop(shopInfoData.id, shopInfoData.instagram_username, shopInfoData.province,
       shopInfoData.city, shopInfoData.profile_pic)
   },
   setShopProducts(state, productsList) {
@@ -50,12 +50,12 @@ const actions = <ActionTree<ShopState, RootState>>{
 }
 
 const getters = <GetterTree<ShopState, RootState>>{
-  getShopInfoData: (state): ShopInfo | null => {
-    return state.shopInfo
+  getShopInfoData: (state): Shop | null => {
+    return state.shop
   },
   getShopProfileImage: (state): string => {
-    if (state.shopInfo?.profileImageUrl) {
-      return state.shopInfo.profileImageUrl
+    if (state.shop?.profileImageUrl) {
+      return state.shop.profileImageUrl
     }
     return ''
   },
