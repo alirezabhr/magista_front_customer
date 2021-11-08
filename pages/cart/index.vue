@@ -2,6 +2,17 @@
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <AuthDialog v-if="showDialog" @closeDialog="showDialog=false" />
+       <v-dialog
+          v-model="showCustomerForm"
+          persistent
+          max-width="600px"
+        >
+          <CustomerForm
+            :is-submitting-form="isCreatingCustomer"
+            @submit="submitCustomerForm"
+            @close="showCustomerForm = false"
+          />
+      </v-dialog>
       <v-card v-if="getOrdersList.length > 0" min-height="620" class="pa-2">
         <v-card v-for="shop in getOrdersShopList" :key="shop.id" class="pa-2 my-2">
           <v-card-title>
@@ -92,22 +103,35 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
+import AuthDialog from '@/components/AuthDialog.vue'
+import CustomerForm from '@/components/CustomerForm.vue'
+
 export default {
   name: 'CartPage',
+  components: {
+    AuthDialog,
+    CustomerForm
+  },
   data () {
     return {
-      showDialog: false
+      showDialog: false,
+      showCustomerForm: false,
+      isCreatingCustomer: false
     }
   },
   methods: {
     ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
+    ...mapActions('auth', ['createCustomer']),
 
     pay () {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
-        if (this.)
-        console.log('PAY')
+        if (this.getCustomerId) {
+          console.log('PAY')
+        } else {
+          this.showCustomerForm = true
+        }
       }
     },
     getFullImageUrl (src) {
@@ -131,11 +155,21 @@ export default {
         }
       })
       return total
+    },
+    submitCustomerForm (payload) {
+      this.isCreatingCustomer = true
+      this.createCustomer(payload).then(() => {
+        this.isCreatingCustomer = false
+        this.showCustomerForm = false
+      }).catch((response) => {
+        this.isCreatingCustomer = false
+        console.log(response)
+      })
     }
   },
   computed: {
     ...mapGetters('cart', ['getOrdersList', 'getOrdersShopList', 'getCartItemCounts', 'getCartTotalPrice']),
-    ...mapGetters('auth', ['isAuthenticated'])
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId'])
   }
 }
 </script>
