@@ -1,10 +1,12 @@
-class ShopInfo {
+class Shop {
+    id: number
     instagramUsername: string
     province: string
     city: string
     profileImageUrl: string
 
-    constructor(igUsername: string, province: string, city: string, profileUrl: string) {
+    constructor(id:number, igUsername: string, province: string, city: string, profileUrl: string) {
+        this.id = id
         this.instagramUsername = igUsername
         this.province = province
         this.city = city
@@ -16,4 +18,4 @@ class ShopInfo {
     }
 }
 
-export default ShopInfo
+export default Shop
