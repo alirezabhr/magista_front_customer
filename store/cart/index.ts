@@ -1,21 +1,20 @@
 import { GetterTree, MutationTree, ActionTree } from "vuex"
 import { RootState } from '../index'
-import ShopOrder from "~/models/shop_order"
 import Product from "~/models/product"
 import OrderItem from "~/models/order_item"
+import Shop from "~/models/shop"
+import shop from "../shop"
 
 const namespace = 'cart'
 
 interface CartState {
-  orderList: ShopOrder[]
+  ordersList: OrderItem[]
   lastAppendedProduct: Product | null
-  showAddToCart: boolean
 }
 
 const state = () : CartState => ({
-  orderList: [],
-  lastAppendedProduct: null,
-  showAddToCart: false
+  ordersList: [],
+  lastAppendedProduct: null
 })
 
 const mutations = <MutationTree<CartState>>{
@@ -26,55 +25,40 @@ const mutations = <MutationTree<CartState>>{
     // initial cart
     const strCart = localStorage.getItem('cart')
     if (strCart) {
-      state.orderList = JSON.parse(strCart)
+      state.ordersList = JSON.parse(strCart)
     }
   },
   setLocalStorageOrderList (state) {
-    localStorage.setItem('cart', JSON.stringify(state.orderList))
+    localStorage.setItem('cart', JSON.stringify(state.ordersList))
   },
   appendItemToOrderList (state, product: Product) {
     state.lastAppendedProduct = product
-    const shopOrderIndex = state.orderList.findIndex((el: ShopOrder) => el.shop === product.shop)
-    if (shopOrderIndex === -1) { // there is not any items from this shop
-      const shopOrder = new ShopOrder(product.shop)
-      shopOrder.addItem(new OrderItem(product, 1))
-      state.orderList.push(shopOrder)
+    const orderIndex = state.ordersList.findIndex((el: OrderItem) => el.product === product)
+    if (orderIndex === -1) {  // this product doesn't exist in ordersList
+      state.ordersList.push(new OrderItem(product))
     } else {
-      const orderItemIndex = state.orderList[shopOrderIndex].ordersList.findIndex((el: OrderItem) => el.product === product)
-      if (orderItemIndex === -1) { // this product doesn't exist in this orderList
-        state.orderList[shopOrderIndex].ordersList.push(new OrderItem(product, 1))
-      } else {
-        state.orderList[shopOrderIndex].ordersList[orderItemIndex].count += 1
-      }
+      state.ordersList[orderIndex].count += 1
     }
   },
   removeItemFromOrderList (state, product: Product) {
-    const shopOrderIndex = state.orderList.findIndex((el: ShopOrder) => el.shop === product.shop)
-    if (shopOrderIndex === -1) { // there is not any items from this shop
-      return    // it will throw an error
+    const orderIndex = state.ordersList.findIndex((el: OrderItem) => el.product === product)
+    if (orderIndex === -1) {  // this product doesn't exist in ordersList
+      // should throw error
+      console.log('ERROR in removing item from orders list')
     } else {
-      const orderItemIndex = state.orderList[shopOrderIndex].ordersList.findIndex((el: OrderItem) => el.product === product)
-      if (orderItemIndex === -1) { // this product doesn't exist in this orderList
-        return    // it will throw an error
+      if (state.ordersList[orderIndex].count > 1) {
+        state.ordersList[orderIndex].count -= 1
       } else {
-        if (state.orderList[shopOrderIndex].ordersList[orderItemIndex].count === 1) {
-          state.orderList[shopOrderIndex].ordersList.splice(orderItemIndex)
-        } else {
-          state.orderList[shopOrderIndex].ordersList[orderItemIndex].count += 1
-        }
+        state.ordersList.splice(orderIndex, 1)
       }
     }
   },
-  setShowAddToCart (state, boolValue) {
-    state.showAddToCart = boolValue
-  }
 }
 
 const actions = <ActionTree<CartState, RootState>>{
   addItemToCart (vuexContext, product) {
     vuexContext.commit('appendItemToOrderList', product)
     vuexContext.commit('setLocalStorageOrderList')
-    vuexContext.commit('setShowAddToCart', true)
   },
   removeItemFromCart (vuexContext, product) {
     vuexContext.commit('removeItemFromOrderList', product)
@@ -83,29 +67,39 @@ const actions = <ActionTree<CartState, RootState>>{
 }
 
 const getters = <GetterTree<CartState, RootState>>{
-  getLocalStorageOrderList: (state) => {
-    return state.orderList
-  },
-  getShowAddToCartStatus: (state) => {
-    return state.showAddToCart
-  },
   getLastAppendedProduct: (state) => {
     return state.lastAppendedProduct
   },
   getCartItemCounts: (state) => {
     let count = 0
-    state.orderList.forEach((shopOrder: ShopOrder) => {
-      count += shopOrder.ordersList.length
+    state.ordersList.forEach((order: OrderItem) => {
+      count += order.count
     })
     return count
   },
-  getOrderList: (state) : ShopOrder[] => {
-    return state.orderList
+  getOrdersShopList: (state) : Shop[] => {
+    let shopsList: Shop[] = []
+    state.ordersList.forEach((order: OrderItem) => {
+      if (shopsList.findIndex(shop => shop.id === order.product.shop.id) === -1) {
+        shopsList.push(order.product.shop)
+      }
+    })
+    return shopsList
   },
+  getOrdersList: (state) : OrderItem[] => {
+    return state.ordersList
+  },
+  getCartTotalPrice: (state) : number => {
+    let total = 0
+    state.ordersList.forEach((order: OrderItem) => {
+      total = total + order.count * order.product.price
+    })
+    return total
+  }
 }
 
 export default {
-  namespaced: true,
+  namespace,
   state,
   mutations,
   getters,
