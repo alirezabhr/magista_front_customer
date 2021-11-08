@@ -1,8 +1,9 @@
 import Product from '@/models/product'
+import Shop from '~/models/shop'
 
 const bestSellersMock = [
   new Product(
-    1,
+    new Shop(8, 'test2 instagram', 'khuzestan', 'abadan', ''),
     125000,
     'CUScNSkgCUB',
     'آنلاین شاپ gandom_granola1، محصول 7',
@@ -23,7 +24,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
-    1,
+    new Shop(8, 'test2 instagram', 'khuzestan', 'abadan', ''),
     1234132,
     'CT98oQbMrI0',
     'آنلاین شاپ gandom_granola1، محصول 9',
@@ -44,7 +45,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
-    2,
+    new Shop(7, 'test3 instagram', 'tehran', 'tehran', ''),
     230985,
     'CThkDjBMbN2',
     'آنلاین شاپ gandom_granola1، محصول 15',
@@ -63,7 +64,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
-    2,
+    new Shop(7, 'test3 instagram', 'tehran', 'tehran', ''),
     65000,
     'CTUqBrlMGSA',
     'آنلاین شاپ gandom_granola1، محصول 17',
@@ -102,7 +103,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
-    3,
+    new Shop(12, 'test4 instagram', 'ghazvin', 'ghazvinnn', ''),
     123451,
     'CTSPiLOsRDu',
     'آنلاین شاپ gandom_granola1، محصول 18',

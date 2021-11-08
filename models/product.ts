@@ -1,5 +1,7 @@
+import Shop from "./shop"
+
 class Product {
-  shop: number
+  shop: Shop
   price: number
   shortcode: string
   title: string
@@ -7,7 +9,7 @@ class Product {
   displayImageUrl: string
   rate: number | null
 
-  constructor(shop: number, price: number, shortcode: string,
+  constructor(shop: Shop, price: number, shortcode: string,
     title: string, description: string, displayImage: string, rate: number | null) {
 
     this.shop = shop
