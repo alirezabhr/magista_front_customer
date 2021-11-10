@@ -3,6 +3,7 @@ import Shop from '~/models/shop'
 
 const bestSellersMock = [
   new Product(
+    2,
     new Shop(8, 'test2 instagram', 'khuzestan', 'abadan', ''),
     125000,
     'CUScNSkgCUB',
@@ -24,6 +25,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    3,
     new Shop(8, 'test2 instagram', 'khuzestan', 'abadan', ''),
     1234132,
     'CT98oQbMrI0',
@@ -45,6 +47,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    4,
     new Shop(7, 'test3 instagram', 'tehran', 'tehran', ''),
     230985,
     'CThkDjBMbN2',
@@ -64,6 +67,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    7,
     new Shop(7, 'test3 instagram', 'tehran', 'tehran', ''),
     65000,
     'CTUqBrlMGSA',
@@ -103,6 +107,7 @@ const bestSellersMock = [
     null
   ),
   new Product(
+    9,
     new Shop(12, 'test4 instagram', 'ghazvin', 'ghazvinnn', ''),
     123451,
     'CTSPiLOsRDu',
