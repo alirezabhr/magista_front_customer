@@ -1,16 +1,18 @@
 import OrderItem from "./order_item"
 
 class ShopOrder {
-  shop: number
-  ordersList: OrderItem[]
+  shop_id: number
+  shop_name: string
+  orders: OrderItem[]
 
-  constructor (seller: number) {
-    this.shop = seller
-    this.ordersList = []
+  constructor (seller_id: number, shopName:string) {
+    this.shop_id = seller_id
+    this.shop_name = shopName
+    this.orders = []
   }
 
   addItem (orderItem: OrderItem) {
-    this.ordersList.push(orderItem)
+    this.orders.push(orderItem)
   }
 }
 
