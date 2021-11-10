@@ -30,54 +30,7 @@
           </v-card-title>
 
           <div v-for="orderItem in shopOrder.orders" :key="orderItem.product.shortcode">
-            <v-card v-if="orderItem.product.shop.id === shopOrder.shop_id" outlined class="mb-2">
-              <v-row class="pa-2">
-                <v-col cols="3">
-                  <v-card
-                    outlined
-                  >
-                    <v-img
-                      :aspect-ratio="1"
-                      :src="getFullImageUrl(orderItem.product.displayImageUrl)"
-                    >
-                      <template #placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            color="grey lighten-2"
-                          />
-                        </v-row>
-                      </template>
-                    </v-img>
-                  </v-card>
-                </v-col>
-                <v-col cols="1" class="" align-self="center">
-                  <v-row justify="center">
-                    <v-btn icon @click.prevent="addItemToCart(orderItem.product)"><v-icon>mdi-plus</v-icon></v-btn>
-                  </v-row>
-                  <v-row class="font-weight-bold" justify="center">
-                    {{ orderItem.count }}
-                  </v-row>
-                  <v-row justify="center">
-                    <v-btn icon @click.prevent="removeItemFromCart(orderItem.product)"><v-icon>mdi-minus</v-icon></v-btn>
-                  </v-row>
-                </v-col>
-                <v-col cols="7">
-                  <v-row no-gutters>
-                    <div class="text-truncate">
-                      {{ orderItem.product.title }}
-                    </div>
-                  </v-row>
-                  <v-row class="font-weight-bold" no-gutters>
-                    {{ orderItem.product.price }} تومان
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-card>
+            <CartOrderItem v-if="orderItem.product.shop.id === shopOrder.shop_id" :orderItem="orderItem"/>
           </div>
         </v-card>
         <v-card-actions>
@@ -115,12 +68,14 @@ import { mapActions, mapGetters } from 'vuex'
 
 import AuthDialog from '@/components/AuthDialog.vue'
 import CustomerForm from '@/components/CustomerForm.vue'
+import CartOrderItem from '~/components/CartOrderItem.vue'
 
 export default {
   name: 'CartPage',
   components: {
     AuthDialog,
-    CustomerForm
+    CustomerForm,
+    CartOrderItem
   },
   data () {
     return {
@@ -131,7 +86,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['addItemToCart', 'removeItemFromCart', 'createCartInvoices']),
+    ...mapActions('cart', ['createCartInvoices']),
     ...mapActions('auth', ['createCustomer']),
 
     async pay () {
@@ -149,28 +104,6 @@ export default {
           this.showCustomerForm = true
         }
       }
-    },
-    getFullImageUrl (src) {
-      return process.env.baseURL + src
-    },
-    shopTotalPrice (shopId) {
-      let total = 0
-      this.getOrdersList.forEach((orderItem) => {
-        if (orderItem.product.shop.id === shopId) {
-          const orderPrice = orderItem.count * orderItem.product.price
-          total += orderPrice
-        }
-      });
-      return total
-    },
-    shopTotalCount (shopId) {
-      let total = 0
-      this.getOrdersList.forEach((orderItem) => {
-        if (orderItem.product.shop.id === shopId){
-          total += orderItem.count
-        }
-      })
-      return total
     },
     submitCustomerForm (payload) {
       this.isCreatingCustomer = true
