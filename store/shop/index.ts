@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { GetterTree, MutationTree, ActionTree } from "vuex"
 import { RootState } from '../index'
 import Product from '@/models/product'
@@ -19,14 +18,14 @@ const state = (): ShopState => ({
 
 const mutations = <MutationTree<ShopState>>{
   setShopInfoData(state, shopInfoData) {
-    state.shop = new Shop(shopInfoData.id, shopInfoData.instagram_username, shopInfoData.province,
-      shopInfoData.city, shopInfoData.profile_pic)
+    state.shop = new Shop(shopInfoData.id, shopInfoData.instagramUsername, shopInfoData.province,
+      shopInfoData.city, shopInfoData.profilePic)
   },
   setShopProducts(state, productsList) {
     state.shopProducts = []
     productsList.forEach((el: any) => {
-      const product = new Product(el.shop, el.original_price, el.shortcode, el.title,
-        el.description, el.display_image, el.rate)
+      const product = new Product(el.id, el.shop, el.originalPrice, el.shortcode, el.title,
+        el.description, el.displayImage, el.rate)
       state.shopProducts.push(product)
     })
   }
@@ -36,14 +35,14 @@ const actions = <ActionTree<ShopState, RootState>>{
   shopInfoData(vuexContext, username: string) {
     const url = process.env.baseURL + `shop/${username}/preview/`
 
-    return axios.get(url).then((response) => {
+    return this.$client.get(url).then((response) => {
       vuexContext.commit('setShopInfoData', response.data)
     })
   },
   shopProducts(vuexContext, username: string) {
     const url = process.env.baseURL + `shop/${username}/products/`
 
-    return axios.get(url).then((response) => {
+    return this.$client.get(url).then((response) => {
       vuexContext.commit('setShopProducts', response.data)
     })
   }
