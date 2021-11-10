@@ -3,58 +3,32 @@ import { Context, Plugin } from '@nuxt/types'
 import applyCaseMiddleware from 'axios-case-converter';
 import { AxiosInstance } from 'axios'
 
-class DependencyInjector {
-    instanceMap = new Map<any,any>();
-
-    get<T>(base: (new () => T)): T{
-        return this.instanceMap.get(base) as T;
-    }
-
-    set<T>(base: (new () => T), instance: any): void{
-        if(!(instance instanceof base)) {
-            throw new Error("Cannot assign instance " + instance + " to " + base.name);
-        }
-        this.instanceMap.set(base, instance);
-    }
-    private constructor(){}
-
-    private static _instance : DependencyInjector;
-    public static get instance(): DependencyInjector {
-        if (!DependencyInjector._instance) {
-            DependencyInjector._instance = new DependencyInjector();
-        }
-
-        return DependencyInjector._instance;
-    }
-};
 
 declare module 'vue/types/vue' {
     // this.$myInjectedFunction inside Vue components
     interface Vue {
-        $di: DependencyInjector
+        $client: AxiosInstance
     }
 }
 
 declare module '@nuxt/types' {
     // nuxtContext.app.$myInjectedFunction inside asyncData, fetch, plugins, middleware, nuxtServerInit
     interface NuxtAppOptions {
-        $di: DependencyInjector
+        $client: AxiosInstance
     }
 
     // nuxtContext.$myInjectedFunction
     interface Context {
-        $di: DependencyInjector
+        $client: AxiosInstance
     }
 }
 
 declare module 'vuex/types/index' {
     // this.$myInjectedFunction inside Vuex stores
     interface Store<S> {
-        $di: DependencyInjector
+        $client: AxiosInstance
     }
 }
-
-const di = DependencyInjector.instance;
 
 const setupAxiosClient = (context: Context) : AxiosInstance => {
     const axiosInstance = context.$axios.create()
@@ -97,15 +71,7 @@ const setupAxiosClient = (context: Context) : AxiosInstance => {
 const dependencyInjector: Plugin = (context, inject) => {
     
     const client = setupAxiosClient(context);
-
-    // di.set(CoinRepository, new CoinRepositoryImpl({
-    //         client: client,
-    //     })
-    // );
-
-    // di.set(MarketRepository, new BinanceMarketMock());
-
-    inject('di', di);
+    inject('client', client)
 }
 
 export default dependencyInjector
