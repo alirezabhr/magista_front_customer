@@ -1,6 +1,7 @@
 import Shop from "./shop"
 
 class Product {
+  id: number
   shop: Shop
   price: number
   shortcode: string
@@ -9,9 +10,10 @@ class Product {
   displayImageUrl: string
   rate: number | null
 
-  constructor(shop: Shop, price: number, shortcode: string,
+  constructor(id: number, shop: Shop, price: number, shortcode: string,
     title: string, description: string, displayImage: string, rate: number | null) {
 
+    this.id = id
     this.shop = shop
     this.price = price
     this.shortcode = shortcode
