@@ -1,6 +1,16 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
+      <v-alert
+      v-model="paymentAlert"
+      border="left"
+      close-text="بستن"
+      color="deep-purple accent-4"
+      dark
+      dismissible
+    >
+      در حال حاضر به دلیل آماده نبودن درگاه پرداخت امکان پرداخت وجود ندارد
+    </v-alert>
       <AuthDialog v-if="showDialog" @closeDialog="showDialog=false" />
        <v-dialog
           v-model="showCustomerForm"
@@ -116,21 +126,25 @@ export default {
     return {
       showDialog: false,
       showCustomerForm: false,
-      isCreatingCustomer: false
+      isCreatingCustomer: false,
+      paymentAlert: false,
     }
   },
   methods: {
     ...mapActions('cart', ['addItemToCart', 'removeItemFromCart', 'createCartInvoices']),
     ...mapActions('auth', ['createCustomer']),
 
-    pay () {
+    async pay () {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
         if (this.getCustomerId) {
-          this.createCartInvoices().catch((resp) => {
+          await this.createCartInvoices().catch((resp) => {
             console.log(resp.data)
+            return
           })
+          this.paymentAlert = true
+          // TODO redirect to payment
         } else {
           this.showCustomerForm = true
         }
