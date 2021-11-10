@@ -15,3 +15,5 @@ class Invoice {
         this.createdAt = createdAt
     }
 }
+
+export default Invoice

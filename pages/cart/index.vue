@@ -129,8 +129,7 @@ export default {
       } else {
         if (this.getCustomerId) {
           this.createCartInvoices().catch((resp) => {
-            console.log('catch error')
-            console.log(resp)
+            console.log(resp.data)
           })
         } else {
           this.showCustomerForm = true
