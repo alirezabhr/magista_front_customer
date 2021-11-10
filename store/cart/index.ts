@@ -68,6 +68,9 @@ const mutations = <MutationTree<CartState>>{
           state.cart[shopOrderIndex].orders[orderItemIndex].count -= 1
         } else {
           state.cart[shopOrderIndex].orders.splice(orderItemIndex, 1)
+          if (state.cart[shopOrderIndex].orders.length === 0) { // there is no orders from this shop
+            state.cart.splice(shopOrderIndex, 1)  // remove the shop from cart
+          }
         }
       }
     }
