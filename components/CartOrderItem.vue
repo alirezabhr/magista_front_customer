@@ -49,7 +49,8 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { PropType } from 'vue'
 import { mapActions } from 'vuex'
 
 import OrderItem from '~/models/order_item'
@@ -58,20 +59,16 @@ export default {
     name: 'CartOrderItem',
     props: {
         orderItem: {
-            type: OrderItem,
+            type: Object as PropType<OrderItem>,
             required: true
         }
     },
     methods: {
         ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
 
-        getFullImageUrl (src) {
-        return process.env.baseURL + src
+        getFullImageUrl (src:string) {
+            return process.env.baseURL + src
         },
     }
 }
 </script>
-
-<style>
-
-</style>
