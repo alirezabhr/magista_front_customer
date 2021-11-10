@@ -63,7 +63,7 @@
   </v-row>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapGetters } from 'vuex'
 
 import AuthDialog from '@/components/AuthDialog.vue'
@@ -105,7 +105,7 @@ export default {
         }
       }
     },
-    submitCustomerForm (payload) {
+    submitCustomerForm (payload: object) {
       this.isCreatingCustomer = true
       this.createCustomer(payload).then(() => {
         this.isCreatingCustomer = false
@@ -118,7 +118,7 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
-    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId'])
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId']),
   }
 }
 </script>
