@@ -13,14 +13,14 @@
             @close="showCustomerForm = false"
           />
       </v-dialog>
-      <v-card v-if="getOrdersList.length > 0" min-height="620" class="pa-2">
-        <v-card v-for="shop in getOrdersShopList" :key="shop.id" class="pa-2 my-2">
+      <v-card v-if="getCart.length > 0" min-height="620" class="pa-2">
+        <v-card v-for="shopOrder in getCart" :key="shopOrder.shop_id" class="pa-2 my-2">
           <v-card-title>
-            خرید از {{ shop.instagram_username }}
+            خرید از {{ shopOrder.shop_name }}
           </v-card-title>
 
-          <div v-for="orderItem in getOrdersList" :key="orderItem.product.shortcode">
-            <v-card v-if="orderItem.product.shop.id === shop.id" outlined class="mb-2">
+          <div v-for="orderItem in shopOrder.orders" :key="orderItem.product.shortcode">
+            <v-card v-if="orderItem.product.shop.id === shopOrder.shop_id" outlined class="mb-2">
               <v-row class="pa-2">
                 <v-col cols="3">
                   <v-card
@@ -120,7 +120,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
+    ...mapActions('cart', ['addItemToCart', 'removeItemFromCart', 'createCartInvoices']),
     ...mapActions('auth', ['createCustomer']),
 
     pay () {
@@ -128,7 +128,10 @@ export default {
         this.showDialog = true
       } else {
         if (this.getCustomerId) {
-          console.log('PAY')
+          this.createCartInvoices().catch((resp) => {
+            console.log('catch error')
+            console.log(resp)
+          })
         } else {
           this.showCustomerForm = true
         }
@@ -168,7 +171,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('cart', ['getOrdersList', 'getOrdersShopList', 'getCartItemCounts', 'getCartTotalPrice']),
+    ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
     ...mapGetters('auth', ['isAuthenticated', 'getCustomerId'])
   }
 }
