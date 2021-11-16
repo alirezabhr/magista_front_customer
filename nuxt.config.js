@@ -60,6 +60,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    optionsPath: './vuetify.options.js',
     rtl: true,
     treeShake: true,
     defaultAssets: {
@@ -93,7 +94,7 @@ export default {
   },
 
   env: {
-    baseURL: 'http://127.0.0.1:8000/'
+    baseURL: 'http://api.magista.ir/'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
