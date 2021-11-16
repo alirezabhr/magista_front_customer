@@ -63,7 +63,7 @@
   </v-row>
 </template>
 
-<script lang="ts">
+<script>
 import { mapActions, mapGetters } from 'vuex'
 
 import AuthDialog from '@/components/AuthDialog.vue'
@@ -105,7 +105,7 @@ export default {
         }
       }
     },
-    submitCustomerForm (payload: object) {
+    submitCustomerForm (payload) {
       this.isCreatingCustomer = true
       this.createCustomer(payload).then(() => {
         this.isCreatingCustomer = false
