@@ -94,7 +94,7 @@ export default {
   },
 
   env: {
-    baseURL: 'http://api.magista.ir/'
+    baseURL: 'https://api.magista.ir/'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
