@@ -143,7 +143,7 @@ const getters = <GetterTree<CartState, RootState>>{
     let total = 0
     state.cart.forEach((shopOrder: ShopOrder) => {
       shopOrder.orders.forEach((orderItem: OrderItem) => {
-        total = total + orderItem.count * orderItem.product.price
+        total = total + orderItem.count * orderItem.product.originalPrice
       })
     })
     return total
