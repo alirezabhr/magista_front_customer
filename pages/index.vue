@@ -43,7 +43,7 @@
               :image-url="product.displayImageUrl"
               :title="product.title"
               :rate="product.rate"
-              :price="product.price"
+              :price="product.originalPrice"
               @addToCart="addToCart(product)"
             />
           </v-layout>
