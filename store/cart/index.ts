@@ -94,7 +94,7 @@ const actions = <ActionTree<CartState, RootState>>{
     vuexContext.commit('setLocalStorageOrderList')
   },
   createCartInvoices (vuexContext) {
-    const url = process.env.baseURL + 'shop/cart/'
+    const url = process.env.baseURL + 'order/cart/'
 
     let payload: {
       customer_id: number
@@ -113,7 +113,7 @@ const actions = <ActionTree<CartState, RootState>>{
     })
   },
   payPendingInvoices (vuexContext) {
-    const url = process.env.baseURL + 'shop/cart/'
+    const url = process.env.baseURL + 'order/cart/'
     const payload = vuexContext.getters.getPaymentPendingInvoices
     console.log('in payPendingInvoices')
     console.log(payload)
