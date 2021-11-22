@@ -33,7 +33,7 @@
           >
             <ShopProductItem
               :display-image-url="product.displayImageUrl"
-              :price="product.originalPrice"
+              :price="product.finalPrice"
               dir="rtl"
               @addToCart="addToCart(product)"
             />

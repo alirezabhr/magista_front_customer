@@ -54,7 +54,7 @@
                 </div>
               </v-row>
               <v-row class="font-weight-bold" no-gutters>
-                {{ getLastAppendedProduct.originalPrice }} تومان
+                {{ getLastAppendedProduct.finalPrice }} تومان
               </v-row>
             </v-col>
           </v-row>
