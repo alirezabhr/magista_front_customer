@@ -5,9 +5,9 @@
 
       <v-card-text class="white--text">
         <v-row>
-          <v-col cols="6">
+          <v-col cols="4">
             <v-row>
-              <v-col cols="3" md="2">
+              <v-col cols="3" md="2" class="pa-0">
                 <a
                   referrerpolicy="origin"
                   target="_blank"
