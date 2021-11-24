@@ -54,9 +54,19 @@
       </v-card>
       <v-card v-else min-height="620" class="pa-2">
         <v-card-title>
-          <v-row justify="center">
-            سبد شما خالی است!
-          </v-row>
+          <v-col>
+            <v-row justify="center">
+              سبد شما خالی است!
+            </v-row>
+            <v-row justify="center">
+              <v-img
+                contain
+                max-height="250"
+                max-width="250"
+                :src="getEmptyStateImage"
+              />
+            </v-row>
+          </v-col>
         </v-card-title>
       </v-card>
     </v-col>
@@ -85,8 +95,16 @@ export default {
       paymentAlert: false,
     }
   },
+  computed: {
+    ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId']),
+
+    getEmptyStateImage () {
+      return require('~/assets/images/empty_state.png')
+    }
+  },
   methods: {
-    ...mapActions('cart', ['createCartInvoices']),
+    ...mapActions('cart', ['createCartInvoices', 'payPendingInvoices']),
     ...mapActions('auth', ['createCustomer']),
 
     async pay () {
@@ -98,8 +116,10 @@ export default {
             console.log(resp.data)
             return
           })
-          this.paymentAlert = true
           // TODO redirect to payment
+          await this.payPendingInvoices().catch((resp) => {
+            console.log(resp.data)
+          })
         } else {
           this.showCustomerForm = true
         }
@@ -115,10 +135,6 @@ export default {
         console.log(response)
       })
     }
-  },
-  computed: {
-    ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
-    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId']),
   }
 }
 </script>
