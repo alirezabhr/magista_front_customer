@@ -4,11 +4,12 @@
       <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
       <v-card min-height="620">
         <v-row class="py-6 px-2" no-gutters>
-          <v-col cols="8" sm="9" class="ma-0 py-1 px-4">
-            <v-row class="text-subtitle-1 text-sm-h6 font-weight-bold" no-gutters>
+          <v-col cols="8" sm="9" class="ma-0 py-1 px-2">
+            <v-row class="text-subtitle-1 text-sm-h6 font-weight-bold px-1" no-gutters>
               فروشگاه {{ getShopInfoData.instagramUsername }}
             </v-row>
-            <v-row class="text-body-2 text-sm-subtitle-2" no-gutters>
+            <v-row class="text-body-2 text-sm-subtitle-2" no-gutters align="center">
+              <v-icon>mdi-map-marker-outline</v-icon>
               {{ getShopInfoData.province }} - {{ getShopInfoData.city }}
             </v-row>
           </v-col>
@@ -32,8 +33,7 @@
             cols="4"
           >
             <ShopProductItem
-              :display-image-url="product.displayImageUrl"
-              :price="product.finalPrice"
+              :product="product"
               dir="rtl"
               @addToCart="addToCart(product)"
             />
