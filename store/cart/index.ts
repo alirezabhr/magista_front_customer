@@ -115,8 +115,6 @@ const actions = <ActionTree<CartState, RootState>>{
   payPendingInvoices (vuexContext) {
     const url = process.env.baseURL + 'order/cart/'
     const payload = vuexContext.getters.getPaymentPendingInvoices
-    console.log('in payPendingInvoices')
-    console.log(payload)
 
     return this.$client.put(url, payload).then((response) => {
       console.log('paid succussfully')
