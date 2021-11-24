@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
@@ -25,10 +23,6 @@ export default {
   mounted () {
     this.initialCartStore()
     this.initialAuthStore()
-  },
-  methods: {
-    ...mapMutations('auth', ['initialAuthStore']),
-    ...mapMutations('cart', ['initialCartStore'])
   }
 }
 </script>
