@@ -2,7 +2,7 @@
   <v-card rounded="0">
     <v-img
       :aspect-ratio="1"
-      :src="imageUrl"
+      :src="getFullImageUrl(product.displayImageUrl)"
       style="border-style: solid; border-width: 0.5px; border-color: grey;"
       gradient="to bottom, rgba(0,0,0,0) 80%, rgba(0,0,0,.5) 100%"
       class="align-end"
@@ -24,11 +24,11 @@
           <v-col class="ma-0 pa-0" align-self="center">
             <v-row no-gutters class="pa-0 ma-0" align="end">
               <v-spacer />
-              <div class="px-1 pt-1 grey--text font-weight-thin text--lighten-2 text-caption text-sm-caption text-decoration-line-through">
-                {{ price }}
+              <div v-show="product.discountPercent" class="px-1 pt-1 grey--text font-weight-thin text--lighten-2 text-caption text-sm-caption text-decoration-line-through">
+                {{ product.originalPrice }}
               </div>
               <div class="px-1 pt-1 text-caption text-sm-body-2 font-weight-bold white--text text--lighten-2">
-                {{ price }}
+                {{ product.finalPrice }}
               </div>
             </v-row>
           </v-col>
@@ -58,22 +58,21 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { PropType } from "vue";
+import Product from "~/models/product";
+
 export default {
   name: 'ShopProductItem',
   props: {
-    displayImageUrl: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: Number,
+    product: {
+      type: Object as PropType<Product>,
       required: true
     }
   },
-  computed: {
-    imageUrl () {
-      return process.env.baseURL + this.displayImageUrl
+  methods: {
+    getFullImageUrl(src: string) {
+      return process.env.baseURL + src;
     }
   }
 }
