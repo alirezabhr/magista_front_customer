@@ -36,6 +36,9 @@
             {{ orderItem.product.title }}
           </div>
         </v-row>
+        <v-row v-show="orderItem.product.discountPercent" class="text-decoration-line-through" no-gutters>
+          {{ orderItem.product.originalPrice }} تومان
+        </v-row>
         <v-row class="font-weight-bold" no-gutters>
           {{ orderItem.product.finalPrice }} تومان
         </v-row>
