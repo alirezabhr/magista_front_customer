@@ -26,7 +26,7 @@
             </div>
             <v-row class=" py-2 px-3 text-subtitle1" no-gutters>
               قیمت کل:
-              {{ calculateTotalPrice(invoice) }}
+              {{ invoice.totalPrice }}
               تومان
             </v-row>
             <v-card-subtitle class="py-0">
@@ -82,15 +82,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('invoice', ['customerInvoices']),
-
-    calculateTotalPrice (invoice) {
-      let total = 0
-      invoice.orderItems.forEach((orderItem) => {
-        total += orderItem.price * orderItem.count
-      })
-      return total
-    }
+    ...mapActions('invoice', ['customerInvoices'])
   },
   computed: {
     ...mapGetters('invoice', ['getInvoiceList']),
