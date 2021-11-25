@@ -3,20 +3,20 @@ import { RootState } from '../index'
 import Product from "~/models/product"
 import OrderItem from "~/models/order_item"
 import ShopCartOrder from "~/models/shop_cart_order"
-import ShopOrder from "~/models/ShopOrder"
+import Invoice from "~/models/invoice"
 
 const namespace = 'cart'
 
 interface CartState {
   cart: ShopCartOrder[]
   lastAppendedProduct: Product | null
-  paymentPendingShopOrders: ShopOrder[]
+  paymentPendingInvoices: Invoice[]
 }
 
 const state = () : CartState => ({
   cart: [],
   lastAppendedProduct: null,
-  paymentPendingShopOrders: []
+  paymentPendingInvoices: []
 })
 
 const mutations = <MutationTree<CartState>>{
@@ -79,8 +79,8 @@ const mutations = <MutationTree<CartState>>{
     state.cart = []
     localStorage.setItem('cart', JSON.stringify(state.cart))
   },
-  setPaymentPendingShopOrders (state, shopOrder: ShopOrder[]) {
-    state.paymentPendingShopOrders = shopOrder
+  setPaymentPendingInvoices (state, invoices: Invoice[]) {
+    state.paymentPendingInvoices = invoices
   }
 }
 
@@ -93,7 +93,7 @@ const actions = <ActionTree<CartState, RootState>>{
     vuexContext.commit('removeItemFromOrderList', product)
     vuexContext.commit('setLocalStorageOrderList')
   },
-  createCartShopOrders (vuexContext) {
+  createCartInvoices (vuexContext) {
     const customerId = vuexContext.rootGetters['auth/getCustomerId']
     const url = process.env.baseURL + 'order/cart/'
 
@@ -107,15 +107,15 @@ const actions = <ActionTree<CartState, RootState>>{
     }
 
     return this.$client.post(url, payload).then((response) => {
-      vuexContext.commit('setPaymentPendingShopOrders', response.data)
+      vuexContext.commit('setPaymentPendingInvoices', response.data)
       vuexContext.commit('clearCart')
     }).catch((e) => {
       throw e.response
     })
   },
-  payPendingShopOrders (vuexContext) {
+  payPendingInvoices (vuexContext) {
     const url = process.env.baseURL + 'order/cart/'
-    const payload = vuexContext.getters.getPaymentPendingShopOrders
+    const payload = vuexContext.getters.getPaymentPendingInvoices
 
     return this.$client.put(url, payload).then((response) => {
       console.log('paid succussfully')
@@ -150,8 +150,8 @@ const getters = <GetterTree<CartState, RootState>>{
   getCart: (state) : ShopCartOrder[] => {
     return state.cart
   },
-  getPaymentPendingShopOrders: (state) : ShopOrder[] => {
-    return state.paymentPendingShopOrders
+  getPaymentPendingInvoices: (state) : Invoice[] => {
+    return state.paymentPendingInvoices
   }
 }
 
