@@ -3,16 +3,16 @@ import OrderItem from "./order_item"
 class ShopOrder {
   shop_id: number
   shop_name: string
-  orders: OrderItem[]
+  orderItems: OrderItem[]
 
   constructor (seller_id: number, shopName:string) {
     this.shop_id = seller_id
     this.shop_name = shopName
-    this.orders = []
+    this.orderItems = []
   }
 
   addItem (orderItem: OrderItem) {
-    this.orders.push(orderItem)
+    this.orderItems.push(orderItem)
   }
 }
 
