@@ -29,7 +29,7 @@
             خرید از {{ shopOrder.shop_name }}
           </v-card-title>
 
-          <div v-for="orderItem in shopOrder.orders" :key="orderItem.product.shortcode">
+          <div v-for="orderItem in shopOrder.orderItems" :key="orderItem.product.shortcode">
             <CartOrderItem v-if="orderItem.product.shop.id === shopOrder.shop_id" :orderItem="orderItem"/>
           </div>
         </v-card>
