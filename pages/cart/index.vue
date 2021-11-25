@@ -104,7 +104,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['createCartInvoices', 'payPendingInvoices']),
+    ...mapActions('cart', ['createCartShopOrders', 'payPendingShopOrders']),
     ...mapActions('auth', ['createCustomer']),
 
     pay () {
@@ -112,9 +112,9 @@ export default {
         this.showDialog = true
       } else {
         if (this.getCustomerId) {
-          this.createCartInvoices().then(() => {
+          this.createCartShopOrders().then(() => {
             // TODO redirect to payment
-            this.payPendingInvoices().catch((resp) => {
+            this.payPendingShopOrders().catch((resp) => {
               console.log(resp.data)
             })
           }).catch((resp) => {
