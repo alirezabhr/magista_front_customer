@@ -13,13 +13,5 @@ export const mutations: MutationTree<RootState> = {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  nuxtServerInit (vuexContext, context) {
-    console.log('nuxtServerInit is running')
-    if (process.client) {
-      console.log('nuxtServerInit is on client side')
-    } else {
-      console.log('nuxtServerInit is on server side')
-    }
-  }
 }
 
