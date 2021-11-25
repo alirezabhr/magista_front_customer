@@ -24,13 +24,13 @@
           />
       </v-dialog>
       <v-card v-if="getCart.length > 0" min-height="620" class="pa-2">
-        <v-card v-for="shopOrder in getCart" :key="shopOrder.shop_id" class="pa-2 my-2">
+        <v-card v-for="shopCartOrder in getCart" :key="shopCartOrder.shop_id" class="pa-2 my-2">
           <v-card-title>
-            خرید از {{ shopOrder.shop_name }}
+            خرید از {{ shopCartOrder.shop_name }}
           </v-card-title>
 
-          <div v-for="orderItem in shopOrder.orderItems" :key="orderItem.product.shortcode">
-            <CartOrderItem v-if="orderItem.product.shop.id === shopOrder.shop_id" :orderItem="orderItem"/>
+          <div v-for="orderItem in shopCartOrder.orderItems" :key="orderItem.product.shortcode">
+            <CartOrderItem v-if="orderItem.product.shop.id === shopCartOrder.shop_id" :orderItem="orderItem"/>
           </div>
         </v-card>
         <v-card-actions>

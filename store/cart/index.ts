@@ -2,13 +2,13 @@ import { GetterTree, MutationTree, ActionTree } from "vuex"
 import { RootState } from '../index'
 import Product from "~/models/product"
 import OrderItem from "~/models/order_item"
-import ShopOrder from "~/models/shop_order"
+import ShopCartOrder from "~/models/shop_cart_order"
 import Invoice from "~/models/invoice"
 
 const namespace = 'cart'
 
 interface CartState {
-  cart: ShopOrder[]
+  cart: ShopCartOrder[]
   lastAppendedProduct: Product | null
   paymentPendingInvoices: Invoice[]
 }
@@ -36,40 +36,40 @@ const mutations = <MutationTree<CartState>>{
   appendItemToOrderList (state, product: Product) {
     state.lastAppendedProduct = product
 
-    const shopOrderIndex = state.cart.findIndex((el: ShopOrder) => el.shop_id === product.shop.id)
-    if (shopOrderIndex === -1) {  // don't have any products from this shop
-      const shopOrder = new ShopOrder(product.shop.id, product.shop.instagramUsername)
-      shopOrder.addItem(new OrderItem(product))
-      state.cart.push(shopOrder)
+    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shop_id === product.shop.id)
+    if (shopCartOrderIndex === -1) {  // don't have any products from this shop
+      const shopCartOrder = new ShopCartOrder(product.shop.id, product.shop.instagramUsername)
+      shopCartOrder.addItem(new OrderItem(product))
+      state.cart.push(shopCartOrder)
     } else {  // have some products from this shop
-      const orderItemIndex = state.cart[shopOrderIndex].orderItems.findIndex(
+      const orderItemIndex = state.cart[shopCartOrderIndex].orderItems.findIndex(
         (orderItem: OrderItem) => orderItem.product === product)
 
       if (orderItemIndex === -1) {  // this product does not exist in the cart
         const orderItem = new OrderItem(product)
-        state.cart[shopOrderIndex].orderItems.push(orderItem)
+        state.cart[shopCartOrderIndex].orderItems.push(orderItem)
       } else {  // you had ordered this product before
-        state.cart[shopOrderIndex].orderItems[orderItemIndex].count += 1
+        state.cart[shopCartOrderIndex].orderItems[orderItemIndex].count += 1
       }
     }
   },
   removeItemFromOrderList (state, product: Product) {
-    const shopOrderIndex = state.cart.findIndex((el: ShopOrder) => el.shop_id === product.shop.id)
-    if (shopOrderIndex === -1) {  // don't have any products from this shop
+    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shop_id === product.shop.id)
+    if (shopCartOrderIndex === -1) {  // don't have any products from this shop
       console.log('ERROR Occured in removing item from cart') // TODO throw an erro
     } else {  // have some products from this shop
-      const orderItemIndex = state.cart[shopOrderIndex].orderItems.findIndex(
+      const orderItemIndex = state.cart[shopCartOrderIndex].orderItems.findIndex(
         (orderItem: OrderItem) => orderItem.product === product)
 
       if (orderItemIndex === -1) {  // this product does not exist in the cart
         console.log('ERROR Occured in removing item from cart') // TODO throw an erro
       } else {  // you had ordered this product before
-        if (state.cart[shopOrderIndex].orderItems[orderItemIndex].count > 1) {
-          state.cart[shopOrderIndex].orderItems[orderItemIndex].count -= 1
+        if (state.cart[shopCartOrderIndex].orderItems[orderItemIndex].count > 1) {
+          state.cart[shopCartOrderIndex].orderItems[orderItemIndex].count -= 1
         } else {
-          state.cart[shopOrderIndex].orderItems.splice(orderItemIndex, 1)
-          if (state.cart[shopOrderIndex].orderItems.length === 0) { // there is no order items from this shop
-            state.cart.splice(shopOrderIndex, 1)  // remove the shop from cart
+          state.cart[shopCartOrderIndex].orderItems.splice(orderItemIndex, 1)
+          if (state.cart[shopCartOrderIndex].orderItems.length === 0) { // there is no order items from this shop
+            state.cart.splice(shopCartOrderIndex, 1)  // remove the shop from cart
           }
         }
       }
@@ -99,7 +99,7 @@ const actions = <ActionTree<CartState, RootState>>{
 
     let payload: {
       customer_id: number
-      cart: ShopOrder[]
+      cart: ShopCartOrder[]
     }
     payload = {
       customer_id: customerId,
@@ -131,8 +131,8 @@ const getters = <GetterTree<CartState, RootState>>{
   },
   getCartItemCounts: (state) => {
     let count = 0
-    state.cart.forEach((shopOrder: ShopOrder) => {
-      shopOrder.orderItems.forEach((orderItem: OrderItem) => {
+    state.cart.forEach((shopCartOrder: ShopCartOrder) => {
+      shopCartOrder.orderItems.forEach((orderItem: OrderItem) => {
         count += orderItem.count
       })
     })
@@ -140,14 +140,14 @@ const getters = <GetterTree<CartState, RootState>>{
   },
   getCartTotalPrice: (state) => {
     let total = 0
-    state.cart.forEach((shopOrder: ShopOrder) => {
-      shopOrder.orderItems.forEach((orderItem: OrderItem) => {
+    state.cart.forEach((shopCartOrder: ShopCartOrder) => {
+      shopCartOrder.orderItems.forEach((orderItem: OrderItem) => {
         total = total + orderItem.count * orderItem.product.finalPrice
       })
     })
     return total
   },
-  getCart: (state) : ShopOrder[] => {
+  getCart: (state) : ShopCartOrder[] => {
     return state.cart
   },
   getPaymentPendingInvoices: (state) : Invoice[] => {

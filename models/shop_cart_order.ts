@@ -1,6 +1,6 @@
 import OrderItem from "./order_item"
 
-class ShopOrder {
+class ShopCartOrder {
   shop_id: number
   shop_name: string
   orderItems: OrderItem[]
@@ -16,4 +16,4 @@ class ShopOrder {
   }
 }
 
-export default ShopOrder
+export default ShopCartOrder
