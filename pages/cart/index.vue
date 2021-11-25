@@ -107,17 +107,17 @@ export default {
     ...mapActions('cart', ['createCartInvoices', 'payPendingInvoices']),
     ...mapActions('auth', ['createCustomer']),
 
-    async pay () {
+    pay () {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
         if (this.getCustomerId) {
-          await this.createCartInvoices().catch((resp) => {
-            console.log(resp.data)
-            return
-          })
-          // TODO redirect to payment
-          await this.payPendingInvoices().catch((resp) => {
+          this.createCartInvoices().then(() => {
+            // TODO redirect to payment
+            this.payPendingInvoices().catch((resp) => {
+              console.log(resp.data)
+            })
+          }).catch((resp) => {
             console.log(resp.data)
           })
         } else {
