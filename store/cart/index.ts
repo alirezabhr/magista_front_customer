@@ -3,20 +3,17 @@ import { RootState } from '../index'
 import Product from "~/models/product"
 import OrderItem from "~/models/order_item"
 import ShopCartOrder from "~/models/shop_cart_order"
-import Order from "~/models/order"
 
 const namespace = 'cart'
 
 interface CartState {
   cart: ShopCartOrder[]
   lastAppendedProduct: Product | null
-  paymentPendingOrders: Order[]
 }
 
 const state = () : CartState => ({
   cart: [],
-  lastAppendedProduct: null,
-  paymentPendingOrders: []
+  lastAppendedProduct: null
 })
 
 const mutations = <MutationTree<CartState>>{
@@ -78,9 +75,6 @@ const mutations = <MutationTree<CartState>>{
   clearCart (state) {
     state.cart = []
     localStorage.setItem('cart', JSON.stringify(state.cart))
-  },
-  setPaymentPendingOrders (state, orders: Order[]) {
-    state.paymentPendingOrders = orders
   }
 }
 
@@ -107,18 +101,9 @@ const actions = <ActionTree<CartState, RootState>>{
     }
 
     return this.$client.post(url, payload).then((response) => {
-      vuexContext.commit('setPaymentPendingOrders', response.data)
+      vuexContext.commit('invoice/setSelectedInvoice', response.data)
       vuexContext.commit('clearCart')
-    }).catch((e) => {
-      throw e.response
-    })
-  },
-  payPendingOrders (vuexContext) {
-    const url = process.env.baseURL + 'order/cart/'
-    const payload = vuexContext.getters.getPaymentPendingOrders
-
-    return this.$client.put(url, payload).then((response) => {
-      console.log('paid succussfully')
+      return response.data.id
     }).catch((e) => {
       throw e.response
     })
@@ -149,9 +134,6 @@ const getters = <GetterTree<CartState, RootState>>{
   },
   getCart: (state) : ShopCartOrder[] => {
     return state.cart
-  },
-  getPaymentPendingOrders: (state) : Order[] => {
-    return state.paymentPendingOrders
   }
 }
 
