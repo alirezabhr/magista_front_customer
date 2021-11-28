@@ -30,7 +30,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-card outlined class="pa-5 my-2" rounded="lg">
+      <!-- <v-card outlined class="pa-5 my-2" rounded="lg">
         <v-card-title class="pt-0 mt-0 red--text">
           فروش ویژه
         </v-card-title>
@@ -48,7 +48,7 @@
             />
           </v-layout>
         </v-row>
-      </v-card>
+      </v-card> -->
     </v-col>
   </v-row>
 </template>
