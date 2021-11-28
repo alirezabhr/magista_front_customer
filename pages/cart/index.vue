@@ -48,7 +48,7 @@
             rounded
             @click.prevent="pay"
           >
-            تکمیل خرید
+            ادامه خرید
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -112,11 +112,8 @@ export default {
         this.showDialog = true
       } else {
         if (this.getCustomerId) {
-          this.createCartOrders().then(() => {
-            // TODO redirect to payment
-            this.payPendingOrders().catch((resp) => {
-              console.log(resp.data)
-            })
+          this.createCartOrders().then((invoiceId) => {
+            this.$router.push(`/invoice/${invoiceId}`)
           }).catch((resp) => {
             console.log(resp.data)
           })
