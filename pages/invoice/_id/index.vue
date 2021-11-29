@@ -50,7 +50,7 @@
             </v-card-subtitle>
           </v-col>
         </v-card>
-        <v-card-actions>
+        <v-card-actions v-show="!getSelectedInvoice.isPaid">
           <v-btn
             rounded
             color="green"
@@ -88,7 +88,7 @@ export default {
         return
       }
     } else {
-      this.selectedInvoiceData(invoiceId)
+      await this.selectedInvoiceData(invoiceId)
     }
   },
   methods: {
@@ -96,7 +96,8 @@ export default {
 
     pay () {
       this.paySelectedInvoice().then((url) => {
-        this.$root.context.redirect(url)
+        window.open(url)
+        this.$router.push('/orders')
       }).catch(() => {
         this.snackbarMessage = 'در حال حاضر تکمیل خرید ممکن نمی‌باشد.'
         this.showSnackbar = true
