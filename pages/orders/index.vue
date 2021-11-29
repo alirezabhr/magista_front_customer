@@ -76,9 +76,6 @@ export default {
     this.isLoading = true
     this.customerOrders().then(() => {
       this.isLoading = false
-    }).catch((resp) => {
-      this.isLoading = false
-      console.log(resp)
     })
   },
   methods: {

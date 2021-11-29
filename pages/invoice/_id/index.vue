@@ -1,5 +1,11 @@
 <template>
   <v-row justify="center">
+    <v-snackbar
+      v-model="showSnackbar"
+      color="grey darken-3"
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
     <v-progress-circular v-if="!getSelectedInvoice" />
     <v-col v-else cols="11" sm="9" md="8" lg="6" class="pa-0">
       <v-card class="pa-2" flat>
@@ -67,6 +73,12 @@ export default {
   computed: {
     ...mapGetters('invoice', ['getSelectedInvoice'])
   },
+  data () {
+    return {
+      showSnackbar: false,
+      snackbarMessage: ''      
+    }
+  },
   async mounted() {
     const invoiceId = this.$route.params.id
     const selectedInvoice = this.getSelectedInvoice
@@ -75,11 +87,9 @@ export default {
       if (selectedInvoice.id == invoiceId) {
         return
       }
+    } else {
+      this.selectedInvoiceData(invoiceId)
     }
-    
-    this.selectedInvoiceData(invoiceId).catch((resp) => {
-      console.log(resp.data)
-    })
   },
   methods: {
     ...mapActions('invoice', ['selectedInvoiceData', 'paySelectedInvoice']),
@@ -87,8 +97,9 @@ export default {
     pay () {
       this.paySelectedInvoice().then((url) => {
         this.$router.push(url)
-      }).catch((resp) => {
-        console.log(resp.data)
+      }).catch(() => {
+        this.snackbarMessage = 'در حال حاضر تکمیل خرید ممکن نمی‌باشد.'
+        this.showSnackbar = true
       })
     }
   }

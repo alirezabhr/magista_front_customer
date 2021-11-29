@@ -1,6 +1,7 @@
 import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import { RootState } from '../index'
 import Invoice from "~/models/invoice"
+import Issue from '~/models/issue_tracker/issue'
 
 const namespace = 'invoice'
 
@@ -27,7 +28,12 @@ const actions = <ActionTree<InvoiceState, RootState>>{
     return this.$client.get(url).then((response) => {
       vuexContext.commit('setSelectedInvoice', response.data)
     }).catch((e) => {
-      throw e.response
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('selectedInvoiceData', k, e.response.data[k][0], null)
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
     })
   },
   paySelectedInvoice (vuexContext) {
@@ -37,6 +43,13 @@ const actions = <ActionTree<InvoiceState, RootState>>{
     return this.$client.post(url, payload).then((response) => {
       return response.data.url
     }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('paySelectedInvoice', k, e.response.data[k][0], null)
+        issue.setCritical()
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })
   }
