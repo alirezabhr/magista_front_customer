@@ -1,16 +1,12 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
-      <v-alert
-      v-model="paymentAlert"
-      border="left"
-      close-text="بستن"
-      color="deep-purple accent-4"
-      dark
-      dismissible
+    <v-snackbar
+      v-model="showSnackbar"
+      color="grey darken-3"
     >
-      در حال حاضر به دلیل آماده نبودن درگاه پرداخت امکان پرداخت وجود ندارد
-    </v-alert>
+      {{ snackbarMessage }}
+    </v-snackbar>
+    <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <AuthDialog v-if="showDialog" @closeDialog="showDialog=false" />
        <v-dialog
           v-model="showCustomerForm"
@@ -92,7 +88,8 @@ export default {
       showDialog: false,
       showCustomerForm: false,
       isCreatingCustomer: false,
-      paymentAlert: false,
+      showSnackbar: false,
+      snackbarMessage: ''
     }
   },
   computed: {
@@ -104,7 +101,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['createCartOrders', 'payPendingOrders']),
+    ...mapActions('cart', ['createCartOrders']),
     ...mapActions('auth', ['createCustomer']),
 
     pay () {
@@ -114,8 +111,9 @@ export default {
         if (this.getCustomerId) {
           this.createCartOrders().then((invoiceId) => {
             this.$router.push(`/invoice/${invoiceId}`)
-          }).catch((resp) => {
-            console.log(resp.data)
+          }).catch(() => {
+            this.snackbarMessage = 'در حال حاضر تکمیل خرید ممکن نمی‌باشد.'
+            this.showSnackbar = true
           })
         } else {
           this.showCustomerForm = true
@@ -127,9 +125,10 @@ export default {
       this.createCustomer(payload).then(() => {
         this.isCreatingCustomer = false
         this.showCustomerForm = false
-      }).catch((response) => {
+      }).catch(() => {
         this.isCreatingCustomer = false
-        console.log(response)
+        this.snackbarMessage = 'خطا در ثبت اطلاعات'
+        this.showSnackbar = true
       })
     }
   }

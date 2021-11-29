@@ -3,6 +3,7 @@ import { RootState } from '../index'
 import Product from "~/models/product"
 import OrderItem from "~/models/order_item"
 import ShopCartOrder from "~/models/shop_cart_order"
+import Issue from "~/models/issue_tracker/issue"
 
 const namespace = 'cart'
 
@@ -105,6 +106,13 @@ const actions = <ActionTree<CartState, RootState>>{
       vuexContext.commit('clearCart')
       return response.data.id
     }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('createCartOrders', k, e.response.data[k][0], null)
+        issue.setCritical()
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })
   }
