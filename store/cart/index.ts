@@ -102,7 +102,7 @@ const actions = <ActionTree<CartState, RootState>>{
     }
 
     return this.$client.post(url, payload).then((response) => {
-      vuexContext.commit('invoice/setSelectedInvoice', response.data)
+      vuexContext.commit('invoice/setSelectedInvoice', response.data, { root: true })
       vuexContext.commit('clearCart')
       return response.data.id
     }).catch((e) => {
