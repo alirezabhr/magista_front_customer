@@ -96,7 +96,7 @@ export default {
 
     pay () {
       this.paySelectedInvoice().then((url) => {
-        this.$router.push(url)
+        this.$root.context.redirect(url)
       }).catch(() => {
         this.snackbarMessage = 'در حال حاضر تکمیل خرید ممکن نمی‌باشد.'
         this.showSnackbar = true
