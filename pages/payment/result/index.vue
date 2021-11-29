@@ -29,11 +29,15 @@
         </div>
         <div v-else-if="trxStatus === 2">
           <v-row justify="center">
-            <v-img
-              max-height="250"
-              max-width="250"
-              :src="getFailedTrxImage"
-            />
+            <v-col>
+              <v-img
+                max-height="250"
+                max-width="250"
+                :src="getFailedTrxImage"
+                class="mx-auto"
+              />
+              <div>{{ errorMessage }}</div>
+            </v-col>
           </v-row>
         </div>
       </v-card>
@@ -41,6 +45,8 @@
 </template>
 
 <script>
+import Issue from '@/models/issue_tracker/issue'
+
 export default {
   name: 'PaymentResultPage',
   data () {
@@ -53,9 +59,13 @@ export default {
       amount: '',
       invoiceNum: '',
       paidDateTime: '',
+      errorMessage: ''
     }
   },
   async created () {
+    if (process.server) {
+      return
+    }
     this.isLoading = true
     const url = process.env.baseURL + 'order/payment/'
 
@@ -65,15 +75,26 @@ export default {
       trxReferenceId: this.$route.query.tref
     }
 
-    await this.$client.post(url, payload).then((resp) => {
+    await this.$client.put(url, payload).then((resp) => {
       this.refNum = resp.data.refNumber
       this.amount = resp.data.amount
       this.invoiceNum = resp.data.paymentInvoice
       this.paidDateTime = resp.data.paidAt
       this.trxStatus = 1 // 1 for success
       this.isLoading = false
-    }).catch((resp) => {
-      console.log(resp.erro.data)
+    }).catch((e) => {
+      this.$store.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('created in payment result', k, e.response.data[k][0], null)
+        issue.setCritical()
+        this.$store.commit('issue/addIssue', issue, { root: true })
+      }
+      this.$store.dispatch('issue/capture', null, { root: true })
+
+      if (e.response.data.error) {
+        this.errorMessage = e.response.data.error[0]
+      }
+
       this.trxStatus = 2  // 2 for fail
       this.isLoading = false
     })
