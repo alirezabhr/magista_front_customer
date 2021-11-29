@@ -12,7 +12,7 @@ class Issue {
       this.value = value
       this.message = msg
       this.critical = false
-      this.isCustomerProject = false
+      this.isCustomerProject = true
     }
 
     setCritical () {
