@@ -89,12 +89,10 @@ export default {
         } else if (response.data.user === 'not found') {
           this.requestOtp()
         }
-      }).catch((response) => {
+      }).catch(() => {
         this.isLoading = false
-        for (const key in response.data) {
-          this.snackbarMessage = response.data[key][0]
-          this.showSnackbar = true
-        }
+        this.snackbarMessage = 'خطا در ارسال شماره موبایل'
+        this.showSnackbar = true
       })
     },
     requestOtp () {
@@ -105,12 +103,6 @@ export default {
       }).then(() => {
         this.isLoading = false
         this.authStep = 'otp'
-      }).catch((response) => {
-        this.isLoading = false
-        for (const key in response.data) {
-          this.snackbarMessage = response.data[key][0]
-          this.showSnackbar = true
-        }
       })
     },
     checkOtp (otpCode) {
@@ -128,8 +120,8 @@ export default {
         }
       }).catch((response) => {
         this.isLoading = false
-        for (const key in response.data) {
-          this.snackbarMessage = response.data[key][0]
+        if (response.data.error) {
+          this.snackbarMessage = response.data.error
           this.showSnackbar = true
         }
       })
@@ -142,12 +134,6 @@ export default {
       }).then(() => {
         this.isLoading = false
         this.redirect()
-      }).catch((response) => {
-        this.isLoading = false
-        for (const key in response.data) {
-          this.snackbarMessage = response.data[key][0]
-          this.showSnackbar = true
-        }
       })
     },
     login (inputPassword) {
@@ -158,12 +144,10 @@ export default {
       }).then(() => {
         this.isLoading = false
         this.redirect()
-      }).catch((response) => {
+      }).catch(() => {
         this.isLoading = false
-        for (const key in response.data) {
-          this.snackbarMessage = response.data[key][0]
-          this.showSnackbar = true
-        }
+        this.snackbarMessage = 'شماره موبایل یا رمزعبور نادرست است'
+        this.showSnackbar = true
       })
     },
     forgetPassword () {
@@ -180,8 +164,8 @@ export default {
         this.redirect()
       }).catch((response) => {
         this.isLoading = false
-        for (const key in response.data) {
-          this.snackbarMessage = response.data[key][0]
+        if (response.data.error) {
+          this.snackbarMessage = response.data.error
           this.showSnackbar = true
         }
       })

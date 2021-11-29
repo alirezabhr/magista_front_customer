@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { GetterTree, MutationTree, ActionTree } from "vuex"
+import Issue from '~/models/issue_tracker/issue'
 import { RootState } from '../index'
 
 const namespace = 'auth'
@@ -73,6 +74,12 @@ const actions = <ActionTree<AuthState, RootState>>{
       vuexContext.commit('setUserPhone', payload.phone)
       return response
     }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('checkUserExistence', k, e.response.data[k][0], null)
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })
   },
@@ -85,7 +92,12 @@ const actions = <ActionTree<AuthState, RootState>>{
     ).then(() => {
       vuexContext.commit('setUserPhone', payload.phone)
     }).catch((e) => {
-      throw e.response
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('requestOtpCode', k, e.response.data[k][0], null)
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
     })
   },
   checkOtpCode (vuexContext, payload) {
@@ -95,6 +107,16 @@ const actions = <ActionTree<AuthState, RootState>>{
       url,
       payload
     ).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        if (k !== 'error') {
+          const issue = new Issue('checkOtpCode', k, e.response.data[k][0], null)
+          vuexContext.commit('issue/addIssue', issue, { root: true })
+        }
+      }
+      if (vuexContext.rootGetters['issue/getIssues'].length > 0) {
+        vuexContext.dispatch('issue/capture', null, { root: true })
+      }
       throw e.response
     })
   },
@@ -111,7 +133,12 @@ const actions = <ActionTree<AuthState, RootState>>{
       vuexContext.commit('setUserId', data.id)
       vuexContext.commit('setCustomerId', data.customer_id)
     }).catch((e) => {
-      throw e.response
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('userSignup', k, e.response.data[k][0], null)
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
     })
   },
   userLogin (vuexContext, payload) {
@@ -127,6 +154,16 @@ const actions = <ActionTree<AuthState, RootState>>{
       vuexContext.commit('setUserId', data.id)
       vuexContext.commit('setCustomerId', data.customer_id)
     }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        if (e.response.data[k][0] !== 'Unable to log in with provided credentials.') {
+          const issue = new Issue('userLogin', k, e.response.data[k][0], null)
+          vuexContext.commit('issue/addIssue', issue, { root: true })
+        }
+      }
+      if (vuexContext.rootGetters['issue/getIssues'].length > 0) {
+        vuexContext.dispatch('issue/capture', null, { root: true })
+      }
       throw e.response
     })
   },
@@ -143,6 +180,16 @@ const actions = <ActionTree<AuthState, RootState>>{
       vuexContext.commit('setUserId', data.id)
       vuexContext.commit('setCustomerId', data.customer_id)
     }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        if (k !== 'error') {
+          const issue = new Issue('changeUserPassword', k, e.response.data[k][0], null)
+          vuexContext.commit('issue/addIssue', issue, { root: true })
+        }
+      }
+      if (vuexContext.rootGetters['issue/getIssues'].length > 0) {
+        vuexContext.dispatch('issue/capture', null, { root: true })
+      }
       throw e.response
     })
   },
@@ -162,6 +209,12 @@ const actions = <ActionTree<AuthState, RootState>>{
     ).then((response) => {
       vuexContext.commit('setCustomerId', response.data.id)
     }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      for (const k in e.response.data) {
+        const issue = new Issue('createCustomer', k, e.response.data[k][0], null)
+        vuexContext.commit('issue/addIssue', issue, { root: true })
+      }
+      vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })
   }
