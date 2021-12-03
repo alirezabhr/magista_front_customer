@@ -32,11 +32,13 @@
             :key="product.shortcode"
             cols="4"
           >
-            <ShopProductItem
-              :product="product"
-              dir="rtl"
-              @addToCart="addToCart(product)"
-            />
+            <NuxtLink :to="`/product/${product.shortcode}`" class="text-decoration-none" active-class="text-decoration-none">
+              <ShopProductItem
+                :product="product"
+                dir="rtl"
+                @addToCart="addToCart(product)"
+              />
+            </NuxtLink>
           </v-col>
         </v-row>
       </v-card>
