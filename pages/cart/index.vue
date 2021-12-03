@@ -29,6 +29,13 @@
             <CartOrderItem v-if="orderItem.product.shop.id === shopCartOrder.shop_id" :orderItem="orderItem"/>
           </div>
         </v-card>
+        
+        <v-card flat outlined class="mx-5 my-2 pa-3" v-if="getCustomer">
+          <v-row no-gutters>
+            <v-icon>mdi-map-marker-outline mdi-18px</v-icon>
+            <v-row class="text-caption" no-gutters>{{ getCustomer.province }}-{{ getCustomer.city }}، {{ getCustomer.address }}</v-row>
+          </v-row>
+        </v-card>
         <v-card-actions>
           <v-col>
             <div>
@@ -94,7 +101,7 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
-    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId']),
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomer']),
 
     getEmptyStateImage () {
       return require('~/assets/images/empty_state.png')
@@ -108,7 +115,7 @@ export default {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
-        if (this.getCustomerId) {
+        if (this.getCustomer.id) {
           this.createCartOrders().then((invoiceId) => {
             this.$router.push(`/invoice/${invoiceId}`)
           }).catch(() => {
