@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { GetterTree, MutationTree, ActionTree } from "vuex"
+import Customer from '~/models/customer'
 import Issue from '~/models/issue_tracker/issue'
 import { RootState } from '../index'
 
@@ -9,14 +10,14 @@ interface AuthState {
   userPhone: string
   userToken: string | null
   userId: number
-  customerId: number | null
+  customer: Customer | null
 }
 
 const state = () : AuthState => ({
   userPhone: '',
   userToken: null,
   userId: 0,
-  customerId: null
+  customer: null
 })
 
 const mutations = <MutationTree<AuthState>>{
@@ -34,10 +35,10 @@ const mutations = <MutationTree<AuthState>>{
       state.userId = JSON.parse(userIdStr)
     }
 
-    // initial customer id
-    const customerIdStr = localStorage.getItem('MagistaCustomerId')
-    if (customerIdStr) {
-      state.customerId = JSON.parse(customerIdStr)
+    // initial customer
+    const customerStr = localStorage.getItem('MagistaCustomer')
+    if (customerStr) {
+      state.customer = JSON.parse(customerStr)
     }
   },
   setUserPhone (state, phone) {
@@ -52,9 +53,9 @@ const mutations = <MutationTree<AuthState>>{
     state.userId = id
     localStorage.setItem('MagistaId', id)
   },
-  setCustomerId (state, id) {
-    state.customerId = id
-    localStorage.setItem('MagistaCustomerId', id)
+  setCustomer (state, c) {
+    state.customer = c
+    localStorage.setItem('MagistaCustomer', JSON.stringify(c))
   },
   removeUserToken (state) {
     localStorage.removeItem('MagistaToken')
@@ -131,7 +132,7 @@ const actions = <ActionTree<AuthState, RootState>>{
 
       vuexContext.commit('setUserToken', data.token)
       vuexContext.commit('setUserId', data.id)
-      vuexContext.commit('setCustomerId', data.customer_id)
+      vuexContext.commit('setCustomer', data.customer)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       for (const k in e.response.data) {
@@ -152,7 +153,7 @@ const actions = <ActionTree<AuthState, RootState>>{
 
       vuexContext.commit('setUserToken', data.token)
       vuexContext.commit('setUserId', data.id)
-      vuexContext.commit('setCustomerId', data.customer_id)
+      vuexContext.commit('setCustomer', data.customer)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       for (const k in e.response.data) {
@@ -178,7 +179,7 @@ const actions = <ActionTree<AuthState, RootState>>{
 
       vuexContext.commit('setUserToken', data.token)
       vuexContext.commit('setUserId', data.id)
-      vuexContext.commit('setCustomerId', data.customer_id)
+      vuexContext.commit('setCustomer', data.customer)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       for (const k in e.response.data) {
@@ -207,7 +208,7 @@ const actions = <ActionTree<AuthState, RootState>>{
       url,
       payload
     ).then((response) => {
-      vuexContext.commit('setCustomerId', response.data.id)
+      vuexContext.commit('setCustomer', response.data)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       for (const k in e.response.data) {
@@ -230,8 +231,14 @@ const getters = <GetterTree<AuthState, RootState>>{
   getUserToken: (state) => {
     return state.userToken
   },
-  getCustomerId: (state) : number|null => {
-   return state.customerId 
+  getCustomerId: (state) : number => {
+    if (state.customer) {
+      return state.customer.id
+    }
+    return 0
+  },
+  getCustomer: (state) : Customer | null => {
+    return state.customer
   },
   isAuthenticated: (state) => {
     return !!state.userToken
