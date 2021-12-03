@@ -10,12 +10,13 @@ class Product {
   description: string
   displayImageUrl: string
   rate: number | null
+  isExisting: boolean
   discountPercent: number | null
   discountDescription: string
 
   constructor(id: number, shop: Shop, finalPrice: number, originalPrice: number, shortcode: string,
-    title: string, description: string, displayImage: string, rate: number | null, discountPercent: number | null,
-    discountDescription: string) {
+    title: string, description: string, displayImage: string, rate: number | null, isExisting: boolean,
+    discountPercent: number | null, discountDescription: string) {
 
     this.id = id
     this.shop = shop
@@ -26,6 +27,7 @@ class Product {
     this.description = description
     this.displayImageUrl = displayImage
     this.rate = rate
+    this.isExisting = isExisting
     this.discountPercent = discountPercent
     this.discountDescription = discountDescription
   }
