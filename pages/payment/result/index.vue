@@ -67,7 +67,7 @@ export default {
       return
     }
     this.isLoading = true
-    const url = process.env.baseURL + 'order/payment/'
+    const url = process.env.baseURL + 'payment/ipg'
 
     const payload = {
       invoiceNumber: this.$route.query.iN,

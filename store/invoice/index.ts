@@ -37,7 +37,7 @@ const actions = <ActionTree<InvoiceState, RootState>>{
     })
   },
   paySelectedInvoice (vuexContext) {
-    const url = process.env.baseURL + `order/payment/`
+    const url = process.env.baseURL + `payment/ipg/`
     const payload = vuexContext.getters.getSelectedInvoice
 
     return this.$client.post(url, payload).then((response) => {
