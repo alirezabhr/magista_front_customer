@@ -231,11 +231,12 @@ const getters = <GetterTree<AuthState, RootState>>{
   getUserToken: (state) => {
     return state.userToken
   },
-  getCustomerId: (state) : number => {
+  getCustomerId: (state) : number | null => {
     if (state.customer) {
       return state.customer.id
     }
-    return 0
+    console.log('null')
+    return null
   },
   getCustomer: (state) : Customer | null => {
     return state.customer

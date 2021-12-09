@@ -101,7 +101,7 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
-    ...mapGetters('auth', ['isAuthenticated', 'getCustomer']),
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomer', 'getCustomerId']),
 
     getEmptyStateImage () {
       return require('~/assets/images/empty_state.png')
@@ -115,7 +115,7 @@ export default {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
-        if (this.getCustomer.id) {
+        if (this.getCustomerId) {
           this.createCartOrders().then((invoiceId) => {
             this.$router.push(`/invoice/${invoiceId}`)
           }).catch(() => {
