@@ -98,6 +98,10 @@ export default {
     baseURL: 'https://api.magista.ir/'
   },
 
+  router: {
+    prefetchLinks: false
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
