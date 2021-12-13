@@ -41,7 +41,7 @@ const mutations = <MutationTree<CartState>>{
       state.cart.push(shopCartOrder)
     } else {  // have some products from this shop
       const orderItemIndex = state.cart[shopCartOrderIndex].orderItems.findIndex(
-        (orderItem: OrderItem) => orderItem.product === product)
+        (orderItem: OrderItem) => orderItem.product.id === product.id)
 
       if (orderItemIndex === -1) {  // this product does not exist in the cart
         const orderItem = new OrderItem(product)
@@ -57,7 +57,7 @@ const mutations = <MutationTree<CartState>>{
       console.log('ERROR Occured in removing item from cart') // TODO throw an erro
     } else {  // have some products from this shop
       const orderItemIndex = state.cart[shopCartOrderIndex].orderItems.findIndex(
-        (orderItem: OrderItem) => orderItem.product === product)
+        (orderItem: OrderItem) => orderItem.product.id === product.id)
 
       if (orderItemIndex === -1) {  // this product does not exist in the cart
         console.log('ERROR Occured in removing item from cart') // TODO throw an erro
@@ -140,6 +140,17 @@ const getters = <GetterTree<CartState, RootState>>{
   },
   getCart: (state) : ShopCartOrder[] => {
     return state.cart
+  },
+  productCountInCart: (state, getters, RootState, rootGetters): number => {
+    let count = 0
+    const product = rootGetters['product/getProduct']
+    state.cart.forEach(shopCartItem => {
+      const oi = shopCartItem.orderItems.find(el => el.product.id === product.id)
+      if (oi) {
+        count =  oi.count
+      }
+    })
+    return count
   }
 }
 

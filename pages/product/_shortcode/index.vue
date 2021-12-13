@@ -72,16 +72,36 @@
           <v-icon>mdi-map-marker-outline mdi-18px</v-icon>
           <v-row class="text-caption" no-gutters>از {{getProduct.shop.province}} - {{getProduct.shop.city}}</v-row>
         </v-row>
-        <v-row class="py-3" justify="center" no-gutters>
+        <v-row v-if="productCountInCart === 0" class="py-3" justify="center" no-gutters>
           <v-btn rounded color="green" class="white--text" @click.prevent="addToCart(getProduct)">
             افزودن به سبد
           </v-btn>
+        </v-row>
+        <v-row v-else class="py-3" justify="center" no-gutters align="center">
+          <v-card>
+            <v-card-actions class="pa-0">
+              <v-btn icon rounded large class="white--text" @click.prevent="addItemToCart(getProduct)">
+                <v-icon color="green">mdi-plus</v-icon>
+              </v-btn>
+              <div class="font-weight-bold text-h5">{{ productCountInCart }}</div>
+              <v-btn icon rounded large class="white--text" @click.prevent="removeItemFromCart(getProduct)">
+                <v-icon color="red">mdi-minus</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-row>
         <v-divider class="px-1 pb-3" />
         <v-row class="font-weight-bold" no-gutters>
           {{ getProduct.title }}
         </v-row>
-        <v-row class="font-weight-light" no-gutters>
+        <v-col v-if="getProduct.attributes.length > 0" class="px-0 py-3">
+          <div class="font-weight-bold text-body-2" no-gutters>مشخصات</div>
+          <v-row v-for="(attr, index) in getProduct.attributes" :key="index" no-gutters>
+            {{ attr.name }}:  {{ attr.value }}
+          </v-row>
+        </v-col>
+        <v-row v-if="getProduct.description" class="font-weight-light" no-gutters>
+          <div class="font-weight-bold text-body-2" no-gutters>توضیح</div>
           {{ getProduct.description }}
         </v-row>
       </v-col>
@@ -99,8 +119,8 @@ export default {
       showDialog: false
     }
   },
-  async mounted () {
-    await this.$store.dispatch('product/productDetail', this.$route.params.shortcode)
+  mounted () {
+    this.productDetail(this.$route.params.shortcode)
       .catch((response) => {
         if (response.status === 404) {
           this.$nuxt.error({ statusCode: 404, message: 'محصول یافت نشد.' })
@@ -111,6 +131,7 @@ export default {
   },
   computed: {
     ...mapGetters('product', ['getProduct']),
+    ...mapGetters('cart', ['productCountInCart']),
 
     getShopProfilePhotoUrl () {
       return process.env.baseURL + this.getProduct.shop.profileImageUrl
@@ -120,7 +141,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['addItemToCart']),
+    ...mapActions('product', ['productDetail']),
+    ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
 
     addToCart (product) {
       this.addItemToCart(product)
