@@ -11,13 +11,17 @@
     <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
     <v-card min-height="670">
       <v-row dir="ltr" no-gutters class="px-2 py-1 white" align="center">
-        <v-avatar color="primary" style="border-style: solid;">
-          <img
-            :src="getShopProfilePhotoUrl"
-            alt="profile"
-          >
-        </v-avatar>
-        <div class="pl-3">{{ getProduct.shop.instagramUsername }}</div>
+        <NuxtLink :to="`/shop/${getProduct.shop.instagramUsername}`">
+          <v-avatar color="primary" style="border-style: solid;">
+            <img
+              :src="getShopProfilePhotoUrl"
+              alt="profile"
+            >
+          </v-avatar>
+        </NuxtLink>
+        <NuxtLink :to="`/shop/${getProduct.shop.instagramUsername}`" class="text-decoration-none" active-class="text-decoration-none">
+          <div class="pl-3 font-weight-bold black--text">{{ getProduct.shop.instagramUsername }}</div>
+        </NuxtLink>
         <v-spacer />
       </v-row>
       <v-img :src="productImageUrl" :aspect-ratio="1">
