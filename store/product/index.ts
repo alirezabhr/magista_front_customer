@@ -19,7 +19,7 @@ const mutations = <MutationTree<ProductState>>{
     const shop = new Shop(prod.shop.id, prod.shop.instagramUsername, prod.shop.province, prod.shop.city, prod.shop.profilePic)
     state.product = new Product(prod.id, shop, prod.finalPrice, prod.originalPrice, prod.shortcode,
       prod.title, prod.description, prod.displayImage, prod.rate, prod.isExisting, prod.discountPercent,
-      prod.discountAmount)
+      prod.discountAmount, prod.attributes)
   }
 }
 
@@ -31,10 +31,8 @@ const actions = <ActionTree<ProductState, RootState>>{
       vuexContext.commit('setProduct', response.data)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      for (const k in e.response.data) {
-        const issue = new Issue('productDetail', k, e.response.data[k][0], null)
-        vuexContext.commit('issue/addIssue', issue, { root: true })
-      }
+      const issue = new Issue('productDetail', JSON.stringify(e.response))
+      vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })

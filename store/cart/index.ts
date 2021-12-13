@@ -107,11 +107,9 @@ const actions = <ActionTree<CartState, RootState>>{
       return response.data.id
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      for (const k in e.response.data) {
-        const issue = new Issue('createCartOrders', k, e.response.data[k][0], null)
-        issue.setCritical()
-        vuexContext.commit('issue/addIssue', issue, { root: true })
-      }
+      const issue = new Issue('createCartOrders',  JSON.stringify(e.response))
+      issue.setCritical()
+      vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })

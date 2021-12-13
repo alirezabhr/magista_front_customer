@@ -1,15 +1,11 @@
 class Issue {
     location: string
-    key: string | null
-    value: string | null
-    message: string | null
+    message: string
     critical: boolean
     isCustomerProject: boolean
 
-    constructor (loc: string, key: string | null, value: string | null, msg: string | null) {
+    constructor (loc: string, msg: string) {
       this.location = loc
-      this.key = key
-      this.value = value
       this.message = msg
       this.critical = false
       this.isCustomerProject = true
@@ -20,7 +16,7 @@ class Issue {
     }
 
     toStr () {
-      return `loc: ${this.location} | key: ${this.key} | value: ${this.value} | msg: ${this.message}`
+      return `loc: ${this.location} | msg: ${this.message}`
     }
 }
 

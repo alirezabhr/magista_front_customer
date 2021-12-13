@@ -35,10 +35,8 @@ const actions = <ActionTree<OrderState, RootState>>{
       })
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      for (const k in e.response.data) {
-        const issue = new Issue('customerOrders', k, e.response.data[k][0], null)
-        vuexContext.commit('issue/addIssue', issue, { root: true })
-      }
+      const issue = new Issue('customerOrders', JSON.stringify(e.response))
+      vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
     })
   }

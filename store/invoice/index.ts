@@ -29,10 +29,8 @@ const actions = <ActionTree<InvoiceState, RootState>>{
       vuexContext.commit('setSelectedInvoice', response.data)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      for (const k in e.response.data) {
-        const issue = new Issue('selectedInvoiceData', k, e.response.data[k][0], null)
-        vuexContext.commit('issue/addIssue', issue, { root: true })
-      }
+      const issue = new Issue('selectedInvoiceData', JSON.stringify(e.response))
+      vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
     })
   },
@@ -44,11 +42,9 @@ const actions = <ActionTree<InvoiceState, RootState>>{
       return response.data.url
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      for (const k in e.response.data) {
-        const issue = new Issue('paySelectedInvoice', k, e.response.data[k][0], null)
-        issue.setCritical()
-        vuexContext.commit('issue/addIssue', issue, { root: true })
-      }
+      const issue = new Issue('paySelectedInvoice', JSON.stringify(e.response))
+      issue.setCritical()
+      vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })
