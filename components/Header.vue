@@ -6,92 +6,93 @@
     elevation="3"
   >
     <v-row class="hidden-xs-only">
-        <v-toolbar-title class="primary--text font-weight-bold mx-3">
+      <v-toolbar-title class="primary--text font-weight-bold mx-3">
         <NuxtLink to="/" active-class="text-decoration-none">
-            مگیستا
+          مگیستا
         </NuxtLink>
-        </v-toolbar-title>
+      </v-toolbar-title>
 
-        <v-spacer />
+      <v-spacer />
 
-        <v-btn text to="/auth" v-if="!isAuthenticated">
+      <v-btn text to="/auth" v-if="!isAuthenticated">
         ورود / ثبت‌نام
-        </v-btn>
+      </v-btn>
 
-        <v-btn text v-else>
+      <v-btn text v-else>
         پروفایل
+      </v-btn>
+
+      <v-divider vertical class="mx-3" />
+      <v-btn text to="/cart">
+        <v-badge
+          :content="getCartItemCounts"
+          :value="getCartItemCounts"
+          color="green"
+          overlap
+          left
+        >
+          <v-icon class="pr-1">
+            mdi-cart-variant mdi-flip-h
+          </v-icon>
+        </v-badge>
+          سبد
         </v-btn>
 
-        <v-divider vertical class="mx-3" />
-        <v-btn text to="/cart">
-        <v-badge
-            :content="getCartItemCounts"
-            :value="getCartItemCounts"
-            color="green"
-            overlap
-            left
-        >
-            <v-icon class="pr-1">
-            mdi-cart-variant mdi-flip-h
-            </v-icon>
-        </v-badge>
-            سبد
-        </v-btn>
         <v-divider vertical class="mx-3" />
         <v-btn rounded outlined class="primary--text" href="https://vendor.magista.ir" target="_blank">
-        پنل فروشنده
+          پنل فروشنده
         </v-btn>
     </v-row>
     <v-row no-gutters align="center" class="hidden-sm-and-up">
-        <v-toolbar-title class="primary--text font-weight-bold">
+      <v-toolbar-title class="primary--text font-weight-bold">
         <NuxtLink to="/" active-class="text-decoration-none">
-            مگیستا
+          مگیستا
         </NuxtLink>
-        </v-toolbar-title>
+      </v-toolbar-title>
         
-        <v-spacer />
+      <v-spacer />
 
-        <v-btn to="/auth" v-if="!isAuthenticated" icon>
-            <v-icon>mdi-login-variant</v-icon>
-        </v-btn>
-        <v-menu offset-y v-else>
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon>mdi-account</v-icon>
-                </v-btn>
-            </template>
-            <v-list>
-                <v-list-item
-                v-for="(item, index) in profileOptions"
-                :key="index"
-                @click.prevent="item.onClick"
-                >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-            </v-list>
-        </v-menu>
+      <v-btn to="/auth" v-if="!isAuthenticated" icon>
+        <v-icon>mdi-login-variant</v-icon>
+      </v-btn>
+      <v-menu offset-y v-else>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in profileOptions"
+            :key="index"
+            @click.prevent="item.onClick"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
-        <v-divider vertical class="mx-1" />
+      <v-divider vertical class="mx-1" />
 
-        <v-btn to="/cart" icon>
-            <v-badge
-                :content="getCartItemCounts"
-                :value="getCartItemCounts"
-                color="green"
-                overlap
-                left
-            >
-                <v-icon class="pr-1">
-                    mdi-cart-variant mdi-flip-h
-                </v-icon>
-            </v-badge>
-        </v-btn>
+      <v-btn to="/cart" icon>
+        <v-badge
+          :content="getCartItemCounts"
+          :value="getCartItemCounts"
+          color="green"
+          overlap
+          left
+        >
+          <v-icon class="pr-1">
+            mdi-cart-variant mdi-flip-h
+          </v-icon>
+        </v-badge>
+      </v-btn>
 
-        <v-divider vertical class="mx-1" />
+      <v-divider vertical class="mx-1" />
 
-        <v-btn text rounded outlined small class="primary--text" href="https://vendor.magista.ir" target="_blank">
-            پنل فروشنده
-        </v-btn>
+      <v-btn text rounded outlined small class="primary--text" href="https://vendor.magista.ir" target="_blank">
+        پنل فروشنده
+      </v-btn>
     </v-row>
   </v-app-bar>
 </template>
@@ -113,7 +114,7 @@ export default {
     ...mapActions('auth', ['userLogout']),
 
     routeToOrders () {
-        this.$router.push('/orders')
+      this.$router.push('/orders')
     }
   },
   computed: {
