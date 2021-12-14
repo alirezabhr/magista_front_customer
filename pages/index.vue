@@ -62,6 +62,7 @@ import bestSellerMock from '~/mock/best_sellers'
 
 export default {
   name: 'HomePage',
+  layout: 'home_layout',
   components: {
     AddToCartDialog,
     ProductPreviewCard
