@@ -1,37 +1,35 @@
 import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import { RootState } from '../index'
-import Product from '~/models/product'
 import Issue from '~/models/issue_tracker/issue'
 import Shop from '~/models/shop'
+import Post from '~/models/post'
 
 const namespace = 'product'
 
 interface ProductState {
-  product: Product | null
+  post: Post | null
 }
 
 const state = (): ProductState => ({
-  product: null
+  post: null
 })
 
 const mutations = <MutationTree<ProductState>>{
-  setProduct (state, prod) {
-    const shop = new Shop(prod.shop.id, prod.shop.instagramUsername, prod.shop.province, prod.shop.city, prod.shop.profilePic)
-    state.product = new Product(prod.id, shop, prod.finalPrice, prod.originalPrice, prod.shortcode,
-      prod.title, prod.description, prod.displayImage, prod.rate, prod.isExisting, prod.discountPercent,
-      prod.discountAmount, prod.attributes)
+  setPost (state, p) {
+    const shop = new Shop(p.shop.id, p.shop.instagramUsername, p.shop.province, p.shop.city, p.shop.profilePic)
+    state.post = new Post(p.id, shop, p.productImages, p.shortcode, p.description)
   }
 }
 
 const actions = <ActionTree<ProductState, RootState>>{
-  productDetail (vuexContext, shortcode) {
-    const url = process.env.baseURL + `shop/product/${shortcode}/preview/`
-
+  postDetail (vuexContext, shortcode) {
+    const url = process.env.baseURL + `shop/post/${shortcode}/preview/`
+    
     return this.$client.get(url).then((response) => {
-      vuexContext.commit('setProduct', response.data)
+      vuexContext.commit('setPost', response.data)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      const issue = new Issue('productDetail', JSON.stringify(e.response))
+      const issue = new Issue('postDetail', JSON.stringify(e.response))
       vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
@@ -40,8 +38,8 @@ const actions = <ActionTree<ProductState, RootState>>{
 }
 
 const getters = <GetterTree<ProductState, RootState>>{
-  getProduct: (state) : Product | null => {
-    return state.product
+  getPost: (state) : Post | null => {
+    return state.post
   }
 }
 
