@@ -1,6 +1,6 @@
 import { GetterTree, MutationTree, ActionTree } from "vuex"
 import { RootState } from '../index'
-import Product from '@/models/product'
+import Post from '@/models/post'
 import Shop from '~/models/shop'
 
 
@@ -8,12 +8,12 @@ const namespace = 'shop'
 
 interface ShopState {
   shop: Shop | null
-  shopProducts: Product[]
+  shopPosts: Post[]
 }
 
 const state = (): ShopState => ({
   shop: null,
-  shopProducts: []
+  shopPosts: []
 })
 
 const mutations = <MutationTree<ShopState>>{
@@ -21,13 +21,10 @@ const mutations = <MutationTree<ShopState>>{
     state.shop = new Shop(shopInfoData.id, shopInfoData.instagramUsername, shopInfoData.province,
       shopInfoData.city, shopInfoData.profilePic)
   },
-  setShopProducts(state, productsList) {
-    state.shopProducts = []
-    productsList.forEach((el: any) => {
-      const product = new Product(el.id, el.shop, el.finalPrice, el.originalPrice, el.shortcode, el.title,
-        el.description, el.displayImage, el.rate, el.isExisting, el.discountPercent, el.discountDescription,
-        el.attributes)
-      state.shopProducts.push(product)
+  setShopPosts(state, postsList) {
+    state.shopPosts = []
+    postsList.forEach((el: Post) => {
+      state.shopPosts.push(el)
     })
   }
 }
@@ -40,11 +37,11 @@ const actions = <ActionTree<ShopState, RootState>>{
       vuexContext.commit('setShopInfoData', response.data)
     })
   },
-  shopProducts(vuexContext, username: string) {
-    const url = process.env.baseURL + `shop/${username}/products/`
+  shopPosts(vuexContext, username: string) {
+    const url = process.env.baseURL + `shop/${username}/post/`
 
     return this.$client.get(url).then((response) => {
-      vuexContext.commit('setShopProducts', response.data)
+      vuexContext.commit('setShopPosts', response.data)
     })
   }
 }
@@ -59,8 +56,8 @@ const getters = <GetterTree<ShopState, RootState>>{
     }
     return ''
   },
-  getShopProducts: (state): Product[] => {
-    return state.shopProducts
+  getShopPosts: (state): Post[] => {
+    return state.shopPosts
   }
 }
 
