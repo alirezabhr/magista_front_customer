@@ -68,7 +68,7 @@ const actions = <ActionTree<AuthState, RootState>>{
   checkUserExistence (vuexContext, payload) {
     const url = process.env.baseURL + 'user/'
 
-    return axios.post(
+    return this.$client.post(
       url,
       payload
     ).then((response) => {
@@ -85,7 +85,7 @@ const actions = <ActionTree<AuthState, RootState>>{
   requestOtpCode (vuexContext, payload) {
     const url = process.env.baseURL + 'user/send-otp/'
 
-    return axios.post(
+    return this.$client.post(
       url,
       payload
     ).then(() => {
@@ -100,7 +100,7 @@ const actions = <ActionTree<AuthState, RootState>>{
   checkOtpCode (vuexContext, payload) {
     const url = process.env.baseURL + 'user/check-otp/'
 
-    return axios.post(
+    return this.$client.post(
       url,
       payload
     ).catch((e) => {
@@ -114,7 +114,7 @@ const actions = <ActionTree<AuthState, RootState>>{
   userSignup (vuexContext, payload) {
     const url = process.env.baseURL + 'user/signup/'
 
-    return axios.post(
+    return this.$client.post(
       url,
       payload
     ).then((response) => {
@@ -133,7 +133,7 @@ const actions = <ActionTree<AuthState, RootState>>{
   userLogin (vuexContext, payload) {
     const url = process.env.baseURL + 'user/login/'
 
-    return axios.post(
+    return this.$client.post(
       url,
       payload
     ).then((response) => {
@@ -153,7 +153,7 @@ const actions = <ActionTree<AuthState, RootState>>{
   changeUserPassword (vuexContext, payload) {
     const url = process.env.baseURL + 'user/'
 
-    return axios.put(
+    return this.$client.put(
       url,
       payload
     ).then((response) => {
@@ -180,7 +180,7 @@ const actions = <ActionTree<AuthState, RootState>>{
     
     payload.user = vuexContext.getters.getUserId
 
-    return axios.post(
+    return this.$client.post(
       url,
       payload
     ).then((response) => {
