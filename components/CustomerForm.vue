@@ -2,17 +2,15 @@
     <v-card>
         <v-row class="pa-5 ma-2 red--text text--darken-3">
             <v-icon color="red" class="px-3">mdi-alert-decagram mdi-22px</v-icon>
-            <span>ابتدا باید حساب کاربری خود را تکمیل کنید</span>
+            <span>ابتدا حساب کاربری خود را تکمیل کنید</span>
         </v-row>
         <v-form
             ref="form"
             lazy-validation
             @submit.prevent="validateAndSubmitForm"
         >
-        <v-card-title>
-            <v-col>
-            <div class="text-h6 font-weight-bold">ثبت اطلاعات</div>
-            </v-col>
+        <v-card-title class="pt-0 mx-3 text-h6 font-weight-bold">
+          ثبت اطلاعات
         </v-card-title>
 
         <v-col class="py-0 px-8">
@@ -69,6 +67,13 @@
                 outlined
                 dense
             />
+            <v-text-field
+                v-model="customerData.postalCode"
+                label="کد پستی"
+                :rules="postalCodeRules"
+                outlined
+                dense
+            />
         </v-col>
 
         <v-card-actions class="px-8">
@@ -116,7 +121,8 @@ export default {
         name: '',
         province: '',
         city: '',
-        address: ''
+        address: '',
+        postalCode: ''
       },
       nameRules: [
         value => !!value || '.نام و نام‌خانوادگی الزامی می‌باشد',
@@ -132,6 +138,9 @@ export default {
       addressRules: [
         value => !!value || 'آدرس الزامی می‌باشد.',
         value => !/^\s+$/.test(value) || 'آدرس نامعتبر است.'
+      ],
+      postalCodeRules: [
+        value => !!value || 'کد پستی الزامی می‌باشد.'
       ]
     }
   },
