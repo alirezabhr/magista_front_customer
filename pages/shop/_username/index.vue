@@ -28,16 +28,29 @@
         <v-divider class="pb-3 mx-2" />
         <v-row class="pa-sm-1 pa-md-2" no-gutters dir="ltr">
           <v-col
-            v-for="product in getShopProducts"
-            :key="product.shortcode"
+            v-for="post in getShopPosts"
+            :key="post.shortcode"
             cols="4"
           >
-            <NuxtLink :to="`/product/${product.shortcode}`" class="text-decoration-none" active-class="text-decoration-none">
-              <ShopProductItem
-                :product="product"
-                dir="rtl"
-                @addToCart="addToCart(product)"
-              />
+            <NuxtLink :to="`/product/${post.shortcode}`" class="text-decoration-none" active-class="text-decoration-none">
+              <v-img
+                :aspect-ratio="1"
+                :src="getImageUrl(post.productImages[0].displayImage)"
+                style="border-style: solid; border-width: 0.5px; border-color: grey;"
+              >
+                <template #placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-2"
+                    />
+                  </v-row>
+                </template>
+              </v-img>
             </NuxtLink>
           </v-col>
         </v-row>
@@ -74,7 +87,7 @@ export default {
         error({ statusCode: 500, message: 'Oops! An error occured.' })
       }
     })
-    await store.dispatch('shop/shopProducts', params.username)
+    await store.dispatch('shop/shopPosts', params.username)
   },
   data () {
     return {
@@ -82,7 +95,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('shop', ['getShopInfoData', 'getShopProducts']),
+    ...mapGetters('shop', ['getShopInfoData', 'getShopPosts']),
 
     profileImageFullUrl () {
       return process.env.baseURL + this.getShopInfoData.profileImageUrl
@@ -94,6 +107,9 @@ export default {
     addToCart (product) {
       this.addItemToCart(product)
       this.showDialog = true
+    },
+    getImageUrl (src) {
+      return process.env.baseURL + src
     }
   }
 }
