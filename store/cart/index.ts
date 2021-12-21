@@ -140,17 +140,6 @@ const getters = <GetterTree<CartState, RootState>>{
   },
   getCart: (state) : ShopCartOrder[] => {
     return state.cart
-  },
-  productCountInCart: (state, getters, RootState, rootGetters): number => {
-    let count = 0
-    const product = rootGetters['product/getProduct']
-    state.cart.forEach(shopCartItem => {
-      const oi = shopCartItem.orderItems.find(el => el.product.id === product.id)
-      if (oi) {
-        count =  oi.count
-      }
-    })
-    return count
   }
 }
 
