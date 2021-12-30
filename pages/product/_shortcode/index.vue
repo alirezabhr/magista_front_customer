@@ -6,7 +6,7 @@
     md="7"
     lg="6"
   >
-    <div v-if="isGettingData">
+    <div v-if="!getPost">
       <v-row class="px-3 py-1" justify="end" no-gutters>
         <v-skeleton-loader
           type="avatar"
@@ -17,17 +17,14 @@
       />
     </div>
     <v-card v-else min-height="670">
-      <v-row dir="ltr" no-gutters class="px-2 py-1 white" align="center">
+      <v-row dir="ltr" no-gutters class="px-3 py-2 grey lighten-4" align="center">
         <NuxtLink :to="`/shop/${getPost.shop.instagramUsername}`">
-          <v-avatar color="primary" style="border-style: solid;">
-            <img
-              :src="getShopProfilePhotoUrl"
-              alt="profile"
-            >
+          <v-avatar size="45">
+            <v-img :src="getShopProfilePhotoUrl" alt="profile" />
           </v-avatar>
         </NuxtLink>
         <NuxtLink :to="`/shop/${getPost.shop.instagramUsername}`" class="text-decoration-none" active-class="text-decoration-none">
-          <div class="pl-3 font-weight-bold black--text">{{ getPost.shop.instagramUsername }}</div>
+          <div class="pl-3 font-weight-bold text-body-2 grey--text text--darken-4">{{ getPost.shop.instagramUsername }}</div>
         </NuxtLink>
         <v-spacer />
       </v-row>
@@ -143,9 +140,9 @@
         </div>
       </v-col>
       
-      <v-col class="px-3 pt-0 pb-3" no-gutters>
+      <v-col class="pa-3">
         <v-row v-if="getPost.description" class="font-weight-light" no-gutters>
-          <div class="font-weight-bold text-body-2" no-gutters>توضیح پُست</div>
+          <div class="font-weight-bold text-body-2">توضیح پُست</div>
           {{ getPost.description }}
         </v-row>
       </v-col>
@@ -160,23 +157,18 @@ export default {
   name: 'ProductShortcodePage',
   data () {
     return {
-      isGettingData: false,
+      isGettingData: true,
       carouselIndex: 0,
       showProductTags: false,
       showDialog: false
     }
   },
-  mounted () {
-    this.isGettingData = true
-
-    this.postDetail(this.$route.params.shortcode).then(() => {
-      this.isGettingData = false
-    }).catch((response) => {
-      this.isGettingData = false
+  async fetch({ params, store, error }) {
+    await store.dispatch('product/postDetail', params.shortcode).catch((response) => {
       if (response.status === 404) {
-        this.$nuxt.error({ statusCode: 404, message: 'محصول یافت نشد.' })
+        error({ statusCode: 404, message: 'محصول یافت نشد.' })
       } else {
-        this.$nuxt.error({ statusCode: 500, message: 'خطایی رخ داده است!' })
+        error({ statusCode: 500, message: 'خطایی رخ داده است!' })
       }
     })
   },
@@ -189,7 +181,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions('product', ['postDetail']),
     ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
 
     productImageUrl (src) {
