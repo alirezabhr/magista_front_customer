@@ -172,7 +172,6 @@ const actions = <ActionTree<AuthState, RootState>>{
   },
   userLogout (vuexContext) {
     vuexContext.commit('removeUserToken')
-    this.$router.push('/auth')
   },
   createCustomer (vuexContext, payload) {
     const url = process.env.baseURL + 'user/customer/'
