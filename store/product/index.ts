@@ -29,7 +29,7 @@ const actions = <ActionTree<ProductState, RootState>>{
       vuexContext.commit('setPost', response.data)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
-      const issue = new Issue('postDetail', JSON.stringify(e.response))
+      const issue = new Issue('postDetail', JSON.stringify(e.response.data))
       vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
