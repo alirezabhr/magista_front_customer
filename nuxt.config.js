@@ -66,7 +66,7 @@ export default {
     treeShake: true,
     defaultAssets: {
       font: {
-        family: 'Samim'
+        family: 'Vazir'
       }
     },
     customVariables: ['~/assets/styles/variables.scss'],
