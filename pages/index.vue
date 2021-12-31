@@ -1,33 +1,13 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12">
-      <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
-
-      <v-row>
-        <v-col cols="12" md="8">
+    <v-col>
+      <v-row justify="center">
+        <v-col cols="12" md="8" lg="7" class="ma-4 py-3 px-8">
           <v-card outlined rounded="xl">
-            <v-img 
+            <v-img
               :src="saleImageUrls[0]"
             />
           </v-card>
-        </v-col>
-        <v-col cols="12" md="4">
-          <v-row no-gutters>
-            <v-col cols="6" md="12" class="pa-2">
-              <v-card outlined rounded="xl">
-                <v-img 
-                  :src="saleImageUrls[1]"
-                />
-              </v-card>
-            </v-col>
-            <v-col cols="6" md="12" class="pa-2">
-              <v-card outlined rounded="xl">
-                <v-img 
-                  :src="saleImageUrls[1]"
-                />
-              </v-card>
-            </v-col>
-          </v-row>
         </v-col>
       </v-row>
       <!-- <v-card outlined class="pa-5 my-2" rounded="lg">
@@ -56,7 +36,6 @@
 <script>
 import { mapActions } from 'vuex'
 
-import AddToCartDialog from '@/components/AddToCartDialog.vue'
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
 import bestSellerMock from '~/mock/best_sellers'
 
@@ -64,13 +43,11 @@ export default {
   name: 'HomePage',
   layout: 'home_layout',
   components: {
-    AddToCartDialog,
     ProductPreviewCard
   },
   data () {
     return {
-      bestSellerProducts: bestSellerMock,
-      showDialog: false
+      bestSellerProducts: bestSellerMock
     }
   },
   computed: {
@@ -81,11 +58,6 @@ export default {
   },
   methods: {
     ...mapActions('cart', ['addItemToCart']),
-
-    addToCart (product) {
-      this.addItemToCart(product)
-      this.showDialog = true
-    }
   }
 }
 </script>
