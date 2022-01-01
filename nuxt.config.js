@@ -6,12 +6,12 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - magista_customer',
-    title: 'magista_customer',
+    titleTemplate: '%s - مگیستا',
+    title: 'مگیستا',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'خرید مطمئن محصولات از آنلاین شاپ‌های اینستاگرام' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
