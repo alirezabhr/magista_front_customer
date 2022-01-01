@@ -15,6 +15,10 @@ class Post {
     this.shortcode = shortcode
     this.description = description
   }
+
+  toJSON () {
+    return { ...this }
+  }
 }
 
 export default Post

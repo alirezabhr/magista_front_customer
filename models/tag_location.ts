@@ -8,6 +8,10 @@ class TagLocation {
     this.x = x
     this.y = y
   }
+  
+  toJSON () {
+    return { ...this }
+  }
 }
 
 export default TagLocation

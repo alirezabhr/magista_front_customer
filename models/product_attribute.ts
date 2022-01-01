@@ -8,6 +8,10 @@ class ProductAttribute {
     this.name = name
     this.value = value
   }
+  
+  toJSON () {
+    return { ...this }
+  }
 }
 
 export default ProductAttribute

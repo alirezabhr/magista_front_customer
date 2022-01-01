@@ -10,6 +10,10 @@ class ProductImage {
     this.products = products
     this.displayImage = displayImage
   }
+  
+  toJSON () {
+    return { ...this }
+  }
 }
 
 export default ProductImage
