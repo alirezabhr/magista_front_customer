@@ -35,6 +35,8 @@ const actions = <ActionTree<ShopState, RootState>>{
 
     return this.$client.get(url).then((response) => {
       vuexContext.commit('setShopInfoData', response.data)
+    }).catch((e) => {
+      throw e.response
     })
   },
   shopPosts(vuexContext, username: string) {

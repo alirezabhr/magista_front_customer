@@ -81,8 +81,8 @@ export default {
   },
   async asyncData ({ params, store, error }) {
     await store.dispatch('shop/shopInfoData', params.username).catch((response) => {
-      if (response.statusCode === 404) {
-        error({ statusCode: 404, message: 'shop not found' })
+      if (response.status === 404) {
+        error({ statusCode: 404, message: 'فروشگاه مورد نظر پیدا نشد!' })
       } else {
         error({ statusCode: 500, message: 'Oops! An error occured.' })
       }
