@@ -18,6 +18,10 @@ class Issue {
     toStr () {
       return `loc: ${this.location} | msg: ${this.message}`
     }
+
+    toJSON () {
+      return { ...this }
+    }
 }
 
 export default Issue
