@@ -1,14 +1,27 @@
 <template>
-  <v-app dark>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
+  <v-app>
+    <v-container v-if="error.statusCode === 404">
+      <v-col>
+        <v-row class="pa-2 text-h5 font-weight-bold" justify="center" no-gutters>
+          صفحه مورد نظر پیدا نشد!
+        </v-row>
+        <v-img
+          class="ma-6"
+          :src="notFoundImage"
+        />
+        <v-row justify="center" no-gutters>
+          <NuxtLink to="/" active-class="" exact-active-class="">
+            خانه
+          </NuxtLink>
+        </v-row>
+      </v-col>
+    </v-container>
     <h1 v-else>
       {{ otherError }}
+      <NuxtLink to="/">
+        خانه
+      </NuxtLink>
     </h1>
-    <NuxtLink to="/">
-      Home page
-    </NuxtLink>
   </v-app>
 </template>
 
@@ -23,21 +36,27 @@ export default {
   },
   data () {
     return {
-      pageNotFound: '404 Not Found',
       otherError: 'An error occurred'
     }
   },
   head () {
     const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
+      this.error.statusCode === 404 ? 'صفحه مورد نظر پیدا نشد' : this.otherError
     return {
       title
     }
   },
+  computed: {
+    notFoundImage () {
+      return require('~/assets/images/not_found.png')
+    }
+  },
   mounted () {
-    console.log('====ERROR====')
-    console.log(this.error)
-    console.log('=============')
+    if (process.dev) {
+      console.log('====ERROR====')
+      console.log(this.error)
+      console.log('=============')
+    }
   }
 }
 </script>
