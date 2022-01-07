@@ -21,6 +21,11 @@ const mutations = <MutationTree<OrderState>>{
   },
   clearOrderList (state) {
     state.orderList = []
+  },
+  changeOrderStatusInList (state, order) {
+    const orderIndex = state.orderList.findIndex(el => el.id === order.id)
+    state.orderList[orderIndex].status = order.status
+    state.orderList[orderIndex].statusText = order.statusText
   }
 }
 
@@ -37,6 +42,21 @@ const actions = <ActionTree<OrderState, RootState>>{
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       const issue = new Issue('customerOrders', JSON.stringify(e.response))
+      vuexContext.commit('issue/addIssue', issue, { root: true })
+      vuexContext.dispatch('issue/capture', null, { root: true })
+    })
+  },
+  editOrder (vuexContext, order) {
+    const url = process.env.baseURL + `order/${order.id}/`
+
+    order.shop = order.shop.id // add pk instead of Object
+    order.customer = order.customer.id // add pk instead of Object
+
+    return this.$client.put(url, order).then((response) => {
+      vuexContext.commit('changeOrderStatusInList', response.data)
+    }).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      const issue = new Issue('editOrder', JSON.stringify(e.response.data))
       vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
     })
