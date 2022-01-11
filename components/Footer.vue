@@ -19,7 +19,7 @@
         <div><v-btn text small>قوانین و مقررات</v-btn></div>
       </v-col>
       <v-col cols="3" md="2" class="pa-0">            
-        <a
+        <!-- <a
           referrerpolicy="origin"
           target="_blank"
           href="https://trustseal.enamad.ir/?id=237568&amp;Code=eFDsUbAr6MywnIzE6rMI"
@@ -31,7 +31,7 @@
             style="cursor: pointer"
             id="eFDsUbAr6MywnIzE6rMI"
           />
-        </a>
+        </a> -->
       </v-col>
     </v-row>
   </v-footer>
