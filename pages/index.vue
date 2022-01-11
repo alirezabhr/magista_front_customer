@@ -63,7 +63,7 @@ export default {
   components: {
     ProductPreviewCard
   },
-  async asyncData ({ store }) {
+  async fetch ({ store }) {
     await store.dispatch('homePageImagesUrl').catch(() => {
       
     })
