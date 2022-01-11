@@ -47,6 +47,9 @@ const setupAxiosClient = (context: Context) : AxiosInstance => {
             if(error.response.status == 401) {
                 console.log("refreshing token");
                 console.log("should refresh token");
+
+                context.store.commit('auth/removeUserToken')
+                context.redirect('/auth')
                 // try {
                 //     const newAccessToken = await context.store.dispatch(StoreNamespaceEnum.AUTH + '/' + AuthActionType.REFRESH_TOKEN);
                 //     return new Promise((resolve) => {
