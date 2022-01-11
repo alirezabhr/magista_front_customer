@@ -60,6 +60,19 @@ const actions = <ActionTree<OrderState, RootState>>{
       vuexContext.commit('issue/addIssue', issue, { root: true })
       vuexContext.dispatch('issue/capture', null, { root: true })
     })
+  },
+  rateOrder (vuexContext, order) {
+    const url = process.env.baseURL + `order/${order.id}/rate/`
+
+    order.shop = order.shop.id // add pk instead of Object
+    order.customer = order.customer.id // add pk instead of Object
+
+    return this.$client.post(url, order).catch((e) => {
+      vuexContext.commit('issue/createNewIssues', null, { root: true })
+      const issue = new Issue('rateOrder', JSON.stringify(e.response.data))
+      vuexContext.commit('issue/addIssue', issue, { root: true })
+      vuexContext.dispatch('issue/capture', null, { root: true })
+    })
   }
 }
 
