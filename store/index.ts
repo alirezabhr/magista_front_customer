@@ -2,13 +2,15 @@ import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import Product from '~/models/product'
 
 export interface RootState {
-  newestProductsList: Product[]
   homePageImagesUrlList: String[] 
+  newestProductsList: Product[]
+  discountedProductsList: Product[]
 }
 
 export const state = (): RootState => ({
+  homePageImagesUrlList: [], 
   newestProductsList: [],
-  homePageImagesUrlList: [] 
+  discountedProductsList: [],
 })
 
 export const mutations: MutationTree<RootState> = {
@@ -17,6 +19,9 @@ export const mutations: MutationTree<RootState> = {
   },
   setNewestProductsList (state, products) {
     state.newestProductsList = products
+  },
+  setDiscountedProductsList (state, products) {
+    state.discountedProductsList = products
   }
 }
 
@@ -34,6 +39,13 @@ export const actions: ActionTree<RootState, RootState> = {
     return this.$client.get(url).then((response) => {
       vuexContext.commit('setNewestProductsList', response.data)
     })
+  },
+  discountedProducts (vuexContext) {
+    const url = process.env.baseURL + `discounted-products/`
+  
+    return this.$client.get(url).then((response) => {
+      vuexContext.commit('setDiscountedProductsList', response.data)
+    })
   }
 }
 
@@ -43,5 +55,8 @@ export const getters: GetterTree<RootState, RootState> = {
   },
   getNewestProductsList: (state): Product[] => {
     return state.newestProductsList
-  }
+  },
+  getDiscountedProductsList: (state): Product[] => {
+    return state.newestProductsList
+  },
 }

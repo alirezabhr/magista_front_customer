@@ -5,30 +5,49 @@
         <v-col cols="12" md="8" lg="7" class="ma-4 py-3 px-8">
           <v-card outlined rounded="xl">
             <v-img
-              :src="saleImageUrls[0]"
+              :src="imagesUrl[0]"
             />
           </v-card>
         </v-col>
       </v-row>
-      <!-- <v-card outlined class="pa-5 my-2" rounded="lg">
-        <v-card-title class="pt-0 mt-0 red--text">
-          فروش ویژه
+      <v-card outlined class="mx-2 my-8" rounded="lg">
+        <v-card-title class="mx-4 py-0 mt-2 mb-0 red--text">
+          جدیدترین محصولات
         </v-card-title>
-        <v-row>
+        <v-row class="px-4 py-2" no-gutters>
           <v-layout style="overflow-x: scroll;" class="pa-4">
             <ProductPreviewCard
-              v-for="product in bestSellerProducts"
-              :key="product.shortcode"
-              shop-name="test online shop"
+              v-for="product in newestProductsList"
+              :key="product.id"
+              :shop-name="product.shop.instagramUsername"
               :image-url="product.displayImageUrl"
               :title="product.title"
               :rate="product.rate"
               :price="product.finalPrice"
-              @addToCart="addToCart(product)"
+              @addToCart="addItemToCart(product)"
             />
           </v-layout>
         </v-row>
-      </v-card> -->
+      </v-card>
+      <v-card v-if="discountedProductsList.length" outlined class="mx-2 my-8" rounded="lg">
+        <v-card-title class="mx-4 py-0 mt-2 mb-0 red--text">
+          فروش ویژه
+        </v-card-title>
+        <v-row class="px-4 py-2" no-gutters>
+          <v-layout style="overflow-x: scroll;" class="pa-4">
+            <ProductPreviewCard
+              v-for="product in discountedProductsList"
+              :key="product.id"
+              :shop-name="product.shop.instagramUsername"
+              :image-url="product.displayImageUrl"
+              :title="product.title"
+              :rate="product.rate"
+              :price="product.finalPrice"
+              @addToCart="addItemToCart(product)"
+            />
+          </v-layout>
+        </v-row>
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -37,7 +56,6 @@
 import { mapActions } from 'vuex'
 
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
-import bestSellerMock from '~/mock/best_sellers'
 
 export default {
   name: 'HomePage',
@@ -45,15 +63,30 @@ export default {
   components: {
     ProductPreviewCard
   },
-  data () {
-    return {
-      bestSellerProducts: bestSellerMock
-    }
+  async asyncData ({ store }) {
+    await store.dispatch('homePageImagesUrl').catch(() => {
+      
+    })
+    await store.dispatch('newestProducts').catch(() => {
+      
+    })
+    await store.dispatch('discountedProducts').catch(() => {
+      
+    })
   },
   computed: {
-    saleImageUrls () {
-      const base = process.env.baseURL + 'media/source/'
-      return [`${base}autumn_sale.png`, `${base}sale1.png`]
+    imagesUrl () {
+      const list = []
+      this.$store.getters.getHomePageImagesUrlList.forEach(element => {
+        list.push(process.env.baseURL + element)
+      })
+      return list
+    },
+    newestProductsList () {
+      return this.$store.getters.getNewestProductsList
+    },
+    discountedProductsList () {
+      return this.$store.getters.getDiscountedProductsList
     }
   },
   methods: {
