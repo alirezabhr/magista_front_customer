@@ -37,6 +37,7 @@
               class="primary font-weight-bold py-5"
               type="submit"
               :loading="isSubmittingPassword"
+              no-gutters
             >
               ورود
             </v-btn>
@@ -47,6 +48,7 @@
               color="primary"
               class="text-subtitle-2 my-4 px-2"
               @click.prevent="$emit('changePhone')"
+              no-gutters
             >
               <v-icon left>
                 mdi-pencil

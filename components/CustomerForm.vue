@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-row class="pa-5 ma-2 red--text text--darken-3">
+        <v-row class="pa-5 ma-2 red--text text--darken-3" no-gutters>
             <v-icon color="red" class="px-3">mdi-alert-decagram mdi-22px</v-icon>
             <span>ابتدا حساب کاربری خود را تکمیل کنید</span>
         </v-row>
@@ -21,44 +21,44 @@
                 outlined
                 dense
             />
-            <v-row>
-            <v-col cols="12" md="6" class="my-0 py-0">
-                <v-autocomplete
-                    v-model="customerData.province"
-                    label="استان"
-                    :items="getAllProvinces"
-                    :rules="provinceRules"
-                    outlined
-                    dense
-                >
-                <template #no-data>
-                    <v-list-item>
-                    <v-list-item-title>
-                        هیچ استانی با این مشخصات پیدا نشد.
-                    </v-list-item-title>
-                    </v-list-item>
-                </template>
-                </v-autocomplete>
-            </v-col>
+            <v-row no-gutters>
+              <v-col cols="12" md="6" class="my-0 py-0">
+                  <v-autocomplete
+                      v-model="customerData.province"
+                      label="استان"
+                      :items="getAllProvinces"
+                      :rules="provinceRules"
+                      outlined
+                      dense
+                  >
+                  <template #no-data>
+                      <v-list-item>
+                      <v-list-item-title>
+                          هیچ استانی با این مشخصات پیدا نشد.
+                      </v-list-item-title>
+                      </v-list-item>
+                  </template>
+                  </v-autocomplete>
+              </v-col>
 
-            <v-col cols="12" md="6" class="my-0 py-0">
-                <v-autocomplete
-                    v-model="customerData.city"
-                    label="شهر"
-                    :items="getProvinceCities"
-                    :rules="cityRules"
-                    outlined
-                    dense
-                >
-                <template #no-data>
-                    <v-list-item>
-                    <v-list-item-title>
-                        هیچ شهری با این مشخصات پیدا نشد.
-                    </v-list-item-title>
-                    </v-list-item>
-                </template>
-                </v-autocomplete>
-            </v-col>
+              <v-col cols="12" md="6" class="my-0 py-0">
+                  <v-autocomplete
+                      v-model="customerData.city"
+                      label="شهر"
+                      :items="getProvinceCities"
+                      :rules="cityRules"
+                      outlined
+                      dense
+                  >
+                  <template #no-data>
+                      <v-list-item>
+                      <v-list-item-title>
+                          هیچ شهری با این مشخصات پیدا نشد.
+                      </v-list-item-title>
+                      </v-list-item>
+                  </template>
+                  </v-autocomplete>
+              </v-col>
             </v-row>
             <v-textarea
                 v-model="customerData.address"
@@ -78,7 +78,7 @@
 
         <v-card-actions class="px-8">
             <v-col cols="12">
-                <v-row justify="center">
+                <v-row justify="center" no-gutters>
                     <v-btn
                         block
                         class="primary font-weight-bold py-5"
@@ -88,7 +88,7 @@
                         ثبت و ادامه
                     </v-btn>
                 </v-row>
-                <v-row justify="center">
+                <v-row justify="center" no-gutters>
                     <v-btn
                         color="blue darken-1"
                         text

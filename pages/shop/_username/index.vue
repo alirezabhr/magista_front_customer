@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row justify="center" no-gutters>
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
       <v-card min-height="620">
@@ -8,7 +8,7 @@
             <v-row class="text-subtitle-1 text-sm-h6 font-weight-bold px-1" no-gutters>
               فروشگاه {{ getShopInfoData.instagramUsername }}
             </v-row>
-            <v-row class="text-body-2 text-sm-subtitle-2" no-gutters align="center">
+            <v-row class="text-body-2 text-sm-subtitle-2" align="center" no-gutters>
               <v-icon>mdi-map-marker-outline</v-icon>
               {{ getShopInfoData.province }} - {{ getShopInfoData.city }}
             </v-row>
@@ -43,6 +43,7 @@
                     class="fill-height ma-0"
                     align="center"
                     justify="center"
+                    no-gutters
                   >
                     <v-progress-circular
                       indeterminate

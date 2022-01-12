@@ -1,34 +1,34 @@
 <template>
-    <v-row v-if="isLoading" justify="center" >
+    <v-row v-if="isLoading" justify="center" no-gutters>
       <v-progress-circular/>
     </v-row>
     <v-col v-else cols="12" sm="8" md="6" lg="5" class="mx-auto">
       <v-card class="pa-2">
         <v-card-title :class='`${color}--text`' class="my-5">
-          <v-row justify="center" class="text-h5 font-weight-bold">
+          <v-row justify="center" class="text-h5 font-weight-bold" no-gutters>
             تراکنش {{ trxStatusText }}
           </v-row>
         </v-card-title>
 
         <div v-if="trxStatus === 1">
           <v-col class="mx-auto">
-            <v-row justify="center" class="font-weight-bold text-body1 py-2">مبلغ تراکنش</v-row>
-            <v-row justify="center" class="text-body1">{{ amount }} ریال</v-row>
+            <v-row justify="center" class="font-weight-bold text-body1 py-2" no-gutters>مبلغ تراکنش</v-row>
+            <v-row justify="center" class="text-body1" no-gutters>{{ amount }} ریال</v-row>
           </v-col>
           <v-col class="mx-auto py-6">
-            <v-row justify="center" class="font-weight-bold text-body1 py-2">شماره مرجع بانکی</v-row>
-            <v-row justify="center" class="text-body1">{{ refNum }}</v-row>
+            <v-row justify="center" class="font-weight-bold text-body1 py-2" no-gutters>شماره مرجع بانکی</v-row>
+            <v-row justify="center" class="text-body1" no-gutters>{{ refNum }}</v-row>
           </v-col>
           <v-col class="mx-auto py-6">
-            <v-row justify="center" class="font-weight-bold text-body1 py-2">شماره تراکنش</v-row>
-            <v-row justify="center" class="text-body1">{{ invoiceNum }}</v-row>
+            <v-row justify="center" class="font-weight-bold text-body1 py-2" no-gutters>شماره تراکنش</v-row>
+            <v-row justify="center" class="text-body1" no-gutters>{{ invoiceNum }}</v-row>
           </v-col>
           <v-col class="mx-auto pt-5">
-            <v-row justify="center" class="text-body2">{{ paidDateTime }}</v-row>
+            <v-row justify="center" class="text-body2" no-gutters>{{ paidDateTime }}</v-row>
           </v-col>
         </div>
         <div v-else-if="trxStatus === 2">
-          <v-row justify="center">
+          <v-row justify="center" no-gutters>
             <v-col>
               <v-img
                 max-height="250"

@@ -47,7 +47,7 @@
         </v-card-subtitle>
         <v-divider class="mt-2 pb-6" />
         <div class="py-2">
-          <v-row v-for="(orderItem, i) in order.orderItems" :key="i" class="px-2" justify="center">
+          <v-row v-for="(orderItem, i) in order.orderItems" :key="i" class="px-2" justify="center" no-gutters>
             <OrderItem :order-item="orderItem" />
           </v-row>
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row justify="center" no-gutters>
     <v-snackbar
       v-model="showSnackbar"
       color="grey darken-3"
@@ -36,6 +36,7 @@
                 :key="i"
                 class="px-2"
                 justify="center"
+                no-gutters
               >
                 <OrderItem :order-item="orderItem" />
               </v-row>

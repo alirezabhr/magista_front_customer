@@ -1,6 +1,6 @@
 <template>
   <v-card outlined class="mb-2">
-    <v-row class="pa-2">
+    <v-row class="pa-2" no-gutters>
       <v-col cols="3">
         <v-card outlined>
           <v-img
@@ -8,7 +8,7 @@
             :src="getFullImageUrl(orderItem.product.displayImageUrl)"
           >
             <template #placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-row class="fill-height ma-0" align="center" justify="center" no-gutters>
                 <v-progress-circular indeterminate color="grey lighten-2" />
               </v-row>
             </template>
@@ -16,15 +16,15 @@
         </v-card>
       </v-col>
       <v-col cols="1" class="" align-self="center">
-        <v-row justify="center">
+        <v-row justify="center" no-gutters>
           <v-btn icon @click.prevent="addItemToCart(orderItem.product)"
             ><v-icon>mdi-plus</v-icon></v-btn
           >
         </v-row>
-        <v-row class="font-weight-bold" justify="center">
+        <v-row class="font-weight-bold" justify="center" no-gutters>
           {{ orderItem.count }}
         </v-row>
-        <v-row justify="center">
+        <v-row justify="center" no-gutters>
           <v-btn icon @click.prevent="removeItemFromCart(orderItem.product)"
             ><v-icon>mdi-minus</v-icon></v-btn
           >

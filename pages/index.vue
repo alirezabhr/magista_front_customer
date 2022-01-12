@@ -1,7 +1,7 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center" align="center" no-gutters>
     <v-col>
-      <v-row justify="center">
+      <v-row justify="center" no-gutters>
         <v-col cols="12" md="8" lg="7" class="ma-4 py-3 px-8">
           <v-card outlined rounded="xl">
             <v-img

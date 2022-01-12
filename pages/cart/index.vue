@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center">
+  <v-row justify="center" no-gutters>
     <v-snackbar
       v-model="showSnackbar"
       color="grey darken-3"
@@ -58,10 +58,10 @@
       <v-card v-else min-height="620" class="pa-2">
         <v-card-title>
           <v-col>
-            <v-row justify="center">
+            <v-row justify="center" no-gutters>
               سبد شما خالی است!
             </v-row>
-            <v-row justify="center">
+            <v-row justify="center" no-gutters>
               <v-img
                 contain
                 max-height="250"

@@ -23,7 +23,7 @@
           class="pa-2"
           outlined
         >
-          <v-row>
+          <v-row no-gutters>
             <v-col cols="3">
               <v-card
                 outlined
@@ -37,6 +37,7 @@
                       class="fill-height ma-0"
                       align="center"
                       justify="center"
+                      no-gutters
                     >
                       <v-progress-circular
                         indeterminate

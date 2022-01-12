@@ -5,7 +5,7 @@
     class="white"
     elevation="3"
   >
-    <v-row class="hidden-xs-only">
+    <v-row class="hidden-xs-only" no-gutters>
       <v-toolbar-title class="primary--text font-weight-bold mx-3">
         <NuxtLink to="/" active-class="text-decoration-none">
           مگیستا

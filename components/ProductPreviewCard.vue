@@ -19,7 +19,7 @@
     </v-card-text>
 
     <v-card-actions class="py-1">
-      <v-row align="end" class="py-auto my-auto">
+      <v-row align="end" class="py-auto my-auto" no-gutters>
         <v-col>
           <v-btn
             icon
