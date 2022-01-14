@@ -3,7 +3,7 @@
     <Header />
     <v-main class="background">
       <v-container class="pa-0">
-        <Nuxt />
+        <Nuxt keep-alive />
       </v-container>
     </v-main>
   </v-app>
