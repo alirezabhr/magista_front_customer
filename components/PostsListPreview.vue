@@ -12,7 +12,7 @@
         <NuxtLink :to="`/product/${post.shortcode}`" class="text-decoration-none" active-class="text-decoration-none">
           <v-img
             :aspect-ratio="1"
-            :src="getImageUrl(post.productImages[0].displayImage)"
+            :src="getImageUrl(post.previewImage)"
             style="border-style: solid; border-width: 0.5px; border-color: grey;"
           >
             <template #placeholder>
