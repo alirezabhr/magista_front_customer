@@ -1,5 +1,6 @@
 <template>
   <v-row justify="center" align="center" no-gutters>
+    <AddToCartDialog v-if="showNewCartItemDialog" @closeDialog="showNewCartItemDialog=false" />
     <v-col>
       <v-row justify="center" no-gutters>
         <v-col cols="12" md="8" lg="7" class="ma-4 py-3 px-8">
@@ -43,7 +44,7 @@
               :title="product.title"
               :rate="product.rate"
               :price="product.finalPrice"
-              @addToCart="addItemToCart(product)"
+              @addToCart="addToCart(product)"
             />
           </v-layout>
         </v-row>
@@ -55,13 +56,20 @@
 <script>
 import { mapActions } from 'vuex'
 
+import AddToCartDialog from '@/components/AddToCartDialog.vue'
 import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
 
 export default {
   name: 'HomePage',
   layout: 'home_layout',
   components: {
+    AddToCartDialog,
     ProductPreviewCard
+  },
+  data () {
+    return {
+      showNewCartItemDialog: false
+    }
   },
   async fetch ({ store }) {
     await store.dispatch('homePageImagesUrl').catch(() => {
@@ -91,6 +99,11 @@ export default {
   },
   methods: {
     ...mapActions('cart', ['addItemToCart']),
+
+    addToCart (product) {
+      this.addItemToCart(product)
+      this.showNewCartItemDialog = true
+    }
   }
 }
 </script>
