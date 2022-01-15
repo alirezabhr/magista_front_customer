@@ -1,7 +1,12 @@
 <template>
   <div>
-    <v-row v-if="isGettingShopPosts" justify="center" no-gutters>
-      <v-progress-circular indeterminate color="grey lighten-2" />
+    <v-row v-if="$fetchState.pending" no-gutters>
+      <v-col v-for="i in 12" :key="i" cols="4" class="pa-0">
+        <v-skeleton-loader
+          type="image"
+          max-height="120"
+        />
+      </v-col>
     </v-row>
     <v-row v-else class="pa-sm-1 pa-md-2" dir="ltr" no-gutters>
       <v-col
@@ -51,11 +56,11 @@ export default {
       isLoadingData: false
     }
   },
-  fetch () {
-    this.shopPosts(this.igUsername)
+  async fetch () {
+    await this.shopPosts(this.igUsername)
   },
   computed: {
-    ...mapGetters('shop', ['getShopPosts', 'isGettingShopPosts'])
+    ...mapGetters('shop', ['getShopPosts'])
   },
   methods: {
     ...mapActions('shop', ['shopPosts']),
