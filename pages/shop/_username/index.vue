@@ -2,7 +2,7 @@
   <v-row justify="center" no-gutters>
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
       <AddToCartDialog v-if="showDialog" @closeDialog="showDialog=false" />
-      <v-card min-height="620">
+      <v-card v-if="!isLoadingShopData" min-height="620">
         <v-row class="py-6 px-2" no-gutters>
           <v-col cols="8" sm="9" class="ma-0 py-1 px-2">
             <v-row class="text-subtitle-1 text-sm-h6 font-weight-bold px-1" no-gutters>
@@ -26,36 +26,11 @@
           </v-col>
         </v-row>
         <v-divider class="pb-3 mx-2" />
-        <v-row class="pa-sm-1 pa-md-2" no-gutters dir="ltr">
-          <v-col
-            v-for="post in getShopPosts"
-            :key="post.shortcode"
-            cols="4"
-          >
-            <NuxtLink :to="`/product/${post.shortcode}`" class="text-decoration-none" active-class="text-decoration-none">
-              <v-img
-                :aspect-ratio="1"
-                :src="getImageUrl(post.productImages[0].displayImage)"
-                style="border-style: solid; border-width: 0.5px; border-color: grey;"
-              >
-                <template #placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                    no-gutters
-                  >
-                    <v-progress-circular
-                      indeterminate
-                      color="grey lighten-2"
-                    />
-                  </v-row>
-                </template>
-              </v-img>
-            </NuxtLink>
-          </v-col>
-        </v-row>
+        <PostsListPreview :ig-username="getShopInfoData.instagramUsername" />
       </v-card>
+      <div v-else>
+        <v-progress-circular indeterminate color="grey lighten-2" />
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -64,13 +39,13 @@
 import { mapActions, mapGetters } from 'vuex'
 
 import AddToCartDialog from '@/components/AddToCartDialog.vue'
-import ShopProductItem from '@/components/ShopProductItem.vue'
+import PostsListPreview from '@/components/PostsListPreview.vue'
 
 export default {
   name: 'ShopUsernamePage',
   components: {
     AddToCartDialog,
-    ShopProductItem
+    PostsListPreview
   },
   validate ({ params }) {
     const username = params.username
@@ -80,23 +55,29 @@ export default {
     }
     return true
   },
-  async asyncData ({ params, store, error }) {
-    await store.dispatch('shop/shopInfoData', params.username).catch((response) => {
-      if (response.status === 404) {
-        error({ statusCode: 404, message: 'فروشگاه مورد نظر پیدا نشد!' })
+  async fetch ({ params, store, error}) {
+    const igUsername = params.username
+    this.isLoadingShopData = true
+    try {
+      await store.dispatch('shop/shopInfoData', igUsername)
+      this.isLoadingShopData = false
+    } catch (e) {
+      this.isLoadingShopData = false
+      if (e.status === 404) {
+        error({ statusCode: 404, message: 'page not found.' })
       } else {
-        error({ statusCode: 500, message: 'Oops! An error occured.' })
+        error({ statusCode: e.status, message: 'Oops! An error occured.' })
       }
-    })
-    await store.dispatch('shop/shopPosts', params.username)
+    }
   },
   data () {
     return {
+      isLoadingShopData: false,
       showDialog: false
     }
   },
   computed: {
-    ...mapGetters('shop', ['getShopInfoData', 'getShopPosts']),
+    ...mapGetters('shop', ['getShopInfoData']),
 
     profileImageFullUrl () {
       return process.env.baseURL + this.getShopInfoData.profileImageUrl
@@ -108,9 +89,6 @@ export default {
     addToCart (product) {
       this.addItemToCart(product)
       this.showDialog = true
-    },
-    getImageUrl (src) {
-      return process.env.baseURL + src
     }
   }
 }
