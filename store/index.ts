@@ -57,6 +57,6 @@ export const getters: GetterTree<RootState, RootState> = {
     return state.newestProductsList
   },
   getDiscountedProductsList: (state): Product[] => {
-    return state.newestProductsList
+    return state.discountedProductsList
   },
 }
