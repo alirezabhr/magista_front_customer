@@ -4,11 +4,24 @@
     <v-col>
       <v-row justify="center" no-gutters>
         <v-col cols="12" md="8" lg="7" class="ma-4 py-3 px-8">
-          <v-card outlined rounded="xl">
-            <v-img
-              :src="imagesUrl[0]"
-            />
-          </v-card>
+          <v-carousel
+            v-model="carouselIndex"
+            :show-arrows="imagesUrl.length > 1"
+            :hide-delimiters="true"
+            class="pa-0 ma-0"
+            height="100%"
+          >
+            <v-carousel-item
+              v-for="imgUrl in imagesUrl"
+              :key="imgUrl"
+            >
+              <v-card outlined rounded="xl">
+                <v-img
+                  :src="imgUrl"
+                />
+              </v-card>
+            </v-carousel-item>
+          </v-carousel>
         </v-col>
       </v-row>
       <v-card outlined class="mx-2 my-8" rounded="lg">
@@ -72,6 +85,7 @@ export default {
   },
   data () {
     return {
+      carouselIndex: 0,
       showNewCartItemDialog: false
     }
   },
