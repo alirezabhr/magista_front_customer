@@ -17,16 +17,18 @@
         </v-card-title>
         <v-row class="px-4 py-2" no-gutters>
           <v-layout style="overflow-x: scroll;" class="pa-4">
-            <ProductPreviewCard
-              v-for="product in newestProductsList"
-              :key="product.id"
-              :shop-name="product.shop.instagramUsername"
-              :image-url="product.displayImageUrl"
-              :title="product.title"
-              :rate="product.rate"
-              :price="product.finalPrice"
-              @addToCart="addItemToCart(product)"
-            />
+            <div v-for="product in newestProductsList" :key="product.id" class="ml-10">
+              <ProductPreviewCard
+                :shop-name="product.shop.instagramUsername"
+                :image-url="product.displayImageUrl"
+                :title="product.title"
+                :post-shortcode="product.postShortcode"
+                :original-price="product.originalPrice"
+                :final-price="product.finalPrice"
+                :discount-percent="product.discountPercent"
+                @addToCart="addToCart(product)"
+              />
+            </div>
           </v-layout>
         </v-row>
       </v-card>
@@ -36,16 +38,18 @@
         </v-card-title>
         <v-row class="px-4 py-2" no-gutters>
           <v-layout style="overflow-x: scroll;" class="pa-4">
-            <ProductPreviewCard
-              v-for="product in discountedProductsList"
-              :key="product.id"
-              :shop-name="product.shop.instagramUsername"
-              :image-url="product.displayImageUrl"
-              :title="product.title"
-              :rate="product.rate"
-              :price="product.finalPrice"
-              @addToCart="addToCart(product)"
-            />
+            <div v-for="product in discountedProductsList" :key="product.id" class="ml-10">
+              <ProductPreviewCard
+                :shop-name="product.shop.instagramUsername"
+                :image-url="product.displayImageUrl"
+                :title="product.title"
+                :post-shortcode="product.postShortcode"
+                :original-price="product.originalPrice"
+                :final-price="product.finalPrice"
+                :discount-percent="product.discountPercent"
+                @addToCart="addToCart(product)"
+              />
+            </div>
           </v-layout>
         </v-row>
       </v-card>
