@@ -13,12 +13,12 @@
         v-for="post in getShopPosts"
         :key="post.shortcode"
         cols="4"
+        style="border-style: solid; border-width: 1px; border-color: white;"
       >
         <NuxtLink :to="`/product/${post.shortcode}`" class="text-decoration-none" active-class="text-decoration-none">
           <v-img
             :aspect-ratio="1"
             :src="getImageUrl(post.previewImage)"
-            style="border-style: solid; border-width: 0.5px; border-color: grey;"
           >
             <template #placeholder>
               <v-row
