@@ -19,7 +19,7 @@ const state = (): ShopState => ({
 const mutations = <MutationTree<ShopState>>{
   setShopInfoData (state, shopInfoData) {
     state.shop = new Shop(shopInfoData.id, shopInfoData.instagramUsername, shopInfoData.province,
-      shopInfoData.city, shopInfoData.profilePic)
+      shopInfoData.city, shopInfoData.profilePic, shopInfoData.bio, shopInfoData.delivery, shopInfoData.preparation)
   },
   setShopPosts (state, postsList) {
     state.shopPosts = []

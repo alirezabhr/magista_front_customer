@@ -19,7 +19,8 @@ const state = (): ProductState => ({
 
 const mutations = <MutationTree<ProductState>>{
   setPost (state, p) {
-    const shop = new Shop(p.shop.id, p.shop.instagramUsername, p.shop.province, p.shop.city, p.shop.profilePic)
+    const shop = new Shop(p.shop.id, p.shop.instagramUsername, p.shop.province, p.shop.city, p.shop.profilePic,
+      p.shop.bio, p.shop.delivery, p.shop.preparation)
     state.post = new Post(p.id, shop, p.previewImage, p.shortcode, p.description)
   },
   clearPostProductImages (state) {
