@@ -35,7 +35,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
-import OrderCard from '~/components/OrderCard.vue'
+import OrderCard from '~/components/order/OrderCard.vue'
 
 export default {
   name: 'OrdersPage',

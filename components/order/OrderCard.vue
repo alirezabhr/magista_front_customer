@@ -68,7 +68,7 @@
 import { mapActions } from 'vuex'
 
 import OrderStatus from '@/models/order_status'
-import OrderItem from '@/components/OrderItem.vue'
+import OrderItem from '~/components/order/OrderItem.vue'
 import RateOrderForm from '@/components/order/RateOrderForm.vue'
 
 export default {

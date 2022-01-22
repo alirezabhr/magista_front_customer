@@ -35,8 +35,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import OrderCard from '~/components/order/OrderCard.vue'
+
 export default {
   name: "InvoiceIdPage",
+  components: {
+    OrderCard
+  },
   computed: {
     ...mapGetters('invoice', ['getSelectedInvoice'])
   },
