@@ -10,48 +10,12 @@
     <v-col v-else cols="12" class="pa-0">
       <v-card class="pa-2" flat>
         <v-col cols="11" sm="9" md="8" lg="6" class="pa-0 mx-auto">
-          <v-card
-            v-for="order in getSelectedInvoice.orders"
-            :key="order.id"
-            class="pa-2 my-4 mx-2"
-            elevation="6"
-          >
-            <v-col>
-              <v-card-title class="pt-0 pb-6">
-                وضعیت:
-                {{ order.statusText }}
-              </v-card-title>
-              <v-card-subtitle class="py-0">
-                فروشگاه:
-                {{ order.shop.instagramUsername }}
-              </v-card-subtitle>
-              <v-card-subtitle class="py-0">
-                <v-icon>mdi-map-marker-outline</v-icon>
-                {{ order.shop.province }} -
-                {{ order.shop.city }}
-              </v-card-subtitle>
-              <v-divider class="mt-2 pb-6" />
-              <div class="py-2">
-                <v-row
-                  v-for="(orderItem, i) in order.orderItems"
-                  :key="i"
-                  class="px-2"
-                  justify="center"
-                  no-gutters
-                >
-                  <OrderItem :order-item="orderItem" />
-                </v-row>
-              </div>
-              <v-row class="py-2 px-3 text-subtitle1" no-gutters>
-                قیمت کل:
-                {{ order.totalPrice }}
-                تومان
-              </v-row>
-              <v-card-subtitle class="py-0">
-                {{ order.createdAt }}
-              </v-card-subtitle>
-            </v-col>
-          </v-card>
+          <v-row justify="center" class="pt-5 text-h6 yellow--text text--darken-3 font-weight-bold" no-gutters>
+            فاکتور خرید
+          </v-row>
+          <div v-for="o in getSelectedInvoice.orders" :key="o.id">
+            <OrderCard :order="o" :is-in-invoice-page="true" />
+          </div>
         </v-col>
         <v-card-actions v-show="!getSelectedInvoice.isPaid">
           <v-btn
