@@ -3,8 +3,11 @@
     <v-progress-circular v-if="isLoading" indeterminate size="64" />
     <v-col v-else cols="11" sm="9" md="8" lg="6" class="pa-0">
       <div v-if="getOrderList.length > 0">
+        <div class="px-3 pt-5 text-h6 yellow--text text--darken-3 font-weight-bold">
+          سفارشات شما
+        </div>
         <div v-for="order in getOrderList" :key="order.id" >
-          <OrderCard :order="order" />
+          <OrderCard :order="order" :is-in-invoice-page="false" />
         </div>
       </div>
       
