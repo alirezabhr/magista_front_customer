@@ -17,15 +17,21 @@
             <OrderCard :order="o" :is-in-invoice-page="true" />
           </div>
         </v-col>
+        <v-col cols="10" sm="8" md="6" lg="4" class="pa-0 mx-auto">
+          <InvoiceTable :invoice="getSelectedInvoice" />
+        </v-col>
         <v-card-actions v-show="!getSelectedInvoice.isPaid">
-          <v-btn
-            rounded
-            color="green"
-            class="darken-1 white--text px-4 mx-auto"
-            @click.prevent="pay"
-          >
-            پرداخت
-          </v-btn>
+          <v-col cols="10" sm="8" md="6" lg="4" class="mx-auto">
+            <v-btn
+              rounded
+              color="green"
+              width="100%"
+              class="darken-1 white--text px-4"
+              @click.prevent="pay"
+            >
+              پرداخت
+            </v-btn>
+          </v-col>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -36,20 +42,22 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import OrderCard from '~/components/order/OrderCard.vue'
+import InvoiceTable from '~/components/order/InvoiceTable.vue'
 
 export default {
   name: "InvoiceIdPage",
   components: {
-    OrderCard
-  },
-  computed: {
-    ...mapGetters('invoice', ['getSelectedInvoice'])
+    OrderCard,
+    InvoiceTable
   },
   data () {
     return {
       showSnackbar: false,
-      snackbarMessage: ''      
+      snackbarMessage: ''
     }
+  },
+  computed: {
+    ...mapGetters('invoice', ['getSelectedInvoice'])
   },
   async mounted() {
     const invoiceId = this.$route.params.id
