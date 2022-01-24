@@ -1,9 +1,9 @@
-import OrderItem from "./order_item"
+import CartItem from "./cart_item"
 
 class ShopCartOrder {
   shop_id: number
   shop_name: string
-  orderItems: OrderItem[]
+  orderItems: CartItem[]
 
   constructor (seller_id: number, shopName:string) {
     this.shop_id = seller_id
@@ -11,7 +11,7 @@ class ShopCartOrder {
     this.orderItems = []
   }
 
-  addItem (orderItem: OrderItem) {
+  addItem (orderItem: CartItem) {
     this.orderItems.push(orderItem)
   }
 }

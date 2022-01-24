@@ -1,7 +1,7 @@
 import { GetterTree, MutationTree, ActionTree } from "vuex"
 import { RootState } from '../index'
 import Product from "~/models/product"
-import OrderItem from "~/models/order_item"
+import CartItem from "~/models/cart_item"
 import ShopCartOrder from "~/models/shop_cart_order"
 import Issue from "~/models/issue_tracker/issue"
 
@@ -37,14 +37,14 @@ const mutations = <MutationTree<CartState>>{
     const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shop_id === product.shop.id)
     if (shopCartOrderIndex === -1) {  // don't have any products from this shop
       const shopCartOrder = new ShopCartOrder(product.shop.id, product.shop.instagramUsername)
-      shopCartOrder.addItem(new OrderItem(product))
+      shopCartOrder.addItem(new CartItem(product))
       state.cart.push(shopCartOrder)
     } else {  // have some products from this shop
       const orderItemIndex = state.cart[shopCartOrderIndex].orderItems.findIndex(
-        (orderItem: OrderItem) => orderItem.product.id === product.id)
+        (orderItem: CartItem) => orderItem.product.id === product.id)
 
       if (orderItemIndex === -1) {  // this product does not exist in the cart
-        const orderItem = new OrderItem(product)
+        const orderItem = new CartItem(product)
         state.cart[shopCartOrderIndex].orderItems.push(orderItem)
       } else {  // you had ordered this product before
         state.cart[shopCartOrderIndex].orderItems[orderItemIndex].count += 1
@@ -57,7 +57,7 @@ const mutations = <MutationTree<CartState>>{
       console.log('ERROR Occured in removing item from cart') // TODO throw an erro
     } else {  // have some products from this shop
       const orderItemIndex = state.cart[shopCartOrderIndex].orderItems.findIndex(
-        (orderItem: OrderItem) => orderItem.product.id === product.id)
+        (orderItem: CartItem) => orderItem.product.id === product.id)
 
       if (orderItemIndex === -1) {  // this product does not exist in the cart
         console.log('ERROR Occured in removing item from cart') // TODO throw an erro
@@ -123,7 +123,7 @@ const getters = <GetterTree<CartState, RootState>>{
   getCartItemCounts: (state) => {
     let count = 0
     state.cart.forEach((shopCartOrder: ShopCartOrder) => {
-      shopCartOrder.orderItems.forEach((orderItem: OrderItem) => {
+      shopCartOrder.orderItems.forEach((orderItem: CartItem) => {
         count += orderItem.count
       })
     })
@@ -132,7 +132,7 @@ const getters = <GetterTree<CartState, RootState>>{
   getCartTotalPrice: (state) => {
     let total = 0
     state.cart.forEach((shopCartOrder: ShopCartOrder) => {
-      shopCartOrder.orderItems.forEach((orderItem: OrderItem) => {
+      shopCartOrder.orderItems.forEach((orderItem: CartItem) => {
         total = total + orderItem.count * orderItem.product.finalPrice
       })
     })
