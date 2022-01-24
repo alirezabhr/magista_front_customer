@@ -61,7 +61,7 @@ export default {
     fillTableContents () {
       this.tableContent = [
         { title: 'قیمت کل کالاها', value: `${this.invoiceTotalPrice} تومان` },
-        { title: 'تخفیف کالاها', value: `${this.invoiceTotalDiscount} تومان` },
+        { title: 'جمع تخفیف‌ها', value: `${this.invoiceTotalDiscount} تومان` },
         { title: 'جمع', value: `${this.invoiceFinalPrice} تومان` }
       ]
     }
