@@ -9,7 +9,10 @@ class Order {
     shop: Shop
     customer: Customer
     orderItems: OrderItem[]
-    totalPrice: number
+    totalOriginalPrice: number
+    totalDiscountAmount: number
+    finalPrice: number
+    hasDiscountCode: boolean
     shippedBy: number
     paidAt: Date
     verifiedAt: Date
@@ -18,14 +21,18 @@ class Order {
     createdAt: Date
 
     constructor (id: number, status: number, statusText: string, shop: Shop, customer: Customer, orderItems: OrderItem[],
-      totalPrice: number, shippedBy: number, paidAt: Date, verifiedAt: Date, shippedAt: Date, canceledAt: Date, createdAt: Date) {
+      totalOriginalPrice: number, totalDiscountAmount: number, finalPrice: number, hasDiscountCode: boolean, shippedBy: number,
+      paidAt: Date, verifiedAt: Date, shippedAt: Date, canceledAt: Date, createdAt: Date) {
       this.id = id
       this.status = status
       this.statusText = statusText
       this.shop = shop
       this.customer = customer
       this.orderItems = orderItems
-      this.totalPrice = totalPrice
+      this.totalOriginalPrice = totalOriginalPrice
+      this.totalDiscountAmount = totalDiscountAmount
+      this.finalPrice = finalPrice
+      this.hasDiscountCode = hasDiscountCode
       this.shippedBy = shippedBy
       this.paidAt = paidAt
       this.verifiedAt = verifiedAt

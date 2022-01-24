@@ -48,11 +48,23 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row class=" py-2 px-3 text-subtitle1" no-gutters>
-          قیمت کل:
-          {{ order.totalPrice }}
-          تومان
-        </v-row>
+        <v-col>
+          <v-row class="text-subtitle-2" no-gutters>
+            قیمت کالاها:
+            {{ order.totalOriginalPrice }}
+            تومان
+          </v-row>
+          <v-row class="text-subtitle-2" no-gutters>
+            تخفیف کالاها:
+            {{ order.totalDiscountAmount }}
+            تومان
+          </v-row>
+          <v-row class="text-subtitle-2 font-weight-bold" no-gutters>
+            جمع:
+            {{ order.finalPrice }}
+            تومان
+          </v-row>
+        </v-col>
         <v-card-subtitle class="py-0">
           {{ order.createdAt }}
         </v-card-subtitle>

@@ -24,11 +24,14 @@
         <v-col cols="8" class="pr-2">
           <v-row no-gutters>
             <div class="text-truncate">
-              {{ orderItem.product.title }}
+              {{ orderItem.productTitle }}
             </div>
           </v-row>
+          <v-row v-show="orderItem.productDiscountPercent" class="text-decoration-line-through" no-gutters>
+          {{ orderItem.productOriginalPrice }} تومان
+        </v-row>
           <v-row class="font-weight-bold" no-gutters>
-            {{ orderItem.price }} تومان
+            {{ orderItem.productFinalPrice }} تومان
           </v-row>
         </v-col>
       </v-row>
