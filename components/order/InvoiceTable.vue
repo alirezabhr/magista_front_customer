@@ -37,10 +37,18 @@ export default {
   },
   computed: {
     invoiceTotalPrice () {
-      return 123
+      let s = 0
+      this.invoice.orders.forEach(el => {
+        s += el.totalOriginalPrice
+      })
+      return s 
     },
     invoiceTotalDiscount () {
-      return 65
+      let s = 0
+      this.invoice.orders.forEach(el => {
+        s += el.totalDiscountAmount
+      })
+      return s 
     },
     invoiceFinalPrice () {
       return this.invoiceTotalPrice - this.invoiceTotalDiscount
