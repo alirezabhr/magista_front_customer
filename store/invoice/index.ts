@@ -7,12 +7,10 @@ const namespace = 'invoice'
 
 interface InvoiceState {
   selectedInvoice: Invoice | null
-  invoiceList: Invoice[]
 }
 
 const state = (): InvoiceState => ({
-  selectedInvoice: null,
-  invoiceList: []
+  selectedInvoice: null
 })
 
 const mutations = <MutationTree<InvoiceState>>{
