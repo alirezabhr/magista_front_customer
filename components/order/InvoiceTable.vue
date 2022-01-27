@@ -30,11 +30,6 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      tableContent: []
-    }
-  },
   computed: {
     invoiceTotalPrice () {
       let s = 0
@@ -52,14 +47,9 @@ export default {
     },
     invoiceFinalPrice () {
       return this.invoiceTotalPrice - this.invoiceTotalDiscount
-    }
-  },
-  mounted () {
-    this.fillTableContents()  // should be in mounted
-  },
-  methods: {
-    fillTableContents () {
-      this.tableContent = [
+    },
+    tableContent () {
+      return [
         { title: 'قیمت کل کالاها', value: `${this.invoiceTotalPrice} تومان` },
         { title: 'جمع تخفیف‌ها', value: `${this.invoiceTotalDiscount} تومان` },
         { title: 'جمع', value: `${this.invoiceFinalPrice} تومان` }
