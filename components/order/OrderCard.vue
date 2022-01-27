@@ -6,6 +6,12 @@
     >
       <RateOrderForm :is-submitting="isSubmitting" @rate="rate" />
     </v-dialog>
+    <v-snackbar
+      v-model="showDiscountSnackbar"
+      color="green"
+    >
+      بُن تخفیف اعمال شد.
+    </v-snackbar>
     <v-card class="pa-2 my-4 mx-2"  elevation="6">
       <v-col>
         <v-card-title class="pt-0 pb-6">
@@ -31,7 +37,7 @@
           <v-col cols="10">
             <v-text-field
               v-model="discountCode"
-              :label="order.hasDiscountCode ? '********' : 'بُن تخفیف'"
+              label='بُن تخفیف'
               hide-details
               :disabled="order.hasDiscountCode"
               outlined
@@ -55,7 +61,7 @@
             تومان
           </v-row>
           <v-row class="text-subtitle-2" no-gutters>
-            تخفیف کالاها:
+            تخفیف‌ها:
             {{ order.totalDiscountAmount }}
             تومان
           </v-row>
@@ -106,7 +112,8 @@ export default {
       isSubmitting: false,
       discountCode: '',
       isSubmittingDiscount: false,
-      discountCodeErrorMsg: ''
+      discountCodeErrorMsg: '',
+      showDiscountSnackbar: false
     }
   },
   methods: {
@@ -140,6 +147,7 @@ export default {
         const data = { orderId: this.order.id, code: this.discountCode }
         this.applyOrderDiscount(data).then(() => {
           this.isSubmittingDiscount = false
+          this.showDiscountSnackbar = true
         }).catch(() => {
           this.isSubmittingDiscount = false
           this.discountCodeErrorMsg = 'بُن تخفیف نامعتبر است'
