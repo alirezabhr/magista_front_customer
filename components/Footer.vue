@@ -1,7 +1,7 @@
 <template>
   <v-footer class="pa-0">
     <v-row no-gutters>
-      <v-col offset="1" cols="3" class="py-3 px-2">
+      <v-col cols="3" class="py-3 px-2">
         <v-img
           :src="magistaIconSrc"
           max-height="100px"
@@ -12,11 +12,14 @@
           Magista
         </v-row>
       </v-col>
-      <v-col cols="8" md="6" class="py-3 px-2">
+      <v-col cols="4" md="2" class="py-3 px-2">
         <div class="font-weight-bold px-5">مگیستا</div>
-        <div><v-btn text small>ارتباط با ما</v-btn></div>
         <div><v-btn text small>تماس با ما</v-btn></div>
         <div><v-btn text small>قوانین و مقررات</v-btn></div>
+      </v-col>
+      <v-col cols="4" md="2" class="py-3 px-2">
+        <div class="font-weight-bold">ارتباط با ما</div>
+        <div class="text-subtitle-2">info@magista.ir</div>
       </v-col>
       <v-col cols="3" md="2" class="pa-0">            
         <!-- <a
