@@ -10,6 +10,7 @@
             :hide-delimiters="true"
             class="pa-0 ma-0"
             height="100%"
+            cycle
           >
             <v-carousel-item
               v-for="imgUrl in imagesUrl"
@@ -18,6 +19,8 @@
               <v-card outlined rounded="xl">
                 <v-img
                   :src="imgUrl"
+                  :lazy-src="imgUrl"
+                  :aspect-ratio="3/2"
                 />
               </v-card>
             </v-carousel-item>
