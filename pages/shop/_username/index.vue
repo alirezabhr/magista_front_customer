@@ -24,6 +24,9 @@
             </v-row>
           </v-col>
         </v-row>
+        <v-row class="px-4 pb-4 text-body-2" no-gutters>
+          {{ getShopInfoData.bio }}
+        </v-row>
         <v-divider class="pb-3 mx-2" />
         <PostsListPreview :ig-username="getShopInfoData.instagramUsername" />
       </v-card>
