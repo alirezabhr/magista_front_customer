@@ -23,6 +23,7 @@
             ]
         },
         "types": [
+            "@nuxtjs/sentry",
             "@types/node",
             "@nuxt/types"
         ]
