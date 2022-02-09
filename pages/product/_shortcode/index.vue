@@ -35,11 +35,13 @@
       </v-row>
       <ProductsList :productImages="getPostProductImages" :carouselIndex="carouselIndex" />
       
-      <v-col class="pa-3">
-        <v-row v-if="getPost.description" class="font-weight-light" no-gutters>
+      <v-col class="px-3 py-0">
+        <v-col v-if="getPost.description" class="font-weight-light">
           <div class="font-weight-bold text-body-2">توضیح پُست</div>
-          {{ getPost.description }}
-        </v-row>
+          <div class="description">
+            {{ getPost.description }}
+          </div>
+        </v-col>
       </v-col>
     </v-card>
   </v-col>
@@ -91,3 +93,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.description {
+  white-space: pre-line;
+}
+</style>
