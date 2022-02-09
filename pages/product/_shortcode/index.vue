@@ -29,6 +29,10 @@
         <v-spacer />
       </v-row>
       <ProductImageCarousel :product-images="getPostProductImages" @changeCarouselIndex="changeCarouselIndex" />
+      <v-row class="px-2 py-2" no-gutters>
+        <v-icon>mdi-clock-outline mdi-18px</v-icon>
+        <div class="px-2 text-subtitle-2">زمان آماده سازی: {{ getPost.shop.preparation }} روز</div>
+      </v-row>
       <ProductsList :productImages="getPostProductImages" :carouselIndex="carouselIndex" />
       
       <v-col class="pa-3">
