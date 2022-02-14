@@ -54,8 +54,8 @@ const getters = <GetterTree<ShopState, RootState>>{
     return state.shop
   },
   getShopProfileImage: (state): string => {
-    if (state.shop?.profileImageUrl) {
-      return state.shop.profileImageUrl
+    if (state.shop?.profilePic) {
+      return state.shop.profilePic
     }
     return ''
   },

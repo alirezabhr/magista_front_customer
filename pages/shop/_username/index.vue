@@ -80,7 +80,7 @@ export default {
     ...mapGetters('shop', ['getShopInfoData']),
 
     profileImageFullUrl () {
-      return process.env.baseURL + this.getShopInfoData.profileImageUrl
+      return process.env.baseURL + this.getShopInfoData.profilePic
     }
   }
 }

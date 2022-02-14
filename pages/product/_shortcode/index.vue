@@ -86,7 +86,7 @@ export default {
     ...mapGetters('product', ['getPost', 'getPostProductImages']),
 
     getShopProfilePhotoUrl () {
-      return process.env.baseURL + this.getPost.shop.profileImageUrl
+      return process.env.baseURL + this.getPost.shop.profilePic
     },
     getPreparationText () {
       return preparationTextList[this.getPost.shop.preparation]
