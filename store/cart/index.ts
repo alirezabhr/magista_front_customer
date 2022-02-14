@@ -34,7 +34,7 @@ const mutations = <MutationTree<CartState>>{
   appendItemToOrderList (state, product: Product) {
     state.lastAppendedProduct = product
 
-    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shop_id === product.shop.id)
+    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shopId === product.shop.id)
     if (shopCartOrderIndex === -1) {  // don't have any products from this shop
       const shopCartOrder = new ShopCartOrder(product.shop.id, product.shop.instagramUsername)
       shopCartOrder.addItem(new CartItem(product))
@@ -52,7 +52,7 @@ const mutations = <MutationTree<CartState>>{
     }
   },
   removeItemFromOrderList (state, product: Product) {
-    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shop_id === product.shop.id)
+    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shopId === product.shop.id)
     if (shopCartOrderIndex === -1) {  // don't have any products from this shop
       console.log('ERROR Occured in removing item from cart') // TODO throw an erro
     } else {  // have some products from this shop

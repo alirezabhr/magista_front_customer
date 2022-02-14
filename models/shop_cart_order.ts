@@ -1,13 +1,13 @@
 import CartItem from "./cart_item"
 
 class ShopCartOrder {
-  shop_id: number
-  shop_name: string
+  shopId: number
+  shopName: string
   orderItems: CartItem[]
 
-  constructor (seller_id: number, shopName:string) {
-    this.shop_id = seller_id
-    this.shop_name = shopName
+  constructor (sellerId: number, shopName:string) {
+    this.shopId = sellerId
+    this.shopName = shopName
     this.orderItems = []
   }
 
