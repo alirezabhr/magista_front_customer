@@ -1,3 +1,5 @@
+import Preparation from '@/models/preparation_time'
+
 class Shop {
     id: number
     instagramUsername: string
@@ -6,7 +8,7 @@ class Shop {
     profileImageUrl: string
     bio: string
     delivery: number
-    preparation: number
+    preparation: Preparation
 
     constructor(id:number, igUsername: string, province: string, city: string, profileUrl: string, bio: string,
         delivery: number, preparation: number) {
