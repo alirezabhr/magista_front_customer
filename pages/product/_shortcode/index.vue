@@ -29,9 +29,13 @@
         <v-spacer />
       </v-row>
       <ProductImageCarousel :product-images="getPostProductImages" @changeCarouselIndex="changeCarouselIndex" />
-      <v-row class="px-2 py-2" no-gutters>
+      <v-row class="px-2 pt-2" no-gutters>
         <v-icon>mdi-clock-outline mdi-18px</v-icon>
-        <div class="px-2 text-subtitle-2">زمان آماده سازی: {{ getPost.shop.preparation }} روز</div>
+        <div class="px-2 text-subtitle-2">زمان آماده سازی: <strong>{{ getPreparationText }}</strong></div>
+      </v-row>
+      <v-row v-if="!getPost.shop.delivery.sendEverywhere" class="px-2 pb-2" no-gutters>
+        <v-icon>mdi-truck-outline mdi-flip-h mdi-18px</v-icon>
+        <div class="px-2 text-subtitle-2">ارسال فقط به <strong>{{ getPost.shop.city }}</strong></div>
       </v-row>
       <ProductsList :productImages="getPostProductImages" :carouselIndex="carouselIndex" />
       
@@ -52,6 +56,8 @@ import { mapGetters, mapActions } from 'vuex'
 
 import ProductImageCarousel from '@/components/post/ProductImageCarousel'
 import ProductsList from '@/components/post/ProductsList'
+
+const preparationTextList = ['2ساعت', '12ساعت', 'یک روز', '3روز', 'یک هفته']
 
 export default {
   name: 'ProductShortcodePage',
@@ -81,6 +87,9 @@ export default {
 
     getShopProfilePhotoUrl () {
       return process.env.baseURL + this.getPost.shop.profileImageUrl
+    },
+    getPreparationText () {
+      return preparationTextList[this.getPost.shop.preparation]
     }
   },
   methods: {
