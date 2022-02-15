@@ -36,7 +36,7 @@ const mutations = <MutationTree<CartState>>{
 
     const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shopId === product.shop.id)
     if (shopCartOrderIndex === -1) {  // don't have any products from this shop
-      const shopCartOrder = new ShopCartOrder(product.shop.id, product.shop.instagramUsername)
+      const shopCartOrder = new ShopCartOrder(product.shop.id, product.shop)
       shopCartOrder.addItem(new CartItem(product))
       state.cart.push(shopCartOrder)
     } else {  // have some products from this shop
@@ -71,6 +71,18 @@ const mutations = <MutationTree<CartState>>{
           }
         }
       }
+    }
+  },
+  changeShopCartOrderDelivery (state, payload) {
+    const shopId = payload.shopId
+    const deliveryId = payload.deliveryId
+    const shopCartOrderIndex = state.cart.findIndex((el: ShopCartOrder) => el.shopId === shopId)
+    if (shopCartOrderIndex === -1) {
+      throw new Error('shop not found')
+    } else {
+      const shopCartOrder = state.cart[shopCartOrderIndex]
+      shopCartOrder.deliveryId = deliveryId
+      state.cart.splice(shopCartOrderIndex, 1, shopCartOrder)
     }
   },
   clearCart (state) {
