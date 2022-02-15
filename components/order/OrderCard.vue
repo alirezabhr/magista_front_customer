@@ -65,6 +65,11 @@
             {{ order.totalDiscountAmount }}
             تومان
           </v-row>
+          <v-row class="text-subtitle-2" no-gutters>
+            ارسال:
+            {{ order.deliveryCost }}
+            تومان
+          </v-row>
           <v-row class="text-subtitle-2 font-weight-bold" no-gutters>
             جمع:
             {{ order.finalPrice }}
