@@ -20,13 +20,13 @@
           />
       </v-dialog>
       <v-card v-if="getCart.length > 0" min-height="620" class="pa-2">
-        <v-card v-for="shopCartOrder in getCart" :key="shopCartOrder.shop_id" class="pa-2 my-2">
+        <v-card v-for="shopCartOrder in getCart" :key="shopCartOrder.shopId" class="pa-2 my-2">
           <v-card-title>
-            خرید از {{ shopCartOrder.shop_name }}
+            خرید از {{ shopCartOrder.shop.instagramUsername }}
           </v-card-title>
 
           <div v-for="orderItem in shopCartOrder.orderItems" :key="orderItem.product.shortcode">
-            <CartOrderItem v-if="orderItem.product.shop.id === shopCartOrder.shop_id" :orderItem="orderItem"/>
+            <CartOrderItem v-if="orderItem.product.shop.id === shopCartOrder.shopId" :orderItem="orderItem"/>
           </div>
         </v-card>
         
@@ -49,7 +49,7 @@
             class="darken-1 white--text px-4 mx-auto"
             color="green"
             rounded
-            @click.prevent="pay"
+            @click.prevent="submit"
           >
             ادامه خرید
           </v-btn>
@@ -108,20 +108,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['createCartOrders']),
     ...mapActions('auth', ['createCustomer']),
 
-    pay () {
+    submit () {
       if (!this.isAuthenticated) {
         this.showDialog = true
       } else {
         if (this.getCustomerId) {
-          this.createCartOrders().then((invoiceId) => {
-            this.$router.push(`/invoice/${invoiceId}`)
-          }).catch(() => {
-            this.snackbarMessage = 'در حال حاضر تکمیل خرید ممکن نمی‌باشد.'
-            this.showSnackbar = true
-          })
+          this.$router.push(`/cart/shipping`)
         } else {
           this.showCustomerForm = true
         }
