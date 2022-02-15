@@ -45,13 +45,21 @@ export default {
       })
       return s 
     },
+    invoiceTotalDeliveryCosts () {
+      let s = 0
+      this.invoice.orders.forEach(el => {
+        s += el.deliveryCost
+      })
+      return s 
+    },
     invoiceFinalPrice () {
-      return this.invoiceTotalPrice - this.invoiceTotalDiscount
+      return this.invoiceTotalPrice - this.invoiceTotalDiscount + this.invoiceTotalDeliveryCosts
     },
     tableContent () {
       return [
         { title: 'قیمت کل کالاها', value: `${this.invoiceTotalPrice} تومان` },
         { title: 'جمع تخفیف‌ها', value: `${this.invoiceTotalDiscount} تومان` },
+        { title: 'جمع هزینه ارسال', value: `${this.invoiceTotalDeliveryCosts} تومان` },
         { title: 'جمع', value: `${this.invoiceFinalPrice} تومان` }
       ]
     }
