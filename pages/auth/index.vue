@@ -160,8 +160,8 @@ export default {
         phone: this.phoneNumber,
         password: inputPassowrd
       }).then(() => {
-        this.isLoading = false
         this.redirect()
+        this.isLoading = false
       }).catch((response) => {
         this.isLoading = false
         if (response.data.error) {

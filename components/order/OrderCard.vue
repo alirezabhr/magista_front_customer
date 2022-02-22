@@ -80,7 +80,16 @@
           {{ order.createdAt }}
         </v-card-subtitle>
         <v-card-actions v-if="order.status === orderStatus.SHIPPED">
-          <v-btn dark color="green" class="mx-auto" @click.prevent="hadReceivedOrder" :loading="isSubmitting">دریافت کردم</v-btn>
+          <v-btn
+            dark
+            color="green"
+            class="mx-auto"
+            @click.prevent="hadReceivedOrder"
+            :loading="isSubmitting"
+            :disabled="isSubmitting"
+          >
+            دریافت کردم
+          </v-btn>
         </v-card-actions>
       </v-col>
     </v-card>

@@ -18,7 +18,15 @@
     </v-card-actions>
     <v-card-actions>
       <v-col cols="8" class="mx-auto">
-        <v-btn width="100%" class="pa-2 font-weight-bold" color="primary" rounded @click.prevent="rate" :loading="isSubmitting">
+        <v-btn
+          width="100%"
+          class="pa-2 font-weight-bold"
+          color="primary"
+          rounded
+          @click.prevent="rate"
+          :loading="isSubmitting"
+          :disabled="isSubmitting"
+        >
           ثبت
         </v-btn>
       </v-col>
