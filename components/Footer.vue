@@ -21,8 +21,13 @@
           <div class="font-weight-bold px-5">مگیستا</div>
           <div class="px-5 py-1">
             <div v-for="(item, index) in mainItems" :key="index" class="pt-1">
-              <NuxtLink :to="item.page" active-class="text-decoration-none" class="text-decoration-none grey--text text--darken-2 pt-1" :class="{'text-caption': $vuetify.breakpoint.smAndDown}">
-                {{item.title}}
+              <NuxtLink
+                :to="item.page"
+                active-class="text-decoration-none"
+                class="text-decoration-none grey--text text--darken-2 pt-1"
+                :class="{ 'text-caption': $vuetify.breakpoint.smAndDown }"
+              >
+                {{ item.title }}
               </NuxtLink>
             </div>
           </div>
@@ -63,7 +68,7 @@ export default {
   name: "Footer",
   computed: {
     magistaIconSrc() {
-      return `${process.env.baseURL}media/source/magista_logo.png`;
+      return require("@/assets/images/logo.png");
     },
   },
   data() {
