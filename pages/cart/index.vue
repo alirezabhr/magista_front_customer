@@ -14,6 +14,7 @@
           max-width="600px"
         >
           <CustomerForm
+            :show-warning="true"
             :is-submitting-form="isCreatingCustomer"
             @submit="submitCustomerForm"
             @close="showCustomerForm = false"
@@ -80,8 +81,8 @@
 import { mapActions, mapGetters } from 'vuex'
 
 import AuthDialog from '@/components/AuthDialog.vue'
-import CustomerForm from '@/components/CustomerForm.vue'
-import CartOrderItem from '~/components/CartOrderItem.vue'
+import CustomerForm from '@/components/auth/CustomerForm.vue'
+import CartOrderItem from '@/components/CartOrderItem.vue'
 
 export default {
   name: 'CartPage',
