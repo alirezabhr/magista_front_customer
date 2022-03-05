@@ -43,11 +43,11 @@
               ورود
             </v-btn>
           </v-row>
-          <v-row justify="center" no-gutters>
+          <v-row justify="space-around" class="my-4" no-gutters>
             <v-btn
               text
               color="primary"
-              class="text-subtitle-2 my-4 px-2"
+              class="text-subtitle-2 px-2"
               @click.prevent="$emit('changePhone')"
               no-gutters
             >
@@ -56,11 +56,10 @@
               </v-icon>
               تغییر شماره موبایل
             </v-btn>
-            <v-spacer />
             <v-btn
               text
               color="primary"
-              class="text-subtitle-2 my-4 px-2"
+              class="text-subtitle-2 px-2"
               @click.prevent="$emit('forgetPassword')"
             >
               رمز عبورم را فراموش کرده‌ام
