@@ -60,7 +60,7 @@ export default {
     LoginPasswordForm,
     ForgetPasswordForm
   },
-  layout: 'auth',
+  layout: 'base_layout',
   data () {
     return {
       authStep: 'phone',
