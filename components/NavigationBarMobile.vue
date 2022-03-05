@@ -57,16 +57,17 @@
           v-model="group"
           active-class="deep-purple--text text--accent-4"
         >
-          <v-list-item to="/auth">
+          <v-list-item :disabled="isAuthenticated" to="/auth">
             <v-list-item-icon class="mr-1 ml-4">
-              <v-icon>mdi-account-circle</v-icon>
+              <v-icon :color="isAuthenticated ? 'green darken-2' : ''">mdi-account-circle</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               <span v-if="!isAuthenticated">ورود / ثبت‌نام</span>
-              <span v-else>اسم زیبات</span>
+              <span v-else class="green--text text--darken-3 text-body-2 font-weight-bold">{{ customerName }}</span>
             </v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="isAuthenticated">
+
+          <v-list-item v-if="isAuthenticated" to="/orders">
             <v-list-item-icon class="mr-1 ml-4">
               <v-icon>mdi-script-text-outline</v-icon>
             </v-list-item-icon>
@@ -77,7 +78,7 @@
 
           <div class="py-3"><v-divider /></div>
 
-          <v-list-item v-for="(drawerItem, index) in drawerItems" :key="index">
+          <v-list-item v-for="(drawerItem, index) in drawerItems" :key="index" :to="drawerItem.page">
             <v-list-item-title class="mr-3">
               {{drawerItem.title}}
             </v-list-item-title>
@@ -115,8 +116,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated']),
-    ...mapGetters('cart', ['getCartItemCounts'])
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomer']),
+    ...mapGetters('cart', ['getCartItemCounts']),
+
+    customerName () {
+      if (this.getCustomer) {
+        return this.getCustomer.name
+      }
+      return ''
+    }
   },
   methods: {
     ...mapActions('auth', ['userLogout']),
