@@ -61,6 +61,14 @@ const mutations = <MutationTree<AuthState>>{
     localStorage.removeItem('MagistaToken')
     axios.defaults.headers.common.Authorization = ''
     state.userToken = null
+  },
+  removeUserId (state) {
+    localStorage.removeItem('MagistaId')
+    state.userId = 0
+  },
+  removeCustomerData (state) {
+    localStorage.removeItem('MagistaCustomer')
+    state.customer = null
   }
 }
 
@@ -172,6 +180,8 @@ const actions = <ActionTree<AuthState, RootState>>{
   },
   userLogout (vuexContext) {
     vuexContext.commit('removeUserToken')
+    vuexContext.commit('removeCustomerData')
+    vuexContext.commit('removeUserId')
   },
   createCustomer (vuexContext, payload) {
     const url = process.env.baseURL + 'user/customer/'
