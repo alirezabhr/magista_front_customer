@@ -37,6 +37,12 @@
           @changePhone="authStep = 'phone'"
           @forgetPassword="forgetPassword"
         />
+        <CustomerForm
+          v-else-if="authStep === 'customer form'"
+          :is-submitting-form="isLoading"
+          @submit="submitCustomerForm"
+          @close="closeCustomerForm"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -50,6 +56,7 @@ import OtpForm from '@/components/auth/OtpForm.vue'
 import SignupPasswordForm from '@/components/auth/SignupPasswordForm.vue'
 import LoginPasswordForm from '@/components/auth/LoginPasswordForm.vue'
 import ForgetPasswordForm from '@/components/auth/ForgetPasswordForm.vue'
+import CustomerForm from '@/components/auth/CustomerForm.vue'
 
 export default {
   name: 'AuthPage',
@@ -58,7 +65,8 @@ export default {
     OtpForm,
     SignupPasswordForm,
     LoginPasswordForm,
-    ForgetPasswordForm
+    ForgetPasswordForm,
+    CustomerForm
   },
   layout: 'base_layout',
   data () {
@@ -73,7 +81,7 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['checkUserExistence', 'requestOtpCode',
-      'checkOtpCode', 'userSignup', 'userLogin', 'changeUserPassword']),
+      'checkOtpCode', 'userSignup', 'userLogin', 'changeUserPassword', 'createCustomer']),
 
     sendPhone (phoneNo) {
       this.isLoading = true
@@ -133,7 +141,7 @@ export default {
         password: inputPassword
       }).then(() => {
         this.isLoading = false
-        this.redirect()
+        this.authStep = 'customer form'
       })
     },
     login (inputPassword) {
@@ -169,6 +177,20 @@ export default {
           this.showSnackbar = true
         }
       })
+    },
+    submitCustomerForm (payload) {
+      this.isLoading = true
+      this.createCustomer(payload).then(() => {
+        this.isLoading = false
+        this.redirect()
+      }).catch(() => {
+        this.isLoading = false
+        this.snackbarMessage = 'خطا در ثبت اطلاعات'
+        this.showSnackbar = true
+      })
+    },
+    closeCustomerForm () {
+      this.redirect()
     },
     redirect () {
       const routeFrom = this.$router.app.context.from
