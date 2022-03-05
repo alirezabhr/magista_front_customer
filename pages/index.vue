@@ -81,7 +81,7 @@ import ProductPreviewCard from '@/components/ProductPreviewCard.vue'
 
 export default {
   name: 'HomePage',
-  layout: 'home_layout',
+  layout: 'base_layout',
   components: {
     AddToCartDialog,
     ProductPreviewCard
