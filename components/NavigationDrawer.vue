@@ -87,7 +87,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomer']),
 
     customerName () {
       if (this.getCustomer) {

@@ -52,7 +52,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['getCustomer']),
     ...mapGetters('cart', ['getCartItemCounts'])
   }
 }
