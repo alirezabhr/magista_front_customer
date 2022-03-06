@@ -60,7 +60,7 @@ export default {
     ...mapGetters('order', ['getOrderList']),
     
     getEmptyStateImage () {
-      return require('~/assets/images/empty_state.png')
+      return require('~/assets/images/no_payment.png')
     }
   }
 }
