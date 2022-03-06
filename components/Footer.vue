@@ -38,27 +38,31 @@
         </v-col>
 
         <v-col cols="12" md="6">
-          <v-row no-gutters>
-            <v-col cols="3" class="pa-0">
+          <v-row class="py-2" no-gutters>
+            <v-col cols="3" md="2">
               <a
                 referrerpolicy="origin"
                 target="_blank"
                 href="https://trustseal.enamad.ir/?id=237568&amp;Code=eFDsUbAr6MywnIzE6rMI"
               >
-                <img
-                  referrerpolicy="origin"
-                  src="https://Trustseal.eNamad.ir/logo.aspx?id=237568&amp;Code=eFDsUbAr6MywnIzE6rMI"
-                  alt="نماد اعتماد الکترونیکی"
-                  style="cursor: pointer"
-                  id="eFDsUbAr6MywnIzE6rMI"
-                />
+                <v-card outlined class="ma-2 pa-2" height="130px" title="نماد اعتماد الکترونیکی">
+                  <v-img
+                    referrerpolicy="origin"
+                    src="https://Trustseal.eNamad.ir/logo.aspx?id=237568&amp;Code=eFDsUbAr6MywnIzE6rMI"
+                    alt="نماد اعتماد الکترونیکی"
+                    id="eFDsUbAr6MywnIzE6rMI"
+                  />
+                </v-card>
               </a>
             </v-col>
-            <v-col cols="3">
-              <v-img
-                :src="require('@/assets/images/Bank_Pasargad_logo.png')"
-                alt="بانک پاسارگاد"
-              />
+            <v-col cols="3" md="2">
+                <v-card style="cursor: pointer;" outlined class="ma-2 pa-2" height="130px" title="پرداخت مطمئن از درگاه بانک پاسارگاد">
+                  <v-img
+                    :src="pasargadBankLogoSrc"
+                    contain
+                    alt="بانک پاسارگاد"
+                  />
+                </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -81,11 +85,6 @@
 <script>
 export default {
   name: "Footer",
-  computed: {
-    magistaIconSrc() {
-      return require("@/assets/images/logo.png");
-    },
-  },
   data() {
     return {
       mainItems: [
@@ -95,5 +94,13 @@ export default {
       ],
     };
   },
+  computed: {
+    magistaIconSrc() {
+      return require("@/assets/images/logo.png");
+    },
+    pasargadBankLogoSrc () {
+      return require('@/assets/images/Bank_Pasargad_logo.png')
+    }
+  }
 };
 </script>
