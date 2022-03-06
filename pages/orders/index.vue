@@ -14,10 +14,7 @@
       <v-card v-else min-height="620" class="pa-2">
         <v-card-title>
           <v-col>
-            <v-row justify="center" no-gutters>
-              سفارشی موجود نمی‌باشد!
-            </v-row>
-            <v-row justify="center" no-gutters>
+            <v-row justify="center" class="mt-8" no-gutters>
               <v-img
                 contain
                 max-height="250"
