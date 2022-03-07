@@ -6,20 +6,20 @@
         <v-col cols="12" md="8" lg="7" class="ma-4 py-3 px-8">
           <v-carousel
             v-model="carouselIndex"
-            :show-arrows="imagesUrl.length > 1"
+            :show-arrows="homePageImages.length > 1"
             :hide-delimiters="true"
             class="pa-0 ma-0"
             height="100%"
             cycle
           >
             <v-carousel-item
-              v-for="imgUrl in imagesUrl"
-              :key="imgUrl"
+              v-for="image in homePageImages"
+              :key="image.id"
             >
               <v-card outlined rounded="xl">
                 <v-img
-                  :src="imgUrl"
-                  :lazy-src="imgUrl"
+                  :src="image.image"
+                  :lazy-src="image.image"
                   :aspect-ratio="3/2"
                 />
               </v-card>
@@ -104,12 +104,8 @@ export default {
     })
   },
   computed: {
-    imagesUrl () {
-      const list = []
-      this.$store.getters.getHomePageImagesUrlList.forEach(element => {
-        list.push(process.env.baseURL + element)
-      })
-      return list
+    homePageImages () {
+      return this.$store.getters.getHomePageImages
     },
     newestProductsList () {
       return this.$store.getters.getNewestProductsList

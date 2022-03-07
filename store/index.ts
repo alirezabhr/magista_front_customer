@@ -2,20 +2,20 @@ import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import Product from '~/models/product'
 
 export interface RootState {
-  homePageImagesUrlList: String[] 
+  homePageImages: Object[] 
   newestProductsList: Product[]
   discountedProductsList: Product[]
 }
 
 export const state = (): RootState => ({
-  homePageImagesUrlList: [], 
+  homePageImages: [], 
   newestProductsList: [],
   discountedProductsList: [],
 })
 
 export const mutations: MutationTree<RootState> = {
-  setHomePageImagesUrlList (state, imgUrlList) {
-    state.homePageImagesUrlList = imgUrlList
+  setHomePageImages (state, imgUrlList) {
+    state.homePageImages = imgUrlList
   },
   setNewestProductsList (state, products) {
     state.newestProductsList = products
@@ -27,10 +27,10 @@ export const mutations: MutationTree<RootState> = {
 
 export const actions: ActionTree<RootState, RootState> = {
   homePageImagesUrl (vuexContext) {
-    const url = process.env.baseURL + `homepage-images-url/`
+    const url = process.env.baseURL + `static-files/homepage/`
   
     return this.$client.get(url).then((response) => {
-      vuexContext.commit('setHomePageImagesUrlList', response.data)
+      vuexContext.commit('setHomePageImages', response.data)
     })
   },
   newestProducts (vuexContext) {
@@ -50,8 +50,8 @@ export const actions: ActionTree<RootState, RootState> = {
 }
 
 export const getters: GetterTree<RootState, RootState> = {
-  getHomePageImagesUrlList: (state): String[] => {
-    return state.homePageImagesUrlList
+  getHomePageImages: (state): Object[] => {
+    return state.homePageImages
   },
   getNewestProductsList: (state): Product[] => {
     return state.newestProductsList
