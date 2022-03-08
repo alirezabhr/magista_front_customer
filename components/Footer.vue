@@ -88,7 +88,7 @@ export default {
   data() {
     return {
       mainItems: [
-        { title: "ارتباط با ما", page: "contact" },
+        { title: "تماس با ما", page: "contact" },
         { title: "قوانین و مقررات", page: "terms" },
         { title: "راهنمای مگیستا", page: "help" },
       ],
