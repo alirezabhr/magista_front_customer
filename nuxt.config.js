@@ -1,5 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
+const _IS_DEV_MODE = false
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
@@ -111,8 +113,7 @@ export default {
   },
 
   env: {
-    baseURL: 'https://api.magista.ir/'
-    // baseURL: 'http://127.0.0.1:8000/'
+    baseURL: _IS_DEV_MODE ? 'http://127.0.0.1:8000/' : 'https://api.magista.ir/',
   },
 
   router: {
