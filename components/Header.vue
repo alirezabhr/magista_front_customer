@@ -1,8 +1,6 @@
 <template>
-  <div>  
-    <NavigationBarMobile v-if="isMobileTablet" />
-    <NavigationBarDesktop v-else />
-  </div>
+  <NavigationBarMobile v-if="isMobileTablet" />
+  <NavigationBarDesktop v-else />
 </template>
 
 <script>

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-app-bar>
+    <v-app-bar
+      app
+      fixed
+      color="white"
+      elevation="3"
+    >
       <v-app-bar-nav-icon @click="drawer = true" />
 
       <v-toolbar-title class="primary--text font-weight-bold px-0">
