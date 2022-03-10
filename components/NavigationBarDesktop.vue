@@ -1,4 +1,6 @@
 <template>
+  <!-- IMPORTANT: be careful in using v-if in elements. especially with isAuthenticated getter
+        it's better to use v-show if it is possible -->
   <v-app-bar
     fixed
     app
@@ -13,27 +15,31 @@
 
     <v-spacer />
 
-    <v-btn text to="/auth" v-if="!isAuthenticated">
-      ورود / ثبت‌نام
-    </v-btn>
+    <div v-if="!isAuthenticated">
+      <v-btn text to="/auth">
+        ورود / ثبت‌نام
+      </v-btn>
+    </div>
 
-    <v-menu offset-y v-else>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on">
-          <v-icon>mdi-account</v-icon>
-          پروفایل
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in profileOptions"
-          :key="index"
-          @click.prevent="item.onClick"
-        >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+    <div v-else>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn text v-bind="attrs" v-on="on">
+            <v-icon>mdi-account</v-icon>
+            پروفایل
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in profileOptions"
+            :key="index"
+            @click.prevent="item.onClick"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
 
     <v-divider vertical class="mx-3" />
     <v-btn text to="/cart">

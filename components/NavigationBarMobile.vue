@@ -1,4 +1,6 @@
 <template>
+  <!-- IMPORTANT: be careful in using v-if in elements. especially with isAuthenticated getter
+        it's better to use v-show if it is possible -->
   <div>
     <v-app-bar
       app
@@ -72,7 +74,7 @@
             </v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="isAuthenticated" to="/orders">
+          <v-list-item v-show="isAuthenticated" to="/orders">
             <v-list-item-icon class="mr-1 ml-4">
               <v-icon>mdi-script-text-outline</v-icon>
             </v-list-item-icon>
@@ -91,7 +93,7 @@
           
           <div class="py-3"><v-divider /></div>
 
-          <v-list-item v-if="isAuthenticated" @click.prevent="userLogout">
+          <v-list-item v-show="isAuthenticated" @click.prevent="userLogout">
             <v-list-item-icon class="mr-1 ml-4">
               <v-icon>mdi-logout</v-icon>
             </v-list-item-icon>
