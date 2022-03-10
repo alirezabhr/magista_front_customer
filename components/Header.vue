@@ -1,5 +1,5 @@
 <template>
-  <NavigationBarMobile v-if="isMobileTablet" />
+  <NavigationBarMobile v-if="$vuetify.breakpoint.smAndDown" />
   <NavigationBarDesktop v-else />
 </template>
 
@@ -12,21 +12,6 @@ export default {
   components: {
     NavigationBarMobile,
     NavigationBarDesktop
-  },
-  data () {
-    return {
-      isHydrated: false   // for vue warn and problems about the differences between ssr and client side rendering
-    }
-  },
-  computed: {
-    isMobileTablet () {
-      return this.isHydrated
-        ? this.$vuetify.breakpoint.smAndDown
-        : false
-    }
-  },  
-  mounted () {
-    this.isHydrated = true
   }
 }
 </script>
