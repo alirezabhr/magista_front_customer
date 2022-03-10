@@ -4,6 +4,7 @@
 
 <script>
 export default {
-  name: 'HelpPage'
+  name: 'HelpPage',
+  layout: 'base_layout'
 }
 </script>

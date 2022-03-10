@@ -31,6 +31,7 @@
 <script>
 export default {
   name: 'ContactPage',
+  layout: 'base_layout',
   computed: {
     raychatLogo () {
       return require('@/assets/images/raychat.svg')
