@@ -58,7 +58,7 @@ export default {
   ],
 
   sentry: {
-    dsn: 'https://fc1bc1daa0cb42d091058bc9bf0b0217@sentry.hamravesh.com/251',
+    dsn: _IS_DEV_MODE ? 'https://8f430b4cbe334bc48c92aa430cf6340e@sentry.hamravesh.com/287' : 'https://fc1bc1daa0cb42d091058bc9bf0b0217@sentry.hamravesh.com/251',
     // Additional Module Options go here
     // https://sentry.nuxtjs.org/sentry/options
     config: {
