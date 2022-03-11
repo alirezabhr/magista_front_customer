@@ -34,7 +34,7 @@ export default {
     invoiceTotalPrice () {
       let s = 0
       this.invoice.orders.forEach(el => {
-        s += el.totalOriginalPrice
+        s += el.totalOrderItemsOriginalPrices
       })
       return s 
     },
