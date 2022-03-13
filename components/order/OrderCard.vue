@@ -54,7 +54,12 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-col>
+        <v-btn color="blue" plain @click.prevent="showDetails=!showDetails">
+          <v-icon v-if="!showDetails">mdi-chevron-down</v-icon>
+          <v-icon v-else>mdi-chevron-up</v-icon>
+          جزئیات
+        </v-btn>
+        <v-col v-show="showDetails">
           <v-row class="text-subtitle-2" no-gutters>
             قیمت کالاها:
             {{ order.totalOrderItemsOriginalPrices }}
@@ -76,7 +81,7 @@
             تومان
           </v-row>
         </v-col>
-        <v-card-subtitle class="py-0">
+        <v-card-subtitle class="py-0" dir="ltr">
           {{ order.createdAt }}
         </v-card-subtitle>
         <v-card-actions v-if="order.status === orderStatus.SHIPPED">
@@ -127,7 +132,8 @@ export default {
       discountCode: '',
       isSubmittingDiscount: false,
       discountCodeErrorMsg: '',
-      showDiscountSnackbar: false
+      showDiscountSnackbar: false,
+      showDetails: false
     }
   },
   methods: {
