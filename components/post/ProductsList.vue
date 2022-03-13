@@ -24,12 +24,12 @@
               </v-icon>
             </v-btn>
           </v-row>
-          <v-row justify="center" align="center" class="text-body-2 font-weight-bold" no-gutters>
+          <v-row justify="center" align="center" class="text-body-1 font-weight-bold" no-gutters>
             {{ productCountInCart(product.id) }}
           </v-row>
           <v-row justify="center" no-gutters>
-            <v-btn icon class="mx-auto">
-              <v-icon size="30" color="red" :disabled="productCountInCart(product.id) === 0" @click.prevent="removeItem(product)">
+            <v-btn icon class="mx-auto" :disabled="productCountInCart(product.id) === 0" @click="removeItem(product)">
+              <v-icon size="30" color="red">
                 mdi-minus
               </v-icon>
             </v-btn>
