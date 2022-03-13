@@ -6,24 +6,36 @@
     />
   </div>
   <div v-else>
+    <v-snackbar
+      v-model="showSnackbar"
+      :color="snackbarColor"
+      timeout="1500"
+    >
+      <v-icon>{{ snackbarIcon }}</v-icon>
+      <span class="font-weight-bold">{{ snackbarMessage }}</span>
+    </v-snackbar>
     <v-col v-for="product in productImages[carouselIndex].products" :key="product.id" class="pa-0">
       <v-row no-gutters>
-        <v-col class="pa-0 lighten-2" cols="1" align-self="center">
-          <v-btn icon class="mx-auto" @click.prevent="addItemToCart(product)">
-            <v-icon color="green">
-              mdi-plus
-            </v-icon>
-          </v-btn>
+        <v-col class="pa-0 lighten-2" cols="2" align-self="center">
+          <v-row justify="center" no-gutters>
+            <v-btn icon class="mx-auto" @click.prevent="addItem(product)">
+              <v-icon size="30" color="green">
+                mdi-plus
+              </v-icon>
+            </v-btn>
+          </v-row>
           <v-row justify="center" align="center" class="text-body-2 font-weight-bold" no-gutters>
             {{ productCountInCart(product.id) }}
           </v-row>
-          <v-btn icon class="mx-auto">
-            <v-icon color="red" :disabled="productCountInCart(product.id) === 0" @click.prevent="removeItemFromCart(product)">
-              mdi-minus
-            </v-icon>
-          </v-btn>
+          <v-row justify="center" no-gutters>
+            <v-btn icon class="mx-auto">
+              <v-icon size="30" color="red" :disabled="productCountInCart(product.id) === 0" @click.prevent="removeItem(product)">
+                mdi-minus
+              </v-icon>
+            </v-btn>
+          </v-row>
         </v-col>
-        <v-col class="pa-2" cols="11">
+        <v-col class="pa-2" cols="10">
           <v-row class="font-weight-bold" no-gutters>
             {{ product.title }}
           </v-row>
@@ -109,6 +121,10 @@ export default {
   },
   data () {
     return {
+      showSnackbar: false,
+      snackbarIcon: '',
+      snackbarMessage: '',
+      snackbarColor: ''
     }
   },
   computed: {
@@ -117,6 +133,20 @@ export default {
   methods: {
     ...mapActions('cart', ['addItemToCart', 'removeItemFromCart']),
 
+    addItem (product) {
+      this.addItemToCart(product)
+      this.snackbarColor = 'green darken-2'
+      this.snackbarIcon = 'mdi-check-circle-outline'
+      this.snackbarMessage = 'به سبد خرید اضافه شد.'
+      this.showSnackbar = true
+    },
+    removeItem (product) {
+      this.removeItemFromCart(product)
+      this.snackbarColor = 'red'
+      this.snackbarIcon = 'mdi-close-circle-outline'
+      this.snackbarMessage = 'از سبد خرید حذف شد.'
+      this.showSnackbar = true
+    },
     productCountInCart (productId) {
       let count = 0
       this.getCart.forEach((shopCartItem) => {
