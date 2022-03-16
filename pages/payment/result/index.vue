@@ -15,7 +15,7 @@
           </v-row>
         </v-card-title>
 
-        <div v-if="trxStatus === 1">
+        <div v-if="trxStatus === TransactionStatus.SUCCESSFUL">
           <v-col class="mx-auto">
             <v-row justify="center" class="font-weight-bold text-body1 py-2" no-gutters>مبلغ تراکنش</v-row>
             <v-row justify="center" class="text-body1" no-gutters>{{ amount }} ریال</v-row>
@@ -32,7 +32,7 @@
             <v-row justify="center" class="text-body2" no-gutters>{{ paidDateTime }}</v-row>
           </v-col>
         </div>
-        <div v-else-if="trxStatus === 2">
+        <div v-else-if="trxStatus === TransactionStatus.FAILED">
           <v-row justify="center" no-gutters>
             <v-col>
               <v-img
@@ -49,13 +49,19 @@
     </v-col>
 </template>
 
-<script>
+<script lang="ts">
 import Issue from '@/models/issue_tracker/issue'
+
+enum TransactionStatus {
+  SUCCESSFUL = 1,
+  FAILED,
+}
 
 export default {
   name: 'PaymentResultPage',
   data () {
     return {
+      TransactionStatus,
       isLoading: false,
       trxStatus: 0,
       trxStatusText: '',
@@ -82,22 +88,19 @@ export default {
       this.amount = resp.data.amount
       this.invoiceNum = resp.data.paymentInvoice
       this.paidDateTime = resp.data.paidAt
-      this.trxStatus = 1 // 1 for success
+      this.trxStatus = TransactionStatus.SUCCESSFUL
       this.isLoading = false
     }).catch((e) => {
       this.$store.commit('issue/createNewIssues', null, { root: true })
-      for (const k in e.response.data) {
-        const issue = new Issue('created in payment result', k, e.response.data[k][0], null)
-        issue.setCritical()
-        this.$store.commit('issue/addIssue', issue, { root: true })
-      }
+      const issue = new Issue('created in payment result', JSON.stringify(e.response.data))
+      issue.setCritical()
       this.$store.dispatch('issue/capture', null, { root: true })
 
       if (e.response.data.error) {
         this.errorMessage = e.response.data.error[0]
       }
 
-      this.trxStatus = 2  // 2 for fail
+      this.trxStatus = TransactionStatus.FAILED
       this.isLoading = false
     })
   },
@@ -108,10 +111,10 @@ export default {
   },
   watch: {
     trxStatus (newValue) {
-      if (newValue === 1) { // 1 for success
+      if (newValue === TransactionStatus.SUCCESSFUL) {
         this.trxStatusText = 'موفق',
         this.color = 'green'
-      } else if (newValue === 2) { // 2 for fail
+      } else if (newValue === TransactionStatus.FAILED) {
         this.trxStatusText = 'ناموفق',
         this.color = 'red'
       }
