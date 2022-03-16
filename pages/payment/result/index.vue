@@ -1,9 +1,14 @@
 <template>
-    <v-row v-if="isLoading" justify="center" no-gutters>
-      <v-progress-circular/>
-    </v-row>
-    <v-col v-else cols="12" sm="8" md="6" lg="5" class="mx-auto">
-      <v-card class="pa-2">
+    <v-col cols="12" sm="8" md="6" lg="5" class="mx-auto">
+      <v-card v-if="isLoading" class="pa-2">
+        <div v-for="i in 3" :key="i" class="px-1 py-3">
+          <v-col offset="4" cols="8">
+            <v-skeleton-loader type="heading" />
+          </v-col>
+          <v-skeleton-loader type="text@2" class="mx-auto" width="70%" />
+        </div>
+      </v-card>
+      <v-card v-else class="pa-2">
         <v-card-title :class='`${color}--text`' class="my-5">
           <v-row justify="center" class="text-h5 font-weight-bold" no-gutters>
             تراکنش {{ trxStatusText }}
@@ -62,10 +67,7 @@ export default {
       errorMessage: ''
     }
   },
-  async created () {
-    if (process.server) {
-      return
-    }
+  async mounted () {
     this.isLoading = true
     const url = process.env.baseURL + 'payment/ipg'
 
