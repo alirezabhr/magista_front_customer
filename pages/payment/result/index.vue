@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import Issue from '@/models/issue_tracker/issue'
 
 enum TransactionStatus {
@@ -57,7 +58,7 @@ enum TransactionStatus {
   FAILED,
 }
 
-export default {
+export default Vue.extend({
   name: 'PaymentResultPage',
   data () {
     return {
@@ -83,14 +84,14 @@ export default {
       trxReferenceId: this.$route.query.tref
     }
 
-    await this.$client.put(url, payload).then((resp) => {
+    await this.$client.put(url, payload).then((resp:any) => {
       this.refNum = resp.data.refNumber
       this.amount = resp.data.amount
       this.invoiceNum = resp.data.paymentInvoice
       this.paidDateTime = resp.data.paidAt
       this.trxStatus = TransactionStatus.SUCCESSFUL
       this.isLoading = false
-    }).catch((e) => {
+    }).catch((e:any) => {
       this.$store.commit('issue/createNewIssues', null, { root: true })
       const issue = new Issue('created in payment result', JSON.stringify(e.response.data))
       issue.setCritical()
@@ -110,7 +111,7 @@ export default {
     }
   },
   watch: {
-    trxStatus (newValue) {
+    trxStatus (newValue: TransactionStatus) : void {
       if (newValue === TransactionStatus.SUCCESSFUL) {
         this.trxStatusText = 'موفق',
         this.color = 'green'
@@ -120,5 +121,5 @@ export default {
       }
     }
   }
-}
+})
 </script>
