@@ -7,7 +7,7 @@
       {{ snackbarMessage }}
     </v-snackbar>
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
-      <AuthDialog v-if="showDialog" @closeDialog="showDialog=false" />
+      <AuthDialog v-if="showAuthDialog" @closeDialog="showAuthDialog=false" />
        <v-dialog
           v-model="showCustomerForm"
           persistent
@@ -29,13 +29,6 @@
           <div v-for="orderItem in shopCartOrder.orderItems" :key="orderItem.product.shortcode">
             <CartOrderItem v-if="orderItem.product.shop.id === shopCartOrder.shopId" :orderItem="orderItem"/>
           </div>
-        </v-card>
-        
-        <v-card flat outlined class="mx-5 my-2 pa-3" v-if="getCustomer">
-          <v-row no-gutters>
-            <v-icon>mdi-map-marker-outline mdi-18px</v-icon>
-            <v-row class="text-caption" no-gutters>{{ getCustomer.province }}-{{ getCustomer.city }}، {{ getCustomer.address }}</v-row>
-          </v-row>
         </v-card>
         <v-card-actions>
           <v-col>
@@ -93,7 +86,7 @@ export default {
   },
   data () {
     return {
-      showDialog: false,
+      showAuthDialog: false,
       showCustomerForm: false,
       isCreatingCustomer: false,
       showSnackbar: false,
@@ -102,7 +95,7 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['getCart', 'getCartItemCounts', 'getCartTotalPrice']),
-    ...mapGetters('auth', ['isAuthenticated', 'getCustomer', 'getCustomerId']),
+    ...mapGetters('auth', ['isAuthenticated', 'getCustomerId']),
 
     getEmptyStateImage () {
       return require('~/assets/images/empty_state.png')
@@ -113,10 +106,10 @@ export default {
 
     submit () {
       if (!this.isAuthenticated) {
-        this.showDialog = true
+        this.showAuthDialog = true
       } else {
         if (this.getCustomerId) {
-          this.$router.push(`/cart/shipping`)
+          this.moveToNextPage()
         } else {
           this.showCustomerForm = true
         }
@@ -127,11 +120,15 @@ export default {
       this.createCustomer(payload).then(() => {
         this.isCreatingCustomer = false
         this.showCustomerForm = false
+        this.moveToNextPage()
       }).catch(() => {
         this.isCreatingCustomer = false
         this.snackbarMessage = 'خطا در ثبت اطلاعات'
         this.showSnackbar = true
       })
+    },
+    moveToNextPage () {
+      this.$router.push('/cart/shipping')
     }
   }
 }
