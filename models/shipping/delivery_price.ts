@@ -1,12 +1,14 @@
 import DeliveryType from './delivery_type'
 
 class DeliveryPrice {
+  id: number
   shipment: number
   type: DeliveryType
   base: number
   perKilo: number
 
-  constructor (shipment: number, type: number, base: number, perKilo: number) {
+  constructor (id: number, shipment: number, type: number, base: number, perKilo: number) {
+    this.id = id
     this.shipment = shipment
     this.type = type
     this.base = base
@@ -17,7 +19,8 @@ class DeliveryPrice {
     if (jsonDeliveryPrice == null) {
       return null
     }
-    return new DeliveryPrice(jsonDeliveryPrice.shipment, jsonDeliveryPrice.type, jsonDeliveryPrice.base, jsonDeliveryPrice.perKilo)
+    return new DeliveryPrice(jsonDeliveryPrice.id, jsonDeliveryPrice.shipment, jsonDeliveryPrice.type,
+      jsonDeliveryPrice.base, jsonDeliveryPrice.perKilo)
   }
 }
 
