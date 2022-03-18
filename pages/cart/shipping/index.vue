@@ -7,35 +7,53 @@
       {{ snackbarMessage }}
     </v-snackbar>
     <v-col cols="12" sm="9" md="8" lg="6" class="pa-0">
-      <v-card v-if="isClientRendered" min-height="620" outlined color="grey lighten-4" class="pa-2">
-        
-        <div v-for="shopCartOrder in getCart" :key="shopCartOrder.shopId">
-          <ShopDeliverySelectCard :shop-cart-order="shopCartOrder" />
-        </div>
-        
-        <v-card flat outlined class="mx-5 my-2 pa-3" v-show="getCustomer">
-          <v-row no-gutters>
-            <v-icon>mdi-map-marker-outline mdi-18px</v-icon>
-            <div class="text-caption" no-gutters>{{ customerFullAddress }}</div>
-          </v-row>
-        </v-card>
+      <v-card min-height="620" outlined color="grey lighten-4" class="pa-2">
+        <div v-if="isClientRendered">
+          <div v-if="getCart.length > 0">
+            <div v-for="shopCartOrder in getCart" :key="shopCartOrder.shopId">
+              <ShopDeliverySelectCard :shop-cart-order="shopCartOrder" />
+            </div>
+            
+            <v-card flat outlined class="mx-5 my-2 pa-3" v-show="getCustomer">
+              <v-row no-gutters>
+                <v-icon>mdi-map-marker-outline mdi-18px</v-icon>
+                <div class="text-caption" no-gutters>{{ customerFullAddress }}</div>
+              </v-row>
+            </v-card>
 
-        <v-card-actions>
-          <v-btn
-            class="darken-1 white--text px-4 mx-auto"
-            color="green"
-            width="80%"
-            rounded
-            :loading="isSubmitting"
-            :disabled="isSubmitting"
-            @click.prevent="pay"
-          >
-            تایید و ادامه
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-card v-else min-height="620" outlined color="grey lighten-4" class="pa-2">
-        <v-skeleton-loader type="image@2, card-heading" />
+            <v-card-actions>
+              <v-btn
+                class="darken-1 white--text px-4 mx-auto"
+                color="green"
+                width="80%"
+                rounded
+                :loading="isSubmitting"
+                :disabled="isSubmitting"
+                @click.prevent="pay"
+              >
+                تایید و ادامه
+              </v-btn>
+            </v-card-actions>
+          </div>
+          <div v-else min-height="620" class="pa-2">
+            <v-card-title>
+              <v-col>
+                <v-row justify="center" no-gutters>
+                  سبد شما خالی است!
+                </v-row>
+                <v-row justify="center" no-gutters>
+                  <v-img
+                    contain
+                    max-height="250"
+                    max-width="250"
+                    :src="getEmptyStateImage"
+                  />
+                </v-row>
+              </v-col>
+            </v-card-title>
+          </div>
+        </div>
+        <v-skeleton-loader v-else type="image@2, card-heading" />
       </v-card>
     </v-col>
   </v-row>
@@ -67,6 +85,9 @@ export default {
         return `${this.getCustomer.province}-${this.getCustomer.city}، ${this.getCustomer.address}`
       }
       return ''
+    },
+    getEmptyStateImage () {
+      return require('~/assets/images/empty_state.png')
     }
   },
   mounted () {
