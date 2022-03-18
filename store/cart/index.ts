@@ -25,7 +25,10 @@ const mutations = <MutationTree<CartState>>{
     // initial cart
     const strCart = localStorage.getItem('cart')
     if (strCart) {
-      state.cart = JSON.parse(strCart)
+      const jsonCart = JSON.parse(strCart)
+      jsonCart.forEach((el: Object) => {
+        state.cart.push(ShopCartOrder.jsonToInstance(el))
+      })
     }
   },
   setLocalStorageOrderList (state) {
