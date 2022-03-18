@@ -20,8 +20,8 @@
 
       <v-btn to="/cart" icon>
         <v-badge
-          :content="getCartItemCounts"
-          :value="getCartItemCounts"
+          :content="cartItemCountBadge"
+          :value="cartItemCountBadge"
           color="green"
           overlap
           left
@@ -113,6 +113,7 @@ export default {
   name: 'NavigationBarMobile',
   data () {
     return {
+      isClientRendered: false,
       drawer: false,
       group: null,
       drawerItems: [
@@ -126,12 +127,21 @@ export default {
     ...mapGetters('auth', ['isAuthenticated', 'getCustomer']),
     ...mapGetters('cart', ['getCartItemCounts']),
 
+    cartItemCountBadge () {
+      if (this.isClientRendered) {
+        return this.getCartItemCounts
+      }
+      return 0
+    },
     customerName () {
       if (this.getCustomer) {
         return this.getCustomer.name
       }
       return ''
     }
+  },
+  mounted () {
+    this.isClientRendered = true
   },
   methods: {
     ...mapActions('auth', ['userLogout'])
