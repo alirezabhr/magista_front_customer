@@ -38,8 +38,8 @@
         </v-col>
 
         <v-col cols="12" md="6">
-          <v-row class="py-2" no-gutters>
-            <v-col cols="3" md="2">
+          <v-row class="py-2 mx-4 mx-sm-8" no-gutters>
+            <v-col cols="3" sm="2">
               <a
                 referrerpolicy="origin"
                 target="_blank"
@@ -55,8 +55,8 @@
                 </v-card>
               </a>
             </v-col>
-            <v-col cols="3" md="2">
-                <v-card style="cursor: pointer;" outlined class="ma-2 pa-2" height="130px" title="پرداخت مطمئن از درگاه بانک پاسارگاد">
+            <v-col cols="3" sm="2" align-self="center">
+                <v-card style="cursor: pointer;" outlined class="ma-2" height="130px" title="پرداخت مطمئن از درگاه بانک پاسارگاد">
                   <v-img
                     :src="pasargadBankLogoSrc"
                     contain
