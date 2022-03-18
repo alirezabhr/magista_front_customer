@@ -17,6 +17,10 @@ class CartItem {
     this.count = this.count - 1
   }
 
+  totalPrice () : number {
+    return this.product.finalPrice * this.count
+  }
+
   static jsonToInstance (jsonCartItem: any) : CartItem {
     return new CartItem(Product.jsonToInstance(jsonCartItem.product), jsonCartItem.count)
   }

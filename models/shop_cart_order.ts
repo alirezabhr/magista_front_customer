@@ -18,6 +18,14 @@ class ShopCartOrder {
     this.orderItems.push(orderItem)
   }
 
+  totalPrice () : number {
+    let tPrice = 0
+    this.orderItems.forEach((item: CartItem) => {
+      tPrice += item.totalPrice()
+    })
+    return tPrice
+  }
+
   static jsonToInstance (jsonCart: any) : ShopCartOrder {
     const cart = new ShopCartOrder(jsonCart.shopId, Shop.jsonToInstance(jsonCart.shop))
     jsonCart.orderItems.forEach((el:any) => {
