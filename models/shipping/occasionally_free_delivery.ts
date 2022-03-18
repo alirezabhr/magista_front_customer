@@ -10,6 +10,13 @@ class OccasionallyFreeDelivery {
     this.type = type
     this.freeFrom = freeFrom
   }
+
+  static jsonToInstance (jsonObject: any) : OccasionallyFreeDelivery | null {
+    if (jsonObject == null) {
+      return null
+    }
+    return new OccasionallyFreeDelivery(jsonObject.shipment, jsonObject.type, jsonObject.freeFrom)
+  }
 }
 
 export default OccasionallyFreeDelivery

@@ -26,6 +26,11 @@ class Shop {
     toJSON() {
         return { ...this }
     }
+
+    static jsonToInstance (jsonShop: any) : Shop {
+        return new Shop(jsonShop.id, jsonShop.instagramUsername, jsonShop.province, jsonShop.city, jsonShop.profilePic,
+            jsonShop.bio, Shipping.jsonToInstance(jsonShop.delivery), jsonShop.preparation)
+    }
 }
 
 export default Shop

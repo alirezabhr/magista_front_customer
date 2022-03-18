@@ -16,6 +16,10 @@ class CartItem {
   decreaseCount () {
     this.count = this.count - 1
   }
+
+  static jsonToInstance (jsonCartItem: any) : CartItem {
+    return new CartItem(Product.jsonToInstance(jsonCartItem.product), jsonCartItem.count)
+  }
 }
 
 export default CartItem

@@ -12,6 +12,10 @@ class ProductAttribute {
   toJSON () {
     return { ...this }
   }
+
+  static jsonToInstance (jsonAttr: any) : ProductAttribute {
+    return new ProductAttribute(jsonAttr.id, jsonAttr.name, jsonAttr.name)
+  }
 }
 
 export default ProductAttribute

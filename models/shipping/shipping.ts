@@ -1,11 +1,6 @@
 import DeliveryPrice from './delivery_price'
 import OccasionallyFreeDelivery from './occasionally_free_delivery'
-
-enum FreeDelivery {
-  NOT_FREE = 0,
-  OCCASIONALLY_FREE,
-  TOTALLY_FREE
-}
+import FreeDelivery from './free_delivery'
 
 class Shipping {
   shop: number
@@ -14,14 +9,14 @@ class Shipping {
   hasOnlineDelivery: Boolean
   cityCost: FreeDelivery
   countryCost: FreeDelivery
-  nationalPost: DeliveryPrice
-  onlineDelivery: DeliveryPrice
-  cityFreeCostFrom: OccasionallyFreeDelivery
-  countryFreeCostFrom: OccasionallyFreeDelivery
+  nationalPost: DeliveryPrice | null
+  onlineDelivery: DeliveryPrice | null
+  cityFreeCostFrom: OccasionallyFreeDelivery | null
+  countryFreeCostFrom: OccasionallyFreeDelivery | null
 
   constructor (shop:number, sendEverywhere: Boolean, hasNationalPost: Boolean, hasOnlineDelivery: Boolean,
-    cityCost: number, countryCost: number, nationalPost: DeliveryPrice, onlineDelivery: DeliveryPrice,
-    cityFreeCostFrom: OccasionallyFreeDelivery, countryFreeCostFrom: OccasionallyFreeDelivery) {
+    cityCost: number, countryCost: number, nationalPost: DeliveryPrice | null, onlineDelivery: DeliveryPrice | null,
+    cityFreeCostFrom: OccasionallyFreeDelivery | null, countryFreeCostFrom: OccasionallyFreeDelivery | null) {
     this.shop = shop
     this.sendEverywhere = sendEverywhere
     this.hasNationalPost = hasNationalPost
@@ -32,6 +27,13 @@ class Shipping {
     this.onlineDelivery = onlineDelivery
     this.cityFreeCostFrom = cityFreeCostFrom
     this.countryFreeCostFrom = countryFreeCostFrom
+  }
+
+  static jsonToInstance (jsonDelivery: any) : Shipping {
+    return new Shipping(jsonDelivery.shop, jsonDelivery.sendEverywhere, jsonDelivery.hasNationalPost, jsonDelivery.hasOnlineDelivery,
+      jsonDelivery.cityCost, jsonDelivery.countryCost, DeliveryPrice.jsonToInstance(jsonDelivery.nationalPost),
+      DeliveryPrice.jsonToInstance(jsonDelivery.onlineDelivery), OccasionallyFreeDelivery.jsonToInstance(jsonDelivery.cityFreeCostFrom),
+      OccasionallyFreeDelivery.jsonToInstance(jsonDelivery.countryFreeCostFrom))
   }
 }
 

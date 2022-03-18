@@ -12,6 +12,10 @@ class TagLocation {
   toJSON () {
     return { ...this }
   }
+
+  static jsonToInstance (jsonTag: any) : TagLocation {
+    return new TagLocation(jsonTag.id, jsonTag.x, jsonTag.y)
+  }
 }
 
 export default TagLocation

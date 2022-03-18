@@ -17,10 +17,12 @@ class Product {
   tag: TagLocation
   shop: Shop
   displayImageUrl: string
+  postShortcode: string
 
   constructor (id: number, finalPrice: number, title: string, description: string, originalPrice: number,
     rate: number | null, isExisting: boolean, discountPercent: number | null, discountAmount: number | null,
-    discountDescription: string, attributes: ProductAttribute[], tag: TagLocation, shop: Shop, displayImageUrl: string) {
+    discountDescription: string, attributes: ProductAttribute[], tag: TagLocation, shop: Shop, displayImageUrl: string,
+    postShortcode: string) {
     this.id = id
     this.finalPrice = finalPrice
     this.originalPrice = originalPrice
@@ -35,10 +37,21 @@ class Product {
     this.tag = tag
     this.shop = shop
     this.displayImageUrl = displayImageUrl
+    this.postShortcode = postShortcode
   }
 
   toJSON() {
     return { ...this }
+  }
+
+  static jsonToInstance (jsonProduct: any) : Product {
+    const attributes: ProductAttribute[] = []
+    jsonProduct.attributes.forEach((el:any) => {
+      attributes.push(ProductAttribute.jsonToInstance(el))
+    })
+    return new Product(jsonProduct.id, jsonProduct.finalPrice, jsonProduct.title, jsonProduct.description, jsonProduct.originalPrice,
+      jsonProduct.rate, jsonProduct.isExisting, jsonProduct.discountPercent, jsonProduct.discountAmount, jsonProduct.discountDescription,
+      attributes, TagLocation.jsonToInstance(jsonProduct.tag), Shop.jsonToInstance(jsonProduct.shop), jsonProduct.displayImageUrl, jsonProduct.postShortcode)
   }
 }
 
