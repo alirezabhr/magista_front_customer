@@ -99,13 +99,13 @@ export default Vue.extend({
   computed: {
     ...mapGetters('auth', ['getCustomer']),
 
-    customerProvince () {
+    customerProvince () : string | null {
       if (this.getCustomer) {
         return this.getCustomer.province
       }
       return null
     },
-    customerCity () {
+    customerCity () : string | null {
       if (this.getCustomer) {
         return this.getCustomer.city
       }
@@ -125,7 +125,7 @@ export default Vue.extend({
       return delivery.countryCost == FreeDelivery.TOTALLY_FREE || this.isOccasionallyFreeInCountry(delivery)
     },
     isOccasionallyFreeInCountry (delivery: Shipping) : boolean {
-      if (delivery.countryCost == FreeDelivery.OCCASIONALLY_FREE) {
+      if (delivery.countryCost == FreeDelivery.OCCASIONALLY_FREE && delivery.countryFreeCostFrom) {
         return this.shopCartOrder.totalPrice() > delivery.countryFreeCostFrom.freeFrom
       }
       return false
@@ -134,7 +134,7 @@ export default Vue.extend({
       return this.inSameLocation(shop.province, shop.city) && (this.isTotallyFreeInCity(shop) || this.isOccasionallyFreeInCity(shop.delivery))
     },
     isOccasionallyFreeInCity (delivery: Shipping) : boolean {
-      if (delivery.cityCost == FreeDelivery.OCCASIONALLY_FREE) {
+      if (delivery.cityCost == FreeDelivery.OCCASIONALLY_FREE && delivery.cityFreeCostFrom) {
         return this.shopCartOrder.totalPrice() > delivery.cityFreeCostFrom.freeFrom
       }
       return false
