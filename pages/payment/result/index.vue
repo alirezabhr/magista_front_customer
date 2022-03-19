@@ -45,6 +45,13 @@
             </v-col>
           </v-row>
         </div>
+
+        <v-card-actions>
+          <v-btn to="/orders" color="primary" class="mx-auto">
+            <v-icon>mdi-script-text-outline</v-icon>
+            صفحه سفارشات
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-col>
 </template>
@@ -76,7 +83,7 @@ export default Vue.extend({
   },
   async mounted () {
     this.isLoading = true
-    const url = process.env.baseURL + 'payment/ipg'
+    const url = process.env.baseURL + 'payment/ipg/'
 
     const payload = {
       invoiceNumber: this.$route.query.iN,
