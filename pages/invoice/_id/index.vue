@@ -26,6 +26,7 @@
               rounded
               color="green"
               width="100%"
+              :loading="isSubmitting"
               class="darken-1 white--text px-4"
               @click.prevent="pay"
             >
@@ -53,7 +54,8 @@ export default {
   data () {
     return {
       showSnackbar: false,
-      snackbarMessage: ''
+      snackbarMessage: '',
+      isSubmitting: false
     }
   },
   computed: {
@@ -75,12 +77,14 @@ export default {
     ...mapActions('invoice', ['selectedInvoiceData', 'paySelectedInvoice']),
 
     pay () {
+      this.isSubmitting = true
       this.paySelectedInvoice().then((url) => {
-        window.open(url)
-        this.$router.push('/orders')
+        window.open(url, "_self")
+        this.isSubmitting = false
       }).catch(() => {
         this.snackbarMessage = 'در حال حاضر تکمیل خرید ممکن نمی‌باشد.'
         this.showSnackbar = true
+        this.isSubmitting = false
       })
     }
   }
