@@ -8,14 +8,16 @@ const namespace = 'auth'
 
 interface AuthState {
   userPhone: string
-  userToken: string | null
+  userAccessToken: string | null
+  userRefreshToken: string | null
   userId: number
   customer: Customer | null
 }
 
 const state = () : AuthState => ({
   userPhone: '',
-  userToken: null,
+  userAccessToken: null,
+  userRefreshToken: null,
   userId: 0,
   customer: null
 })
@@ -26,8 +28,9 @@ const mutations = <MutationTree<AuthState>>{
       return
     }
 
-    // initial user token
-    state.userToken = localStorage.getItem('MagistaToken')
+    // initial user tokens
+    state.userAccessToken = localStorage.getItem('MagistaAccessToken')
+    state.userRefreshToken = localStorage.getItem('MagistaRefreshToken')
 
     // initial user id
     const userIdStr = localStorage.getItem('MagistaId')
@@ -44,10 +47,13 @@ const mutations = <MutationTree<AuthState>>{
   setUserPhone (state, phone) {
     state.userPhone = phone
   },
-  setUserToken (state, token) {
-    localStorage.setItem('MagistaToken', 'JWT ' + token)
-    axios.defaults.headers.common.Authorization = 'JWT ' + token
-    state.userToken = 'JWT ' + token
+  setUserAccessToken (state, token) {
+    localStorage.setItem('MagistaAccessToken', 'Bearer ' + token)
+    state.userAccessToken = 'Bearer ' + token
+  },
+  setUserRefreshToken (state, token) {
+    localStorage.setItem('MagistaRefreshToken', token)
+    state.userRefreshToken = token
   },
   setUserId (state, id) {
     state.userId = id
@@ -57,10 +63,13 @@ const mutations = <MutationTree<AuthState>>{
     state.customer = c
     localStorage.setItem('MagistaCustomer', JSON.stringify(c))
   },
-  removeUserToken (state) {
-    localStorage.removeItem('MagistaToken')
-    axios.defaults.headers.common.Authorization = ''
-    state.userToken = null
+  removeUserAccessToken (state) {
+    localStorage.removeItem('MagistaAccessToken')
+    state.userAccessToken = null
+  },
+  removeUserRefreshToken (state) {
+    localStorage.removeItem('MagistaRefreshToken')
+    state.userRefreshToken = null
   },
   removeUserId (state) {
     localStorage.removeItem('MagistaId')
@@ -128,9 +137,15 @@ const actions = <ActionTree<AuthState, RootState>>{
     ).then((response) => {
       const data = response.data
 
-      vuexContext.commit('setUserToken', data.token)
-      vuexContext.commit('setUserId', data.id)
-      vuexContext.commit('setCustomer', data.customer)
+      const accessToken = data.token
+      const refreshToken = data.refreshToken
+      const id = data.id
+      const customer = data.customer
+
+      vuexContext.commit('setUserAccessToken', accessToken)
+      vuexContext.commit('setUserRefreshToken', refreshToken)
+      vuexContext.commit('setUserId', id)
+      vuexContext.commit('setCustomer', customer)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       const issue = new Issue('userSignup', JSON.stringify(e.response))
@@ -141,15 +156,21 @@ const actions = <ActionTree<AuthState, RootState>>{
   userLogin (vuexContext, payload) {
     const url = process.env.baseURL + 'user/login/'
 
-    return this.$client.post(
+    return axios.post(
       url,
       payload
     ).then((response) => {
       const data = response.data
 
-      vuexContext.commit('setUserToken', data.token)
-      vuexContext.commit('setUserId', data.id)
-      vuexContext.commit('setCustomer', data.customer)
+      const accessToken = data.token
+      const refreshToken = data.refresh_token
+      const id = data.id
+      const customer = data.customer
+      
+      vuexContext.commit('setUserAccessToken', accessToken)
+      vuexContext.commit('setUserRefreshToken', refreshToken)
+      vuexContext.commit('setUserId', id)
+      vuexContext.commit('setCustomer', customer)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       const issue = new Issue('userLogin', JSON.stringify(e.response))
@@ -160,16 +181,22 @@ const actions = <ActionTree<AuthState, RootState>>{
   },
   changeUserPassword (vuexContext, payload) {
     const url = process.env.baseURL + 'user/'
-
+    
     return this.$client.put(
       url,
       payload
     ).then((response) => {
       const data = response.data
+      
+      const accessToken = data.token
+      const refreshToken = data.refreshToken
+      const id = data.id
+      const customer = data.customer
 
-      vuexContext.commit('setUserToken', data.token)
-      vuexContext.commit('setUserId', data.id)
-      vuexContext.commit('setCustomer', data.customer)
+      vuexContext.commit('setUserAccessToken', accessToken)
+      vuexContext.commit('setUserRefreshToken', refreshToken)
+      vuexContext.commit('setUserId', id)
+      vuexContext.commit('setCustomer', customer)
     }).catch((e) => {
       vuexContext.commit('issue/createNewIssues', null, { root: true })
       const issue = new Issue('changeUserPassword', JSON.stringify(e.response))
@@ -178,14 +205,26 @@ const actions = <ActionTree<AuthState, RootState>>{
       throw e.response
     })
   },
-  userLogout (vuexContext) {
-    vuexContext.commit('removeUserToken')
-    vuexContext.commit('removeCustomerData')
-    vuexContext.commit('removeUserId')
+  refreshToken (vuexContext) {
+    const url = process.env.baseURL + 'user/token/refresh/'
+    const refreshToken = vuexContext.getters.getUserRefreshToken
+
+    if (!refreshToken) {
+      throw new Error('refresh token not found')
+    }
+    
+    return axios.post(
+      url,
+      {refresh: refreshToken}
+    ).then((response) => {
+      const data = response.data
+      const accessToken = data.access
+      vuexContext.commit('setUserAccessToken', accessToken)
+      return accessToken
+    })
   },
   createCustomer (vuexContext, payload) {
     const url = process.env.baseURL + 'user/customer/'
-    axios.defaults.headers.common.Authorization = vuexContext.rootGetters['auth/getUserToken']
     
     payload.user = vuexContext.getters.getUserId
 
@@ -201,6 +240,12 @@ const actions = <ActionTree<AuthState, RootState>>{
       vuexContext.dispatch('issue/capture', null, { root: true })
       throw e.response
     })
+  },
+  userLogout (vuexContext) {
+    vuexContext.commit('removeUserAccessToken')
+    vuexContext.commit('removeUserRefreshToken')
+    vuexContext.commit('removeCustomerData')
+    vuexContext.commit('removeUserId')
   }
 }
 
@@ -211,21 +256,23 @@ const getters = <GetterTree<AuthState, RootState>>{
   getUserId: (state) => {
     return state.userId
   },
-  getUserToken: (state) => {
-    return state.userToken
+  getUserAccessToken: (state) => {
+    return state.userAccessToken
+  },
+  getUserRefreshToken: (state) => {
+    return state.userRefreshToken
   },
   getCustomerId: (state) : number | null => {
     if (state.customer) {
       return state.customer.id
     }
-    console.log('null')
     return null
   },
   getCustomer: (state) : Customer | null => {
     return state.customer
   },
   isAuthenticated: (state) => {
-    return !!state.userToken
+    return !!state.userAccessToken
   }
 }
 
