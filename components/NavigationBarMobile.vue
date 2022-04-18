@@ -37,6 +37,10 @@
       <v-btn text rounded outlined small class="primary--text" href="https://vendor.magista.ir" target="_blank">
         پنل فروشنده
       </v-btn>
+
+      <template v-slot:extension>
+        <SearchBar class="mb-2" />
+      </template>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -109,8 +113,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import SearchBar from '@/components/SearchBar.vue'
+
 export default {
   name: 'NavigationBarMobile',
+  components: {
+    SearchBar
+  },
   data () {
     return {
       isClientRendered: false,
