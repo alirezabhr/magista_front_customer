@@ -1,9 +1,9 @@
 <template>
-  <v-row v-if="!$fetchState.pending" no-gutters>
-    <div v-for="category in categoriesList" :key="category.id">
+  <v-row no-gutters>
+    <div v-for="category in categories" :key="category.id">
       <v-btn
-        :plain="!isTabSelected(category.id)"
-        :class="isTabSelected(category.id) ? 'text--darken-4' : 'text--darken-2'"
+        :plain="!isCategorySelected(category.id)"
+        :class="isCategorySelected(category.id) ? 'text--darken-4' : 'text--darken-2'"
         text
         nuxt
         link
@@ -23,10 +23,8 @@ export default {
   name: "CategoriesBar",
   data () {
     return {
-      categoriesList: categoriesJson,
+      categories: categoriesJson,
     }
-  },
-  async fetch() {
   },
   computed: {
     pageCategoriesQuery() {
@@ -38,7 +36,7 @@ export default {
     },
   },
   methods: {
-    isTabSelected (categoryId) {
+    isCategorySelected (categoryId) {
       const pageCatQueries = this.pageCategoriesQuery
       if (pageCatQueries) {
         return pageCatQueries.indexOf(categoryId.toString()) !== -1
