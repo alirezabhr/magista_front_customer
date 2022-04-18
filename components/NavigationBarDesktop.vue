@@ -7,7 +7,7 @@
     color="white"
     elevation="3"
   >
-    <v-toolbar-title class="primary--text font-weight-bold mx-3">
+    <v-toolbar-title class="primary--text text-h5 font-weight-bold mx-3">
       <NuxtLink to="/" active-class="text-decoration-none">
         مگیستا
       </NuxtLink>
@@ -42,6 +42,7 @@
     </div>
 
     <v-divider vertical class="mx-3" />
+    
     <v-btn text to="/cart">
       <v-badge
         :content="getCartItemCounts"
@@ -55,20 +56,29 @@
         </v-icon>
       </v-badge>
         سبد
-      </v-btn>
+    </v-btn>
 
-      <v-divider vertical class="mx-3" />
-      <v-btn rounded outlined class="primary--text" href="https://vendor.magista.ir" target="_blank">
-        پنل فروشنده
-      </v-btn>
+    <v-divider vertical class="mx-3" />
+    <v-btn rounded outlined class="primary--text" href="https://vendor.magista.ir" target="_blank">
+      پنل فروشنده
+    </v-btn>
+
+    <template v-slot:extension>
+      <CategoriesBar />
+    </template>
   </v-app-bar>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import CategoriesBar from '@/components/CategoriesBar.vue'
+
 export default {
   name: 'NavigationBarDesktop',
+  components: {
+    CategoriesBar
+  },
   data () {
     return {
       profileOptions: [
